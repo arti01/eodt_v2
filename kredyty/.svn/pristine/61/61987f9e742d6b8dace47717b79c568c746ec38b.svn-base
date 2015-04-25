@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Kredyty</title>
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <link href="../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <table width="1280px" bgcolor="#e9efef" cellpadding="0" cellspacing="0" align="center" border="1">
+            <tr><td bgcolor="#C1DFFF">
+                    <div id="top" class="top">
+                        <ui:insert name="top">
+                            <table width="100%" style="font-size: 20px;" border="0">
+                                <tr>
+                                    <td align="center"><i><b><font size="6">K</font></b><font size="5">redyty</font></i> &nbsp;<sub>v0.1</sub></td>
+                                </tr>
+                            </table>
+                            <hr width="98%" class="linia_top"/>
+                        </ui:insert>
+                    </div>
+                    <div>
+                        <div id="left">
+                            <ui:include src="../templates/menuL.xhtml"/> 
+                        </div>
+                        <div id="content" class="left_content">
+                            <ui:insert name="content">Content</ui:insert>
+
+                        </div>
+
+                        <div id="bottom">
+                            <hr width="98%" class="linia_top"/>
+                            <table width="100%" border="0" cellpadding="5" cellspacing="0">
+                                <tr valign="middle">
+                                    <td align="center">Licencja dla: #{login.licencjaDla}</td>
+                                </tr>
+                                <tr valign="middle">
+                                    <td align="center">&copy; Wszelkie prawa zastrzeżone eSoftKing 2012</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </h:body>
+
+</html>

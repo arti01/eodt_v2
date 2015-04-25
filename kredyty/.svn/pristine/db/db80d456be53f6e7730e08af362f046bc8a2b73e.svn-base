@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      template="/templates/template.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <rich:popupPanel  id="dokKred" style="text-align: center;" header="Historia wyliczen"  autosized="true" domElementAttachment="parent" left="77" top="13" >
+        <f:facet name="controls">
+            <h:outputLink value="#" onclick="#{rich:component('dokHist')}.hide();
+                    return false;">
+                <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+            </h:outputLink>
+        </f:facet>
+        <rich:dataTable value="#{item.kredytList}" var="dok" id="tableDok" style="width: 100%">
+
+            <rich:column>
+                <f:facet name="header">nazwa</f:facet>
+                    #{dok.nazwa}
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">data pierwszej spłaty</f:facet>
+                <h:outputText value="#{dok.dataPierwSplaty}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">liczba rat</f:facet>
+                <h:outputText value="#{dok.liczbaRat}"/>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">kwota</f:facet>
+                <h:outputText value="#{dok.kwota}"/>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">czy równe raty</f:facet>
+                <h:outputText value="Tak" rendered="#{dok.ratyRowne}"/>
+                <h:outputText value="Nie" rendered="#{!dok.ratyRowne}"/>
+            </rich:column>
+
+            <rich:column style="width: 35px">
+                <rich:tooltip target="imgDt" value="podgląd" layout="block"/>
+                <a4j:commandButton id="imgDt" execute="@this" render="@none" action="#{Kredyty.podglad}"
+                                   image="/images/detail.png">
+                    <f:setPropertyActionListener target="#{Kredyty.obiekt}" value="#{dok}" />
+                </a4j:commandButton>
+            </rich:column>
+
+        </rich:dataTable>
+        <hr/>
+    </rich:popupPanel>
+</html>
