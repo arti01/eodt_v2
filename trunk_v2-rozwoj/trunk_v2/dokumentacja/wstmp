@@ -1,0 +1,95 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package webserv;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import pl.eod.encje.Struktura;
+import pl.eod.encje.Uzytkownik;
+import pl.eod.encje.UzytkownikJpaController;
+import pl.eod.encje.WnRodzaje;
+import pl.eod.encje.WnUrlop;
+import pl.eod.managed.Login;
+import pl.eod.managwn.UrlopObceM;
+
+@WebService(serviceName = "eodtUrlop")
+public class EodtUrlop implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private final UzytkownikJpaController userC=new UzytkownikJpaController();
+
+    /**
+     * This is a sample web service operation
+     * @param txt
+     * @return 
+     */
+    @WebMethod(operationName = "hello")
+    public String hello(@WebParam(name = "name") String txt) {
+        return "Hello " + txt + " !";
+    }
+
+    /**
+     * Web service operation
+     * @param loginS
+     * @return 
+     */
+    @WebMethod(operationName = "getUsers")
+    public List<String> getUsers(@WebParam(name = "login") String loginS) {
+        List<String> wynik=new ArrayList<>();
+        UrlopObceM urOm=new UrlopObceM();
+        Login login=new Login();
+        login.logFromWebServ(loginS);
+        urOm.setLogin(login);
+        urOm.getLogin().logFromWebServ(loginS);
+        for(Struktura s:urOm.getLogin().getZalogowany().getObceWnioski()){
+            wynik.add(s.getUserId().getAdrEmail());
+        }
+        return wynik;
+    }
+
+    /**
+     * Web service operation
+     * @param userEmail
+     * @param loginS
+     * @return 
+     */
+    @WebMethod(operationName = "createUrlop")
+    public String createUrlop(@WebParam(name = "userEmail") String userEmail, @WebParam(name = "login") String loginS
+    ) {
+        Login login=new Login();
+        login.logFromWebServ(loginS);
+        UrlopObceM urOm=new UrlopObceM();
+        urOm.setLogin(login);
+        urOm.init();
+        
+        Uzytkownik prac=userC.findUzytkownikByEmail(userEmail);
+        
+        WnUrlop urlop=new WnUrlop();
+        urlop.setUzytkownik(prac);
+        WnRodzaje rodzaj=new WnRodzaje(new Long("1"));
+        urlop.setRodzajId(rodzaj);
+        urlop.setDataOd(new Date());
+        urlop.setDataDo(new Date());
+        try {
+            urOm.setUrlop(urlop);
+            urOm.dodaj();
+        } catch (ParseException ex) {
+            Logger.getLogger(EodtUrlop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    
+}
+

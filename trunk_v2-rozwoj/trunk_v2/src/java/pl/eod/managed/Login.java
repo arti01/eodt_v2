@@ -187,12 +187,12 @@ public class Login implements Serializable {
         return "/all/index";
     }
 
-    public void logFromWebServ(String email){
+    public void logFromWebServ(String email) {
         UzytkownikJpaController uzytC = new UzytkownikJpaController();
         zalogowany = uzytC.findStruktura(email);
         System.err.println(zalogowany);
     }
-    
+
     public String stronaIndex() {
         refresh();
         return "../logowanie/index.xhtml";
@@ -203,22 +203,20 @@ public class Login implements Serializable {
     }
 
     public void refresh() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         UzytkownikJpaController uzytC = new UzytkownikJpaController();
-        //System.out.println(uzytC.iluZprawami() + "prawa");
-
         try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            //System.out.println(uzytC.iluZprawami() + "prawa");
             zalogowany = uzytC.findStruktura(request.getUserPrincipal().getName());
+            if (zalogowany == null) {
+                zalogowany = uzytC.findStrukturaExtid(request.getUserPrincipal().getName());
+            }
         } catch (NullPointerException np) {
             System.err.println("nie zalogowany");
         }
 
         //obsluga zewnetrzne id
-        if (zalogowany == null) {
-            zalogowany = uzytC.findStrukturaExtid(request.getUserPrincipal().getName());
-        }
-
         try {
             if (zalogowany.isUsuniety()) {
                 this.wyloguj();
@@ -390,9 +388,9 @@ public class Login implements Serializable {
 
     public Struktura getZalogowany() {
         if (zalogowany == null) {
-            try{
-            refresh();
-            } catch (NullPointerException np){
+            try {
+                refresh();
+            } catch (NullPointerException np) {
                 System.err.println("niestety niezalogowany");
                 return null;
             }

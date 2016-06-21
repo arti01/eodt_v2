@@ -9,7 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -47,6 +49,7 @@ public class UrlopObceM {
     private Date godzDoT;
     private Date dataUrlopu;
     boolean calyDzien;
+    private HashMap<String, String> wynikWS = new HashMap<>();
 
     public String list() {
         initUrlop();
@@ -210,12 +213,17 @@ public class UrlopObceM {
 
     public void dodaj() throws ParseException {
         FacesContext context = FacesContext.getCurrentInstance();
-        UIComponent zapisz = UIComponent.getCurrentComponent(context);
+        UIComponent zapisz;
+        try {
+            zapisz = UIComponent.getCurrentComponent(context);
+        } catch (NullPointerException npe) {
+            zapisz = null;
+        }
         FacesMessage message = new FacesMessage();
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (!calyDzien || urlop.getRodzajId().getId()==40) {
+        if (!calyDzien || urlop.getRodzajId().getId() == 40) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
@@ -262,12 +270,18 @@ public class UrlopObceM {
             message.setSummary(error);
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
         } else {
+            wynikWS.put("blad", "");
+            wynikWS.put("info", "wniosek zapisany");
+            wynikWS.put("idwniosku", urlop.getId().toString());
             initUrlop();
-
             message.setSummary("wniosek zapisany");
             message.setSeverity(FacesMessage.SEVERITY_INFO);
         }
-        context.addMessage(zapisz.getClientId(context), message);
+        try {
+            context.addMessage(zapisz.getClientId(context), message);
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
     }
 
     @PostConstruct
@@ -280,13 +294,13 @@ public class UrlopObceM {
 
     private void initUrlop() {
         login.refresh();
-        Calendar cal=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
-        godzOdT=cal.getTime();
+        godzOdT = cal.getTime();
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
-        godzDoT=cal.getTime();
+        godzDoT = cal.getTime();
         dataUrlopu = new Date();
         calyDzien = true;
         urlop = new WnUrlop();
@@ -357,6 +371,14 @@ public class UrlopObceM {
 
     public void setCalyDzien(boolean calyDzien) {
         this.calyDzien = calyDzien;
+    }
+
+    public HashMap<String, String> getWynikWS() {
+        return wynikWS;
+    }
+
+    public void setWynikWS(HashMap<String, String> wynikWS) {
+        this.wynikWS = wynikWS;
     }
 
 }
