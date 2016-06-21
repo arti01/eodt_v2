@@ -5,17 +5,38 @@
  */
 package eodtwsc;
 
+import javax.xml.ws.WebServiceRef;
+
 /**
  *
  * @author arti01
  */
 public class EodtWSC {
+@WebServiceRef(wsdlLocation="http://localhost:8080/eodt_j8/EodtUrlopWs?wsdl")
+    static EodtUrlopWs service;
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            EodtWSC client = new EodtWSC();
+            client.doTest(args);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void doTest(String[] args) {
+        try {
+            service.
+            EodtUrlopWs ws =service.getEodtUrlopWsPort();
+            System.out.println("Retrieving the port fromthe following service: " + service);
+            ws.hello("sssssssss");
+            System.out.println("Invoking the sayHello operationon the port.");
+
+
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
