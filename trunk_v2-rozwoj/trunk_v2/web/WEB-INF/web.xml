@@ -24,9 +24,17 @@
         <param-name>org.richfaces.resourceOptimization.compressionStages</param-name>
         <param-value>All</param-value>
     </context-param>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>Resource Servlet</servlet-name>
         <servlet-class>org.richfaces.webapp.ResourceServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>eodtUrlop</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -45,6 +53,10 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>eodtUrlop</servlet-name>
+        <url-pattern>/eodtUrlop</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

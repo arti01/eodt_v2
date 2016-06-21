@@ -28,6 +28,10 @@ import java.util.List;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.persistence.annotations.IdValidation;
 import org.eclipse.persistence.annotations.PrimaryKey;
 import pl.eod2.encje.DcAkceptKroki;
@@ -55,14 +59,18 @@ import pl.eod2.encje.UmUrzadzenie;
     @NamedQuery(name = "Uzytkownik.zPrawami", query = "SELECT u FROM Uzytkownik u JOIN u.role r WHERE r.rolename!='eoduser' group by u"),
     @NamedQuery(name = "Uzytkownik.findByExtId", query = "SELECT u FROM Uzytkownik u WHERE u.extId = :extId and (u.struktura.usuniety<>1 or u.struktura.usuniety is null)")})
 @PrimaryKey(validation = IdValidation.NULL)
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class Uzytkownik implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlElement
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUSER")
     @SequenceGenerator(name = "SEQUSER", sequenceName = "SEQUSER")
     private Long id;
+    @XmlElement
     @Column(name = "fullname", nullable = false)
     @Size(min = 3, max = 255)
     @NotEmpty

@@ -187,6 +187,12 @@ public class Login implements Serializable {
         return "/all/index";
     }
 
+    public void logFromWebServ(String email){
+        UzytkownikJpaController uzytC = new UzytkownikJpaController();
+        zalogowany = uzytC.findStruktura(email);
+        System.err.println(zalogowany);
+    }
+    
     public String stronaIndex() {
         refresh();
         return "../logowanie/index.xhtml";

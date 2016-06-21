@@ -28,6 +28,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import pl.eod2.encje.Ogloszenia;
 import pl.eod2.encje.Repozytoria;
 
@@ -46,9 +50,12 @@ import pl.eod2.encje.Repozytoria;
     @NamedQuery(name = "Struktura.kierownicy", query = "SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety<>1 or s.usuniety is null) AND s.userId.spolkaId=:spolka ORDER BY s.userId.fullname"),
     @NamedQuery(name = "Struktura.kierownicyAll", query = "SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety<>1 or s.usuniety is null) ORDER BY s.userId.fullname")
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class Struktura implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlElement
     @Id
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQSTRUKTURA")
@@ -66,6 +73,7 @@ public class Struktura implements Serializable {
     @JoinColumn(name = "sec_user_id", referencedColumnName = "id")
     @ManyToOne(cascade = {CascadeType.ALL})
     private Uzytkownik secUserId;
+    @XmlElement
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
     private Uzytkownik userId;
@@ -333,7 +341,7 @@ public class Struktura implements Serializable {
 
     public boolean isMusZast() {
         boolean wynik;
-        wynik = !(this.musZast==null||this.musZast != 0);
+        wynik = !(this.musZast == null || this.musZast != 0);
         return wynik;
     }
 
