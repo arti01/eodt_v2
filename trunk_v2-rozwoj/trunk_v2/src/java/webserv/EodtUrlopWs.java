@@ -58,10 +58,13 @@ public class EodtUrlopWs implements Serializable {
      *
      * @param userEmail
      * @param loginS
+     * @param dataOd
+     * @param dataDo
      * @return
      */
     @WebMethod(operationName = "createUrlop")
-    public HashMap createUrlop(@WebParam(name = "userEmail") String userEmail, @WebParam(name = "login") String loginS) {
+    public HashMap<String,String> createUrlop(@WebParam(name = "userEmail") String userEmail, @WebParam(name = "login") String loginS,
+    @WebParam(name = "dataOd") Date dataOd, @WebParam(name = "dataDo") Date dataDo) {
         Map<String, String>wynik=new HashMap<>();
         Login login = new Login();
         login.logFromWebServ(loginS);
@@ -75,8 +78,8 @@ public class EodtUrlopWs implements Serializable {
         urlop.setUzytkownik(prac);
         WnRodzaje rodzaj = new WnRodzaje(new Long("1"));
         urlop.setRodzajId(rodzaj);
-        urlop.setDataOd(new Date());
-        urlop.setDataDo(new Date());
+        urlop.setDataOd(dataOd);
+        urlop.setDataDo(dataDo);
         try {
             urOm.setUrlop(urlop);
             urOm.dodaj();

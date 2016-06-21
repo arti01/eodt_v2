@@ -421,15 +421,19 @@ public class UrlopM implements Serializable {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
-            calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            calOd.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             cal.setTime(godzDoT);
-            calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            calDo.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
         } else {
+            calOd.setTime(urlop.getDataOd());
+            calOd.set(Calendar.HOUR_OF_DAY, 0);
+            calOd.set(Calendar.MINUTE, 0);
             calDo.setTime(urlop.getDataDo());
-            calDo.add(Calendar.HOUR_OF_DAY, 23);
-            calDo.add(Calendar.MINUTE, 59);
+            calDo.set(Calendar.HOUR_OF_DAY, 23);
+            calDo.set(Calendar.MINUTE, 59);
+            urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
         }
         WnStatusy st = new WnStatusy();
