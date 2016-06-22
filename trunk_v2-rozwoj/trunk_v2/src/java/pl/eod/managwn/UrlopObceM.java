@@ -9,9 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -49,7 +47,7 @@ public class UrlopObceM {
     private Date godzDoT;
     private Date dataUrlopu;
     boolean calyDzien;
-    private HashMap<String, String> wynikWS = new HashMap<>();
+    String wynikWs;
 
     public String list() {
         initUrlop();
@@ -228,8 +226,10 @@ public class UrlopObceM {
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
             calOd.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            calOd.set(Calendar.MINUTE, 0);
             cal.setTime(godzDoT);
             calDo.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            calDo.set(Calendar.MINUTE, 0);
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
         } else {
@@ -243,9 +243,12 @@ public class UrlopObceM {
             urlop.setDataDo(calDo.getTime());
         }
         if (urlop.getUzytkownik() == null) {
-            message.setSummary("wybierz pracownika");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            context.addMessage(zapisz.getClientId(context), message);
+            wynikWs = "wybierz pracownika";
+            if (zapisz != null) {
+                message.setSummary("wybierz pracownika");
+                message.setSeverity(FacesMessage.SEVERITY_ERROR);
+                context.addMessage(zapisz.getClientId(context), message);
+            }
             return;
         }
         WnStatusy st = new WnStatusy();
@@ -254,9 +257,9 @@ public class UrlopObceM {
         //urlop.setNrWniosku("ooooooooo");
         urlop.setDataWprowadzenia(new Date());
 
-        String error = null;
+        String error;
         if (urlop.getId() == null) {
-            urlop.setWnHistoriaList(new ArrayList<WnHistoria>());
+            urlop.setWnHistoriaList(new ArrayList<>());
 
             WnHistoria wnh = new WnHistoria();
             wnh.setDataZmiany(new Date());
@@ -271,18 +274,19 @@ public class UrlopObceM {
             error = urlopC.createEdit(urlop);
         }
         if (error != null) {
+            wynikWs = error;
             message.setSummary(error);
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
         } else {
-            wynikWS.put("blad", "");
-            wynikWS.put("info", "wniosek zapisany");
-            wynikWS.put("idwniosku", urlop.getId().toString());
+            wynikWs = urlop.getId().toString();
             initUrlop();
             message.setSummary("wniosek zapisany");
             message.setSeverity(FacesMessage.SEVERITY_INFO);
         }
         try {
-            context.addMessage(zapisz.getClientId(context), message);
+            if (zapisz != null) {
+                context.addMessage(zapisz.getClientId(context), message);
+            }
         } catch (NullPointerException npe) {
             npe.printStackTrace();
         }
@@ -377,12 +381,12 @@ public class UrlopObceM {
         this.calyDzien = calyDzien;
     }
 
-    public HashMap<String, String> getWynikWS() {
-        return wynikWS;
+    public String getWynikWs() {
+        return wynikWs;
     }
 
-    public void setWynikWS(HashMap<String, String> wynikWS) {
-        this.wynikWS = wynikWS;
+    public void setWynikWs(String wynikWs) {
+        this.wynikWs = wynikWs;
     }
 
 }
