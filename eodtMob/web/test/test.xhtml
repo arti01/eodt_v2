@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+    <h:head>
+    </h:head>
+    <h:body>
+
+        <pm:page id="main">
+            <pm:header title="Main Page"></pm:header>
+            <pm:content>
+                pierwsza
+                <p:button outcome="pm:second" />
+                <p:link outcome="/index" value="ddddddddd"/>
+            </pm:content>
+        </pm:page>
+        <pm:page id="second">
+            <h:form id="form">
+                <pm:header title="Second Page"></pm:header>
+                <pm:content>
+                    <p:panel id="cont">
+                    druga
+                    <p:button outcome="pm:main" />
+                    <p:link outcome="pm:main" value="ddddddddddddddd"/>
+                    <p:commandButton value="testUrlop" action="#{test.testUrl}" process="@this" update="cont"/>
+                    #{test.testS}
+                    </p:panel>
+                </pm:content>
+            </h:form>
+        </pm:page>
+
+    </h:body>
+</html>
