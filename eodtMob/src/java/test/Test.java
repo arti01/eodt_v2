@@ -19,10 +19,9 @@ import javax.xml.datatype.DatatypeConfigurationException;
 @ManagedBean
 @RequestScoped
 public class Test {
-    String testS="ffffffffffff";
+    String testS="";
 
 public void testUrl() throws MalformedURLException, DatatypeConfigurationException{
-    System.err.println("ddddddd");
     TestWsC tc=new TestWsC();
     testS=tc.wywolaj();
 }

@@ -6,11 +6,11 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>redmond</param-value>
+        <param-value>arti01</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.mobile.THEME</param-name>
-        <param-value>redmond</param-value>
+        <param-value>arti01</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
