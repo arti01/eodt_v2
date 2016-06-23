@@ -36,7 +36,6 @@
                         <pm:field rendered="#{urlopyMg.calyDzien}">
                             <p:outputLabel for="data_do" value="Data do:" rendered="#{urlopyMg.calyDzien}"/>
                             <p:calendar id="data_do" value="#{urlopyMg.urlop.dataDo}" pattern="yyyy-MM-dd"/>
-                            <p:calendar id="godz" value="#{urlopyMg.urlop.dataDo}" pattern="HH:mm" timeOnly="true"/>
                         </pm:field>
 
                         <pm:field rendered="#{!urlopyMg.calyDzien}">
