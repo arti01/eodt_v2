@@ -12,16 +12,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jws.WebParam;
 
-public class eodtUrlopyClient {
+public class EodtUrlopyClient {
 
     private String urlS;
     private eodtwsc.EodtUrlopWs_Service service;
     private eodtwsc.EodtUrlopWs port;//pamietac, aby uzywac getera
 
-    public eodtUrlopyClient() {
+    public EodtUrlopyClient() {
     }
 
-    public eodtUrlopyClient(String urlS) {
+    public EodtUrlopyClient(String urlS) {
         this.urlS = urlS;
     }
 
@@ -44,7 +44,7 @@ public class eodtUrlopyClient {
         try {
             service = new eodtwsc.EodtUrlopWs_Service(new URL(this.getUrlS() + "/EodtUrlopWs?wsdl"));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(testMain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         return service;
     }

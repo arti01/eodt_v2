@@ -18,7 +18,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *
  * @author 103039
  */
-public class testMain {
+public class TestMain {
 
     public static void main(String[] args) throws MalformedURLException, DatatypeConfigurationException {
 
@@ -31,7 +31,7 @@ public class testMain {
         c.add(Calendar.DATE, 5);
         XMLGregorianCalendar dateDo = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
         Long idWniosku;
-        String wynik=new eodtUrlopyClient("http://localhost:8080/eodt_j8").createUrlopCalyDzien("aa@aa.pl", "kk@kk.pl", dateOd, dateDo, "1", "dddddddd",
+        String wynik=new EodtUrlopyClient("http://localhost:8080/eodt_j8").createUrlopCalyDzien("aa@aa.pl", "kk@kk.pl", dateOd, dateDo, "1", "dddddddd",
                 false, new BigDecimal("111.11"), "miejsce", "cel", "srodekLok");
         try {//jesli jest ok zwraca nr wniosku, jesli nie pokazuje co bylo nie tak
             idWniosku=new Long(wynik);
@@ -44,7 +44,7 @@ public class testMain {
         XMLGregorianCalendar godzOd = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
         c.set(Calendar.HOUR_OF_DAY, 15);
         XMLGregorianCalendar godzDo = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-        wynik=new eodtUrlopyClient("http://localhost:8080/eodt_j8").createUrlopGodziny("aa@aa.pl", "kk@kk.pl", dateOd, godzOd, godzDo, "1","info dod",
+        wynik=new EodtUrlopyClient("http://localhost:8080/eodt_j8").createUrlopGodziny("aa@aa.pl", "kk@kk.pl", dateOd, godzOd, godzDo, "1","info dod",
                false, new BigDecimal("111.11"), "miejsce", "cel", "srodekLok");
         try {//jesli jest ok zwraca nr wniosku, jesli nie pokazuje co bylo nie tak
             idWniosku=new Long(wynik);
