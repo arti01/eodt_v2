@@ -32,6 +32,8 @@ import javax.jws.WebParam;
 @WebService(serviceName = "EodtUrlopWs")
 public class EodtUrlopWs implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private final UzytkownikJpaController userC = new UzytkownikJpaController();
 
     /**
