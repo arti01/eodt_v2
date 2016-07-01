@@ -289,6 +289,20 @@ public class UsersM implements Serializable {
         return wynik;
     }
 
+       public String zmienPrzelozonegoDo() throws NonexistentEntityException, NullPointerException, Exception  {
+        for(Struktura s:strukt.getBezpPod()){
+            s.setSzefId(strukt.getSzefId());
+            struktC.editArti(s);
+        }
+        struktC.editArti(struktC.findStruktura(strukt.getId()));
+        strukt.setBezpPod(new ArrayList<Struktura>());
+        edytuj = false;
+        //nameFilter=null;
+        //dzialFilter=new Dzial(new Long(0));
+        initUser();
+        return "/all/usersList?faces-redirect=true";
+    }
+    
     /*public List<Uzytkownik> getUsers() {
         return users;
     }
