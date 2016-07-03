@@ -51,6 +51,7 @@ public class UsersM implements Serializable {
     StrukturaJpaController struktC;
     UserRolesJpaController urC;
     Struktura strukt;
+    Struktura newSzef;
     DzialJpaController dzialC;
     @ManagedProperty(value = "#{login}")
     private Login login;
@@ -70,7 +71,7 @@ public class UsersM implements Serializable {
         urC = new UserRolesJpaController();
         login.refresh();
         //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
-        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
         //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
         //sortOrders.put("userId.fullname", SortOrder.descending);
         KomKolC = new KomKolejkaJpaController();
@@ -91,7 +92,11 @@ public class UsersM implements Serializable {
         dzialyAll = dzialC.findDzialEntities(login.zalogowany.getUserId().getSpolkaId());
         kierownicyAll = struktC.getFindKierownicy(login.zalogowany.getUserId().getSpolkaId());
         //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
+        //System.err.println(new Date().getTime());
         dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //System.err.println(new Date().getTime());
+        //dataModelPF = struktC.strukturyNieUsuniete(login.zalogowany.getUserId().getSpolkaId());
+        //System.err.println(new Date().getTime());
         //System.err.println("initUser"+new Date());
         //System.out.println(struktury.getRowCount()+"initUser");
     }
@@ -158,7 +163,9 @@ public class UsersM implements Serializable {
     }
 
     public void dodaj() throws NonexistentEntityException, Exception {
+
         String error1 = struktC.create(strukt);
+
         if (error1 != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error1, error1);
             FacesContext context = FacesContext.getCurrentInstance();
@@ -172,19 +179,6 @@ public class UsersM implements Serializable {
             initUser();
         }
     }
-    
-   public void  dodajtest() throws Exception{
-       for(int i=0;i<200;i++){
-           Struktura s=new Struktura();
-           s=strukt;
-           if(s.getId()!=null){
-           s.setId(s.getId()+1+i);
-           s.getUserId().setId(s.getUserId().getId()+1+i);
-           }
-           s.getUserId().setFullname(i+"test");
-           struktC.create(s);
-       }
-   }
 
     public void usun() {
         struktC.zrobNiewidczony(strukt);
@@ -201,18 +195,14 @@ public class UsersM implements Serializable {
 
     public String zapisz() throws NonexistentEntityException, Exception {
         //obsluga dla readonly roli w formularzu
-        System.err.println(new Date().getTime()+"==1");
         if (!strukt.getUserId().getRole().equals(rolesKlon) && rolesKlon != null) {
             rolesKlon.removeAll(roleAll);
             // System.err.println(rolesKlon);
             strukt.getUserId().getRole().addAll(rolesKlon);
         }
-        System.err.println(new Date().getTime()+"==2");
         error = struktC.editArti(strukt);
-        System.err.println(new Date().getTime()+"==3");
         if (error == null) {
             initUser();
-            System.err.println(new Date().getTime()+"==4");
             return "/all/usersList?faces-redirect=true";
         }
         FacesMessage message = new FacesMessage(error);
@@ -234,7 +224,7 @@ public class UsersM implements Serializable {
                 strukt.getDzialId().setNazwa(strukt.getSzefId().getDzialId().getNazwa());
             }
         } catch (NullPointerException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         } catch (Exception ex1) {
             ex1.printStackTrace();
         }
@@ -289,27 +279,22 @@ public class UsersM implements Serializable {
         return wynik;
     }
 
-       public String zmienPrzelozonegoDo() throws NonexistentEntityException, NullPointerException, Exception  {
-        for(Struktura s:strukt.getBezpPod()){
-            s.setSzefId(strukt.getSzefId());
+    public void zmienPrzelozonegoDo() throws NonexistentEntityException, NullPointerException, Exception {
+        for (Struktura s : strukt.getBezpPod()) {
+            s.setSzefId(newSzef);
             struktC.editArti(s);
         }
-        struktC.editArti(struktC.findStruktura(strukt.getId()));
-        strukt.setBezpPod(new ArrayList<Struktura>());
-        edytuj = false;
-        //nameFilter=null;
-        //dzialFilter=new Dzial(new Long(0));
-        initUser();
-        return "/all/usersList?faces-redirect=true";
+        //struktC.editArti(struktC.findStruktura(strukt.getId()));
+        strukt.setBezpPod(new ArrayList<>());
+        struktC.editArti(strukt);
+        System.err.println(strukt.getBezpPodWidoczni());
+        FacesMessage message = new FacesMessage("zmiana wykonana");
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent zapisz = UIComponent.getCurrentComponent(context);
+        context.addMessage(zapisz.getClientId(context), message);
+        //initUser();
+        //return "/all/usersList?faces-redirect=true";
     }
-    
-    /*public List<Uzytkownik> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<Uzytkownik> users) {
-        this.users = users;
-    }*/
 
     public Uzytkownik getUser() {
         return user;
@@ -393,25 +378,13 @@ public class UsersM implements Serializable {
         this.kierownicyAll = kierownicyAll;
     }
 
-    //public Object getDataModel() {
-      //  return dataModel;
-    //}
-
-    /*public Map<String, String> getFilterValues() {
-        return filterValues;
+    public Struktura getNewSzef() {
+        return newSzef;
     }
 
-    public void setFilterValues(Map<String, String> filterValues) {
-        this.filterValues = filterValues;
+    public void setNewSzef(Struktura newSzef) {
+        this.newSzef = newSzef;
     }
-
-    public Map<String, SortOrder> getSortOrders() {
-        return sortOrders;
-    }
-
-    public void setSortOrders(Map<String, SortOrder> sortOrders) {
-        this.sortOrders = sortOrders;
-    }*/
 
     public List<Struktura> getDataModelPF() {
         return dataModelPF;

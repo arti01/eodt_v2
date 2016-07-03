@@ -8,6 +8,10 @@
 
 <xs:element name="createUrlopGodzinyResponse" type="tns:createUrlopGodzinyResponse" />
 
+<xs:element name="getMojeWnLista" type="tns:getMojeWnLista" />
+
+<xs:element name="getMojeWnListaResponse" type="tns:getMojeWnListaResponse" />
+
 <xs:element name="getUsers" type="tns:getUsers" />
 
 <xs:element name="getUsersResponse" type="tns:getUsersResponse" />
@@ -15,6 +19,8 @@
 <xs:element name="hello" type="tns:hello" />
 
 <xs:element name="helloResponse" type="tns:helloResponse" />
+
+<xs:element name="wnUrlop" type="tns:wnUrlop" />
 
 <xs:complexType name="hello">
 <xs:sequence>
@@ -82,6 +88,30 @@
 <xs:complexType name="getUsersResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMojeWnLista">
+<xs:sequence>
+<xs:element name="login" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMojeWnListaResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:wnUrlop" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="wnUrlop">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0" />
+<xs:element name="dataOd" type="xs:dateTime" minOccurs="0" />
+<xs:element name="dataDo" type="xs:dateTime" minOccurs="0" />
+<xs:element name="nrWniosku" type="xs:string" minOccurs="0" />
+<xs:element name="dataWprowadzenia" type="xs:dateTime" minOccurs="0" />
+<xs:element name="dataDoStr" type="xs:string" minOccurs="0" />
+<xs:element name="dataOdStr" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

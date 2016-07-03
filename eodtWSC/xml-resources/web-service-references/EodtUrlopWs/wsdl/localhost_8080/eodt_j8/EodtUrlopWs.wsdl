@@ -4,17 +4,11 @@
 <xsd:import namespace="http://webserv/" schemaLocation="http://localhost:8080/eodt_j8/EodtUrlopWs?xsd=1" />
 </xsd:schema>
 </types>
-<message name="getUsers">
-<part name="parameters" element="tns:getUsers" />
+<message name="getMojeWnLista">
+<part name="parameters" element="tns:getMojeWnLista" />
 </message>
-<message name="getUsersResponse">
-<part name="parameters" element="tns:getUsersResponse" />
-</message>
-<message name="createUrlopCalyDzien">
-<part name="parameters" element="tns:createUrlopCalyDzien" />
-</message>
-<message name="createUrlopCalyDzienResponse">
-<part name="parameters" element="tns:createUrlopCalyDzienResponse" />
+<message name="getMojeWnListaResponse">
+<part name="parameters" element="tns:getMojeWnListaResponse" />
 </message>
 <message name="createUrlopGodziny">
 <part name="parameters" element="tns:createUrlopGodziny" />
@@ -22,42 +16,49 @@
 <message name="createUrlopGodzinyResponse">
 <part name="parameters" element="tns:createUrlopGodzinyResponse" />
 </message>
+<message name="createUrlopCalyDzien">
+<part name="parameters" element="tns:createUrlopCalyDzien" />
+</message>
+<message name="createUrlopCalyDzienResponse">
+<part name="parameters" element="tns:createUrlopCalyDzienResponse" />
+</message>
 <message name="hello">
 <part name="parameters" element="tns:hello" />
 </message>
 <message name="helloResponse">
 <part name="parameters" element="tns:helloResponse" />
 </message>
+<message name="getUsers">
+<part name="parameters" element="tns:getUsers" />
+</message>
+<message name="getUsersResponse">
+<part name="parameters" element="tns:getUsersResponse" />
+</message>
 <portType name="EodtUrlopWs">
-<operation name="getUsers">
-<input wsam:Action="http://webserv/EodtUrlopWs/getUsersRequest" message="tns:getUsers" />
-<output wsam:Action="http://webserv/EodtUrlopWs/getUsersResponse" message="tns:getUsersResponse" />
-</operation>
-<operation name="createUrlopCalyDzien">
-<input wsam:Action="http://webserv/EodtUrlopWs/createUrlopCalyDzienRequest" message="tns:createUrlopCalyDzien" />
-<output wsam:Action="http://webserv/EodtUrlopWs/createUrlopCalyDzienResponse" message="tns:createUrlopCalyDzienResponse" />
+<operation name="getMojeWnLista">
+<input wsam:Action="http://webserv/EodtUrlopWs/getMojeWnListaRequest" message="tns:getMojeWnLista" />
+<output wsam:Action="http://webserv/EodtUrlopWs/getMojeWnListaResponse" message="tns:getMojeWnListaResponse" />
 </operation>
 <operation name="createUrlopGodziny">
 <input wsam:Action="http://webserv/EodtUrlopWs/createUrlopGodzinyRequest" message="tns:createUrlopGodziny" />
 <output wsam:Action="http://webserv/EodtUrlopWs/createUrlopGodzinyResponse" message="tns:createUrlopGodzinyResponse" />
 </operation>
+<operation name="createUrlopCalyDzien">
+<input wsam:Action="http://webserv/EodtUrlopWs/createUrlopCalyDzienRequest" message="tns:createUrlopCalyDzien" />
+<output wsam:Action="http://webserv/EodtUrlopWs/createUrlopCalyDzienResponse" message="tns:createUrlopCalyDzienResponse" />
+</operation>
 <operation name="hello">
 <input wsam:Action="http://webserv/EodtUrlopWs/helloRequest" message="tns:hello" />
 <output wsam:Action="http://webserv/EodtUrlopWs/helloResponse" message="tns:helloResponse" />
 </operation>
+<operation name="getUsers">
+<input wsam:Action="http://webserv/EodtUrlopWs/getUsersRequest" message="tns:getUsers" />
+<output wsam:Action="http://webserv/EodtUrlopWs/getUsersResponse" message="tns:getUsersResponse" />
+</operation>
 </portType>
 <binding name="EodtUrlopWsPortBinding" type="tns:EodtUrlopWs">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
-<operation name="getUsers">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="createUrlopCalyDzien">
+<operation name="getMojeWnLista">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />
@@ -75,7 +76,25 @@
 <soap:body use="literal" />
 </output>
 </operation>
+<operation name="createUrlopCalyDzien">
+<soap:operation soapAction="" />
+<input>
+<soap:body use="literal" />
+</input>
+<output>
+<soap:body use="literal" />
+</output>
+</operation>
 <operation name="hello">
+<soap:operation soapAction="" />
+<input>
+<soap:body use="literal" />
+</input>
+<output>
+<soap:body use="literal" />
+</output>
+</operation>
+<operation name="getUsers">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />

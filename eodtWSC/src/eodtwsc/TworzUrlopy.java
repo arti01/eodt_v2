@@ -17,7 +17,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *
  * @author arti01
  */
-public class TestWsC {
+public class TworzUrlopy {
     public String wywolaj() throws DatatypeConfigurationException{
         
         GregorianCalendar c = new GregorianCalendar();

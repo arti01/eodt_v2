@@ -5,9 +5,12 @@
  */
 package test;
 
-
-import eodtwsc.TestWsC;
+import eodtwsc.ListaWn;
+import eodtwsc.TworzUrlopy;
+import eodtwsc.WnUrlop;
+import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -18,13 +21,22 @@ import javax.xml.datatype.DatatypeConfigurationException;
  */
 @ManagedBean
 @RequestScoped
-public class Test {
-    String testS="";
+public class Test implements Serializable{
 
-public void testUrl() throws MalformedURLException, DatatypeConfigurationException{
-    TestWsC tc=new TestWsC();
-    testS=tc.wywolaj();
-}
+    private static final long serialVersionUID = 1L;
+
+    String testS = "";
+
+    public void testUrl() throws MalformedURLException, DatatypeConfigurationException {
+        TworzUrlopy tc = new TworzUrlopy();
+        testS = tc.wywolaj();
+        System.err.println("zlozono wniosek" + testS);
+    }
+    
+    public List<WnUrlop> getLista(){
+        ListaWn lwn=new ListaWn();
+        return  lwn.wywolaj();
+    }
 
     public String getTestS() {
         return testS;
@@ -33,5 +45,5 @@ public void testUrl() throws MalformedURLException, DatatypeConfigurationExcepti
     public void setTestS(String testS) {
         this.testS = testS;
     }
-    
+
 }

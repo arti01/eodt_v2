@@ -1,19 +1,30 @@
 package managed;
 
+import eodtwsc.WnUrlop;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import obiekty.Urlop;
 
-
 @ManagedBean
 @SessionScoped
-public class UrlopyMg {
-private Urlop urlop;
-private boolean calyDzien;
-private Date godzOdT;
-private Date godzDoT;
-private Date dataUrlopu;
+public class UrlopyMg implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private Urlop urlop;
+    private boolean calyDzien;
+    private Date godzOdT;
+    private Date godzDoT;
+    private Date dataUrlopu;
+    private List<WnUrlop> listaUrlopow;
+    
+    @PostConstruct
+    void init(){
+        listaUrlopow=new test.Test().getLista();
+    }
 
     public Urlop getUrlop() {
         return urlop;
@@ -54,4 +65,13 @@ private Date dataUrlopu;
     public void setDataUrlopu(Date dataUrlopu) {
         this.dataUrlopu = dataUrlopu;
     }
+
+    public List<WnUrlop> getListaUrlopow() {
+        return listaUrlopow;
+    }
+
+    public void setListaUrlopow(List<WnUrlop> listaUrlopow) {
+        this.listaUrlopow = listaUrlopow;
+    }
+
 }

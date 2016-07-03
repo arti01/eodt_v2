@@ -26,6 +26,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "wn_urlop")
@@ -38,43 +42,57 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "WnUrlop.findDoEskalacji", query = "SELECT w FROM WnUrlop w WHERE w.statusId.id=:statusId"),
     @NamedQuery(name = "WnUrlop.findFiltr", query = "SELECT w FROM WnUrlop w WHERE w.statusId.id=:statusId and w.uzytkownik.fullname like :fullname"),
     @NamedQuery(name = "WnUrlop.findByDataWprowadzenia", query = "SELECT w FROM WnUrlop w WHERE w.dataWprowadzenia = :dataWprowadzenia")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class WnUrlop implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlElement
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQWNURLOP")
     @SequenceGenerator(name = "SEQWNURLOP", sequenceName = "SEQWNURLOP")
     private Long id;
+    
+    @XmlElement
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_od")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataOd;
+    
+    @XmlElement
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_do")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataDo;
+    
+    @XmlElement
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nr_wniosku")
     private String nrWniosku;
+    
+    @XmlElement
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_wprowadzenia")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataWprowadzenia;
+    
     @Column(name = "extraemail", nullable = true)
     private Integer extraemail;
+    
     @Column(name = "info_dod", nullable = true)
     private String infoDod;
 
     @OrderBy(value = "id ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopId", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<WnHistoria> wnHistoriaList;
+
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WnStatusy statusId;
@@ -103,8 +121,10 @@ public class WnUrlop implements Serializable {
     private boolean pracodawca;
     @Transient
     private Date dataOstZmiany;
+    
     @Transient
     String dataOdStr;
+    
     @Transient
     String dataDoStr;
     @Transient
@@ -290,11 +310,13 @@ public class WnUrlop implements Serializable {
         this.kwotaWs = kwotaWs;
     }
 
+    @XmlElement
     public String getDataOdStr() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(dataOd);
     }
 
+    @XmlElement
     public String getDataDoStr() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(dataDo);

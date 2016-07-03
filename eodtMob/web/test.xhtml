@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <h:head>
+        <meta name="viewport" content="width=1024, hight=600 user-scalable=no" />
+        <style>
+            .ui-timepicker-table td a{
+                padding: .1em .2em .1em .3em;
+                width: .9em;
+            }
+            .ui-btn {
+                font-size: 12px;
+            }
+        </style>
+    </h:head>
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+    <h:body>
+        <pm:page id="second">
+            <h:form id="form">
+                <pm:content>                  
+                    <p:panelGrid columns="3">
+                        <p:button outcome="/index.xhtml" value="powrót do menu"/>
+                        <p:button outcome="pm:przeglWn?transition=flip" value="przegląd wniosków"/>
+                    </p:panelGrid>
+                    <pm:field>
+                        <p:outputLabel value="Cały dzień?" />
+                        <p:inputSwitch id="calyDzien" value="#{urlopyMg.calyDzien}" offLabel="Nie" onLabel="Tak" >
+                            <p:ajax event="change" update="form" process="calyDzien" />
+                        </p:inputSwitch>
+                    </pm:field>
+                    <p:separator/>
+                    <p:panelGrid columns="3">  
+                        <p:outputLabel for="data_od" value="Data od:" rendered="#{urlopyMg.calyDzien}"/>
+                        <p:outputLabel for="data_do" value="Data do:" rendered="#{urlopyMg.calyDzien}"/>
+                        <p:spacer rendered="#{urlopyMg.calyDzien}"/>
+                        <pm:field rendered="#{urlopyMg.calyDzien}">
+                            <p:calendar id="data_od" value="#{urlopyMg.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" mode="inline"/>
+                        </pm:field>
+                        <pm:field rendered="#{urlopyMg.calyDzien}">
+                            <p:calendar id="data_do" value="#{urlopyMg.urlop.dataDo}" pattern="yyyy-MM-dd" mode="inline"/>
+                        </pm:field>
+
+
+                        <p:outputLabel value="Dzień urlopu:" rendered="#{!urlopyMg.calyDzien}"/>
+                        <p:outputLabel value="Godzina od:" rendered="#{!urlopyMg.calyDzien}"/>
+                        <p:outputLabel value="Godzina do:" rendered="#{!urlopyMg.calyDzien}"/>
+
+                        <pm:field rendered="#{!urlopyMg.calyDzien}">
+                            <p:calendar id="data_url" value="#{urlopyMg.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" mode="inline"/>
+                        </pm:field>
+                        <pm:field rendered="#{!urlopyMg.calyDzien}">
+                            <pe:timePicker id="data_od_godz" value="#{urlopyMg.godzOdT}" locale="pl" mode="inline" rendered="#{!urlopyMg.calyDzien}" />
+                        </pm:field>
+                        <pm:field rendered="#{!urlopyMg.calyDzien}">
+                            <pe:timePicker id="data_do_godz" value="#{urlopyMg.godzDoT}" locale="pl" mode="inline"/>
+                        </pm:field>
+                    </p:panelGrid>
+                    <p:commandButton value="wyślij wniosek" action="#{test.testUrl}" process="@this" update="form"/>
+                    <p:outputLabel value="złożono wniosek o numerze: #{test.testS}"/>
+                </pm:content>
+            </h:form>
+        </pm:page>
+        <pm:page id="przeglWn">
+            <p:panelGrid columns="3">
+            <p:button outcome="/index.xhtml" value="powrót do menu"/>
+            <p:button outcome="pm:second?transition=flip" value="wystaw wniosek"/>
+            </p:panelGrid>
+            
+            <p:dataTable value="#{urlopyMg.listaUrlopow}" var="urlop">
+                <p:column headerText="numer wniosku">
+                    #{urlop.nrWniosku}
+                </p:column>
+                <p:column headerText="data od" sortBy="#{urlop.dataOdStr}">
+                    <h:outputText value="#{urlop.dataOdStr}"/>
+                </p:column>
+                <p:column headerText="data do">
+                    <h:outputText value="#{urlop.dataDoStr}"/>
+                </p:column>
+            </p:dataTable>
+        </pm:page>
+    </h:body>
+</html>

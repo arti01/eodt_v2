@@ -65,4 +65,10 @@ public class EodtUrlopyClient {
         return getPort().createUrlopGodziny(userEmail, login, dataUrlopu, godzOd, godzDo, rodzajId, infoDod, pracodawca, kwota, miejsce, cel, srodekLok);
     }
 
+    public java.util.List<eodtwsc.WnUrlop> getMojeWnLista(java.lang.String login) {
+        return getPort().getMojeWnLista(login);
+    }
+
+    
+    
 }

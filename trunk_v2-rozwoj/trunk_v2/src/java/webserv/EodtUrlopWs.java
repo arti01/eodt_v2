@@ -5,15 +5,9 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedProperty;
-import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import pl.eod.encje.Struktura;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
@@ -147,9 +141,25 @@ public class EodtUrlopWs implements Serializable {
         return urOm.getWynikWs();
     }
 
+    @WebMethod(operationName = "getMojeWnLista")
+    @SuppressWarnings("unchecked")
+    public List<WnUrlop> getMojeWnLista(@WebParam(name = "login") String loginS) {
+    Login login = new Login();
+        login.logFromWebServ(loginS);
+        UrlopObceM urOm = new UrlopObceM();
+        urOm.setLogin(login);
+        urOm.init();
+        List<WnUrlop> wynik=(List<WnUrlop>) urOm.getUrlopyList().getWrappedData();
+        return wynik;
+    }
+
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
+    }
+
+    private void ArrayList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
