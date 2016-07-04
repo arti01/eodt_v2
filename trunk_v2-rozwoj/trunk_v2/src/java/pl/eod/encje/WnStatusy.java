@@ -17,6 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -30,13 +34,18 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "WnStatusy.findByOpis", query = "SELECT w FROM WnStatusy w WHERE w.opis = :opis"),
     @NamedQuery(name = "WnStatusy.findBySkrot", query = "SELECT w FROM WnStatusy w WHERE w.skrot = :skrot"),
     @NamedQuery(name = "WnStatusy.findByKolor", query = "SELECT w FROM WnStatusy w WHERE w.kolor = :kolor")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class WnStatusy implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
+    @XmlElement
     private Long id;
+    
+    @XmlElement
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)

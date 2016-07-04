@@ -93,18 +93,23 @@ public class WnUrlop implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopId", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<WnHistoria> wnHistoriaList;
 
+    @XmlElement
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WnStatusy statusId;
+    
     @JoinColumn(name = "rodzaj_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WnRodzaje rodzajId;
     @JoinColumn(name = "uid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Uzytkownik uzytkownik;
+    
+    @XmlElement(name = "##default")
     @JoinColumn(name = "akceptant_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Uzytkownik akceptant;
+    
     @JoinColumn(name = "przyjmujacy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Uzytkownik przyjmujacy;
