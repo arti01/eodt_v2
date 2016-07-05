@@ -20,6 +20,10 @@
 
 <xs:element name="helloResponse" type="tns:helloResponse" />
 
+<xs:element name="uzytkownik" type="tns:uzytkownik" />
+
+<xs:element name="wnStatusy" type="tns:wnStatusy" />
+
 <xs:element name="wnUrlop" type="tns:wnUrlop" />
 
 <xs:complexType name="hello">
@@ -110,8 +114,24 @@
 <xs:element name="dataDo" type="xs:dateTime" minOccurs="0" />
 <xs:element name="nrWniosku" type="xs:string" minOccurs="0" />
 <xs:element name="dataWprowadzenia" type="xs:dateTime" minOccurs="0" />
+<xs:element name="statusId" type="tns:wnStatusy" minOccurs="0" />
+<xs:element name="akceptant" type="tns:uzytkownik" minOccurs="0" />
 <xs:element name="dataDoStr" type="xs:string" minOccurs="0" />
 <xs:element name="dataOdStr" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="wnStatusy">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0" />
+<xs:element name="opis" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="uzytkownik">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0" />
+<xs:element name="fullname" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 </xs:schema>
