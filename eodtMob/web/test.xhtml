@@ -67,22 +67,45 @@
             </h:form>
         </pm:page>
         <pm:page id="przeglWn">
+            <pm:content>
+                <p:panelGrid columns="3">
+                    <p:button outcome="/index.xhtml" value="powrót do menu"/>
+                    <p:button outcome="pm:second?transition=flip" value="wystaw wniosek"/>
+                </p:panelGrid>
+
+                <p:dataTable value="#{urlopyMg.listaUrlopow}" var="urlop" sortBy="#{urlop.id}" sortOrder="descending" paginator="true" rowsPerPageTemplate="10, 20, 50, 100" rows="10">
+                    <p:column headerText="numer wniosku">
+                        #{urlop.nrWniosku}
+                    </p:column>
+                    <p:column headerText="data od" sortBy="#{urlop.dataOdStr}">
+                        <h:outputText value="#{urlop.dataOdStr}"/>
+                    </p:column>
+                    <p:column headerText="data do">
+                        <h:outputText value="#{urlop.dataDoStr}"/>
+                    </p:column>
+                    <p:column headerText="status">
+                        <h:outputText value="#{urlop.statusId.opis}"/>
+                    </p:column>
+                    <p:column headerText="Więcej">
+                        <p:commandButton value="wiecej" action="#{urlopyMg.gotoUrlopWiecej}">
+                            <f:setPropertyActionListener target="#{urlopyMg.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </pm:content>
+        </pm:page>
+
+        <pm:page id="urlopWiecej">
             <p:panelGrid columns="3">
-            <p:button outcome="/index.xhtml" value="powrót do menu"/>
-            <p:button outcome="pm:second?transition=flip" value="wystaw wniosek"/>
-            </p:panelGrid>
-            
-            <p:dataTable value="#{urlopyMg.listaUrlopow}" var="urlop">
-                <p:column headerText="numer wniosku">
-                    #{urlop.nrWniosku}
-                </p:column>
-                <p:column headerText="data od" sortBy="#{urlop.dataOdStr}">
-                    <h:outputText value="#{urlop.dataOdStr}"/>
-                </p:column>
-                <p:column headerText="data do">
-                    <h:outputText value="#{urlop.dataDoStr}"/>
-                </p:column>
-            </p:dataTable>
+                    <p:button outcome="/index.xhtml" value="powrót do menu"/>
+                    <p:button outcome="pm:przeglWn?transition=flip" value="lista wniosków"/>
+                    <p:button outcome="pm:second?transition=flip" value="wystaw wniosek"/>
+                </p:panelGrid>
+            <pm:content>
+                <p:panel>
+                    aktualny akceptant: #{urlopyMg.urlop.akceptant.fullname}
+                </p:panel>
+            </pm:content>
         </pm:page>
     </h:body>
 </html>

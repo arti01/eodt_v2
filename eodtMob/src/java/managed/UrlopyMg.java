@@ -7,14 +7,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import obiekty.Urlop;
 
 @ManagedBean
 @SessionScoped
 public class UrlopyMg implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Urlop urlop;
+    private WnUrlop urlop;
     private boolean calyDzien;
     private Date godzOdT;
     private Date godzDoT;
@@ -26,12 +25,8 @@ public class UrlopyMg implements Serializable {
         listaUrlopow=new test.Test().getLista();
     }
 
-    public Urlop getUrlop() {
-        return urlop;
-    }
-
-    public void setUrlop(Urlop urlop) {
-        this.urlop = urlop;
+    public String gotoUrlopWiecej() {
+        return "pm:urlopWiecej?transition=flip";
     }
 
     public boolean isCalyDzien() {
@@ -72,6 +67,14 @@ public class UrlopyMg implements Serializable {
 
     public void setListaUrlopow(List<WnUrlop> listaUrlopow) {
         this.listaUrlopow = listaUrlopow;
+    }
+
+    public WnUrlop getUrlop() {
+        return urlop;
+    }
+
+    public void setUrlop(WnUrlop urlop) {
+        this.urlop = urlop;
     }
 
 }
