@@ -23,7 +23,8 @@
     <h:body>
         <pm:page id="second">
             <h:form id="form">
-                <pm:content>                  
+                <pm:content>             
+                    <p:commandButton action="#{urlopyMg.gotoUrlopWiecej}"/>
                     <p:panelGrid columns="3">
                         <p:button outcome="/index.xhtml" value="powrót do menu"/>
                         <p:button outcome="pm:przeglWn?transition=flip" value="przegląd wniosków"/>

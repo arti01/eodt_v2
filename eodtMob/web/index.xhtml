@@ -36,6 +36,14 @@
                         <p:menuitem value="Urlop" outcome="test.xhtml" styleClass="menu_urlop"/>
                         <p:menuitem value="Wp.pl" url="http://ww.wp.pl" styleClass="menu_wp"/>
                     </p:tabMenu>
+                    <p:commandButton action="#{urlopyMg.gotoUrlopWiecej}"/>
+                    #{urlopyMg.getcF().count()}
+                    #{urlopyMg.lconf}
+                    <p:dataTable value="#{urlopyMg.getcF().findAll}" var="cfg">
+                        <p:column>
+                            #{cfg.nazwa}
+                        </p:column>
+                    </p:dataTable>
                 </pm:content>
             </h:form>
         </pm:page>

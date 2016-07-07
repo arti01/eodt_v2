@@ -1,15 +1,20 @@
 package managed;
 
+import encje.Config;
+import encje.ConfigFacade;
 import eodtwsc.WnUrlop;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
 import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class UrlopyMg implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,13 +24,26 @@ public class UrlopyMg implements Serializable {
     private Date godzDoT;
     private Date dataUrlopu;
     private List<WnUrlop> listaUrlopow;
+    @EJB
+    private ConfigFacade cF;
+    List<Config> lconf;
     
     @PostConstruct
     void init(){
         listaUrlopow=new test.Test().getLista();
+        /*lconf=cF.findAll();
+        System.err.println(cF.findAll());
+        System.err.println(cF.findAll().size());*/
+        System.err.println("dddddddddddddddddddddddddddd");
+       
     }
 
     public String gotoUrlopWiecej() {
+        System.err.println("dddgggggggggggffffffffffffffffffff");
+        lconf=cF.findAll();
+        System.err.println(cF.findAll());
+        System.err.println(cF.findAll().size());
+        System.err.println("dddgggggggggggggggggggggggggggggg");
         return "pm:urlopWiecej?transition=flip";
     }
 
@@ -75,6 +93,22 @@ public class UrlopyMg implements Serializable {
 
     public void setUrlop(WnUrlop urlop) {
         this.urlop = urlop;
+    }
+
+    public ConfigFacade getcF() {
+        return cF;
+    }
+
+    public void setcF(ConfigFacade cF) {
+        this.cF = cF;
+    }
+
+    public List<Config> getLconf() {
+        return lconf;
+    }
+
+    public void setLconf(List<Config> lconf) {
+        this.lconf = lconf;
     }
 
 }
