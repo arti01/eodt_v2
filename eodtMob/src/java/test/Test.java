@@ -5,7 +5,6 @@
  */
 package test;
 
-import eodtwsc.ListaWn;
 import eodtwsc.TworzUrlopy;
 import eodtwsc.WnUrlop;
 import java.io.Serializable;
@@ -33,10 +32,10 @@ public class Test implements Serializable{
         System.err.println("zlozono wniosek" + testS);
     }
     
-    public List<WnUrlop> getLista(){
+    /*public List<WnUrlop> getLista(){
         ListaWn lwn=new ListaWn();
         return  lwn.wywolaj();
-    }
+    }*/
 
     public String getTestS() {
         return testS;

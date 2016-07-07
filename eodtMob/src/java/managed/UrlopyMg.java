@@ -30,20 +30,20 @@ public class UrlopyMg implements Serializable {
     
     @PostConstruct
     void init(){
-        listaUrlopow=new test.Test().getLista();
+        //listaUrlopow=new test.Test().getLista();
         /*lconf=cF.findAll();
         System.err.println(cF.findAll());
         System.err.println(cF.findAll().size());*/
         System.err.println("dddddddddddddddddddddddddddd");
-       
-    }
-
-    public String gotoUrlopWiecej() {
-        System.err.println("dddgggggggggggffffffffffffffffffff");
+        System.err.println(cF);
         lconf=cF.findAll();
         System.err.println(cF.findAll());
         System.err.println(cF.findAll().size());
         System.err.println("dddgggggggggggggggggggggggggggggg");
+    }
+
+    public String gotoUrlopWiecej() {
+        lconf=cF.findAll();
         return "pm:urlopWiecej?transition=flip";
     }
 
