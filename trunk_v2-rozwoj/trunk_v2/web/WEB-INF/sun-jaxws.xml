@@ -3,4 +3,5 @@
   <endpoint implementation="webserv.EodtUrlopWs" name="EodtUrlopWs" url-pattern="/EodtUrlopWs"/>
   <endpoint implementation="webserv.EodtUrlopWs" name="EodtUrlopWs" url-pattern="/EodtUrlopWs"/>
   <endpoint implementation="webserv.EodtUrlopWs" name="EodtUrlopWs" url-pattern="/EodtUrlopWs"/>
+  <endpoint implementation="webserv.EodtUrlopWs" name="EodtUrlopWs" url-pattern="/EodtUrlopWs"/>
 </endpoints>
