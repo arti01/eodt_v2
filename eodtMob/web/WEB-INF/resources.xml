@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <Resource id="jdbc/eodmob" type="javax.sql.DataSource">#Thu Jul 07 19:57:13 CEST 2016
+jdbcDriver=org.postgresql.Driver
+password=eod
+userName=eod
+jdbcUrl=jdbc\:postgresql\://192.168.1.13\:5432/eodmob
+</Resource>
+</resources>
