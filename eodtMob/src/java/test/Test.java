@@ -5,8 +5,9 @@
  */
 package test;
 
-import eodtwsc.TworzUrlopy;
+import eodtwscUrlop.ListaWn;
 import eodtwsc.WnUrlop;
+import eodtwscUrlop.TworzUrlopy;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -32,10 +33,10 @@ public class Test implements Serializable{
         System.err.println("zlozono wniosek" + testS);
     }
     
-    /*public List<WnUrlop> getLista(){
+    public List<WnUrlop> getLista(){
         ListaWn lwn=new ListaWn();
         return  lwn.wywolaj();
-    }*/
+    }
 
     public String getTestS() {
         return testS;

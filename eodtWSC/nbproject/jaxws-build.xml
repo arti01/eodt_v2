@@ -33,5 +33,39 @@
         <delete dir="${build.generated.dir}/jax-wsCache/EodtUrlopWs"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/eodtwsc"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-EodtUrlopWs"/>
+    <target name="wsimport-client-RepozDokWs" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/RepozDokWs"/>
+        <property name="wsdl-RepozDokWs" location="xml-resources/web-service-references/RepozDokWs/wsdl/RepozDokWs.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RepozDokWs" destdir="${build.generated.dir}/jax-wsCache/RepozDokWs" wsdl="${wsdl-RepozDokWs}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/home/arti01/.netbeans/8.1/config/WebServices/RepozDokWs/catalog/localhost_8080/eodt_j8/RepozDokWs.wsdl" xnocompile="true" xendorsed="true" package="eodtwscRepoz">
+            <depends file="${wsdl-RepozDokWs}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/RepozDokWs"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/RepozDokWs">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-RepozDokWs" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/RepozDokWs"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/eodtwscRepoz"/>
+    </target>
+    <target name="wsimport-client-WyslijMailWs" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/WyslijMailWs"/>
+        <property name="wsdl-WyslijMailWs" location="xml-resources/web-service-references/WyslijMailWs/wsdl/WyslijMailWs.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/WyslijMailWs" destdir="${build.generated.dir}/jax-wsCache/WyslijMailWs" wsdl="${wsdl-WyslijMailWs}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/home/arti01/.netbeans/8.1/config/WebServices/WyslijMailWs/catalog/localhost_8080/eodt_j8/WyslijMailWs.wsdl" xnocompile="true" xendorsed="true" package="eodtwscMail">
+            <depends file="${wsdl-WyslijMailWs}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/WyslijMailWs"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/WyslijMailWs">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-WyslijMailWs" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/WyslijMailWs"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/eodtwscMail"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-EodtUrlopWs, wsimport-client-RepozDokWs, wsimport-client-WyslijMailWs"/>
 </project>

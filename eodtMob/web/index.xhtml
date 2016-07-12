@@ -6,20 +6,25 @@
       xmlns:pm="http://primefaces.org/mobile"
       xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
-        .menu_index {
-            background-image: url(../obrazki/menu1.jpg) !important;
-            height:300px;
-            width:300px;
+
+        .menu_tlo {
+            background-image: url(../obrazki/menutlo.png) !important;
+            background-color: white !important;
+            background-repeat: inherit;
+            border-color: white !important;
+            height:170px;
+            width:260px;
+            font-size: 35px !important;
+            color: #005599  !important;
+            vertical-align: bottom !important;
+            display: inline-block;
         }
-        .menu_urlop {
-            background-image: url(../obrazki/urlop.png) !important;
-            height:300px;
-            width:300px;
+        .tlo {
+            background-image: url(../obrazki/kiosk.png) !important;
+            background-color: #1b1b1b;
         }
-        .menu_wp {
-            background-image: url(../obrazki/wp.png) !important;
-            height:300px;
-            width:300px;
+        .test{
+            vertical-align: bottom !important;
         }
     </style>
 
@@ -27,23 +32,15 @@
     <h:head>
         <meta name="viewport" content="width=1024, height=600 user-scalable=no" />
     </h:head>
-    <h:body>
-        <pm:page id="main">
+    <h:body styleClass="tlo">
+        <pm:page id="main" styleClass="tlo">
             <h:form>
                 <pm:content>
-                    <p:tabMenu>
-                        <p:menuitem value="Home" outcome="index.xhtml" styleClass="menu_index"/>
-                        <p:menuitem value="Urlop" outcome="test.xhtml" styleClass="menu_urlop"/>
-                        <p:menuitem value="Wp.pl" url="http://ww.wp.pl" styleClass="menu_wp"/>
+                    <p:tabMenu style="padding-bottom: 80px; padding-left: 10px;margin-top: 80px;text-align: center;">
+                        <p:menuitem value="Home" outcome="index.xhtml" styleClass="menu_tlo"/>
+                        <p:menuitem value="Urlop" outcome="test.xhtml" styleClass="menu_tlo"/>
+                        <p:menuitem value="Repozytorium dokumentów" outcome="repoz.xhtml" styleClass="menu_tlo" style="white-space: pre-wrap;"/>
                     </p:tabMenu>
-                    <p:dataTable value="#{urlopyMg.getcF().findAll()}" var="cfg">
-                        <p:column>
-                            #{cfg.nazwa}
-                        </p:column>
-                        <p:column>
-                            #{cfg.opis}
-                        </p:column>
-                    </p:dataTable>
                 </pm:content>
             </h:form>
         </pm:page>

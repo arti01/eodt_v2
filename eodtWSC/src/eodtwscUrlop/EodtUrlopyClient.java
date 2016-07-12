@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eodtwsc;
+package eodtwscUrlop;
 
+import eodtwsc.EodtUrlopWs;
+import eodtwsc.EodtUrlopWs_Service;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,7 +18,8 @@ public class EodtUrlopyClient {
 
     private String urlS;
     private eodtwsc.EodtUrlopWs_Service service;
-    private eodtwsc.EodtUrlopWs port;//pamietac, aby uzywac getera
+    //private eodtwsc.EodtUrlopWs port;//pamietac, aby uzywac getera
+    private static String WSDL="/EodtUrlopWs?wsdl";
 
     public EodtUrlopyClient() {
     }
@@ -42,7 +45,7 @@ public class EodtUrlopyClient {
 
     private EodtUrlopWs_Service getService() {
         try {
-            service = new eodtwsc.EodtUrlopWs_Service(new URL(this.getUrlS() + "/EodtUrlopWs?wsdl"));
+            service = new eodtwsc.EodtUrlopWs_Service(new URL(this.getUrlS() + WSDL));
         } catch (MalformedURLException ex) {
             Logger.getLogger(TestMain.class.getName()).log(Level.SEVERE, null, ex);
         }

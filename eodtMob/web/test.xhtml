@@ -24,8 +24,7 @@
         <pm:page id="second">
             <h:form id="form">
                 <pm:content>             
-                    <p:commandButton action="#{urlopyMg.gotoUrlopWiecej}"/>
-                    <p:panelGrid columns="3">
+                    <p:panelGrid columns="2">
                         <p:button outcome="/index.xhtml" value="powrót do menu"/>
                         <p:button outcome="pm:przeglWn?transition=flip" value="przegląd wniosków"/>
                     </p:panelGrid>
@@ -46,8 +45,6 @@
                         <pm:field rendered="#{urlopyMg.calyDzien}">
                             <p:calendar id="data_do" value="#{urlopyMg.urlop.dataDo}" pattern="yyyy-MM-dd" mode="inline"/>
                         </pm:field>
-
-
                         <p:outputLabel value="Dzień urlopu:" rendered="#{!urlopyMg.calyDzien}"/>
                         <p:outputLabel value="Godzina od:" rendered="#{!urlopyMg.calyDzien}"/>
                         <p:outputLabel value="Godzina do:" rendered="#{!urlopyMg.calyDzien}"/>
@@ -69,7 +66,7 @@
         </pm:page>
         <pm:page id="przeglWn">
             <pm:content>
-                <p:panelGrid columns="3">
+                <p:panelGrid columns="2">
                     <p:button outcome="/index.xhtml" value="powrót do menu"/>
                     <p:button outcome="pm:second?transition=flip" value="wystaw wniosek"/>
                 </p:panelGrid>
