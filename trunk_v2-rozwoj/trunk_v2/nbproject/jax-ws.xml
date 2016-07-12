@@ -4,6 +4,12 @@
     <service name="EodtUrlopWs">
       <implementation-class>webserv.EodtUrlopWs</implementation-class>
     </service>
+    <service name="RepozDokWs">
+      <implementation-class>webserv.RepozDokWs</implementation-class>
+    </service>
+    <service name="WyslijMailWs">
+      <implementation-class>webserv.WyslijMailWs</implementation-class>
+    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>

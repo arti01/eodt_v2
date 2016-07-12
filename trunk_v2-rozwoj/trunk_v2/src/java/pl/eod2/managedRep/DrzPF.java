@@ -6,22 +6,37 @@
 package pl.eod2.managedRep;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author arti01
- */
-public final class DrzPF implements Comparable<DrzPF> {
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
+public final class DrzPF implements Comparable<DrzPF>, Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlElement
     String fullPath;
+    @XmlElement
     String shortName;
+    
+    @XmlElement
     List<DrzPF> chidren;
+    
+    //@XmlTransient
     DrzPF parent;
+    @XmlElement
     String type;
+
+    public DrzPF() {
+    }
 
     public DrzPF(String fullPath, String shortName, DrzPF parent) {
         this.fullPath = fullPath;

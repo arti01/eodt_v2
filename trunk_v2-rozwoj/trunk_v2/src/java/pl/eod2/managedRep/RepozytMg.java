@@ -110,4 +110,12 @@ public class RepozytMg {
         return dir_repo;
     }
 
+    public DrzPF getDrR() {
+        return drR;
+    }
+
+    public void setDrR(DrzPF drR) {
+        this.drR = drR;
+    }
+
 }
