@@ -1,5 +1,6 @@
 package eodtwscRepoz;
 
+import przyklady.WprowadzWniosek;
 import eodtwscUrlop.*;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -38,7 +39,7 @@ public class EodtRepozDocClient implements Serializable{
         try {
             service=new RepozDokWs_Service(new URL(this.getUrlS() + WSDL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(TestMain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WprowadzWniosek.class.getName()).log(Level.SEVERE, null, ex);
         }
         return service;
     }

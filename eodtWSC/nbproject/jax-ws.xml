@@ -22,7 +22,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/eodt_j8/EodtUrlopWs?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/eodt_ws/EodtUrlopWs?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

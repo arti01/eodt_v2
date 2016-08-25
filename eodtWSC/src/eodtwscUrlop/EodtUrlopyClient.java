@@ -5,6 +5,7 @@
  */
 package eodtwscUrlop;
 
+import przyklady.WprowadzWniosek;
 import eodtwsc.EodtUrlopWs;
 import eodtwsc.EodtUrlopWs_Service;
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ public class EodtUrlopyClient {
 
     public String getUrlS() {
         if (urlS == null) {
-            urlS = "http://127.0.0.1:8080/eodt_j8";
+            urlS = "http://127.0.0.1:8080/eodt_ws";
         }
         return urlS;
     }
@@ -47,7 +48,7 @@ public class EodtUrlopyClient {
         try {
             service = new eodtwsc.EodtUrlopWs_Service(new URL(this.getUrlS() + WSDL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(TestMain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WprowadzWniosek.class.getName()).log(Level.SEVERE, null, ex);
         }
         return service;
     }
@@ -56,14 +57,14 @@ public class EodtUrlopyClient {
         return this.getService().getEodtUrlopWsPort();
     }
 
-    public String createUrlopCalyDzien(java.lang.String userEmail, java.lang.String login, javax.xml.datatype.XMLGregorianCalendar dataOd,
-            javax.xml.datatype.XMLGregorianCalendar dataDo, java.lang.String rodzajId, String infoDod, boolean pracodawca, BigDecimal kwota,
+    public String createUrlopCalyDzien(String userEmail, String login, javax.xml.datatype.XMLGregorianCalendar dataOd,
+            javax.xml.datatype.XMLGregorianCalendar dataDo, String rodzajId, String infoDod, boolean pracodawca, BigDecimal kwota,
             String miejsce, String cel, String srodekLok) {
         return getPort().createUrlopCalyDzien(userEmail, login, dataOd, dataDo, rodzajId, infoDod, pracodawca, kwota, miejsce, cel, srodekLok);
     }
 
-    public String createUrlopGodziny(java.lang.String userEmail, java.lang.String login, javax.xml.datatype.XMLGregorianCalendar dataUrlopu, javax.xml.datatype.XMLGregorianCalendar godzOd,
-            javax.xml.datatype.XMLGregorianCalendar godzDo, java.lang.String rodzajId, String infoDod,
+    public String createUrlopGodziny(String userEmail, String login, javax.xml.datatype.XMLGregorianCalendar dataUrlopu, javax.xml.datatype.XMLGregorianCalendar godzOd,
+            javax.xml.datatype.XMLGregorianCalendar godzDo, String rodzajId, String infoDod,
             boolean pracodawca, BigDecimal kwota, String miejsce, String cel, String srodekLok) {
         return getPort().createUrlopGodziny(userEmail, login, dataUrlopu, godzOd, godzDo, rodzajId, infoDod, pracodawca, kwota, miejsce, cel, srodekLok);
     }
