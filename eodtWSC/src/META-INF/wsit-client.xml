@@ -6,4 +6,6 @@
  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="mainclientconfig" 
  >
     <import location="EodtUrlopWs.xml" namespace="http://webserv/"/>
+    <import location="WyslijMailWs.xml" namespace="http://webserv/"/>
+    <import location="RepozDokWs.xml" namespace="http://webserv/"/>
 </definitions>

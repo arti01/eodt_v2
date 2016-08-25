@@ -26,7 +26,7 @@ public class EodtRepozDocClient implements Serializable{
 
     public String getUrlS() {
         if (urlS == null) {
-            urlS = "http://127.0.0.1:8080/eodt_j8";
+            urlS = "http://127.0.0.1:8080/eodt_ws";
         }
         return urlS;
     }

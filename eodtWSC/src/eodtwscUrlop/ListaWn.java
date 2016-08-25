@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ListaWn {
     public List<WnUrlop> wywolaj(){
-        return new EodtUrlopyClient("http://localhost:8080/eodt_j8").getMojeWnLista("aa@aa.pl");
+        return new EodtUrlopyClient("http://localhost:8080/eodt_ws").getMojeWnLista("aa@aa.pl");
     }
     
 }

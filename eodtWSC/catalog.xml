@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/eodt_j8/EodtUrlopWs?wsdl" uri="xml-resources/web-service-references/EodtUrlopWs/wsdl/localhost_8080/eodt_j8/EodtUrlopWs.wsdl"/>
-    <system systemId="http://localhost:8080/eodt_j8/EodtUrlopWs?xsd=1" uri="xml-resources/web-service-references/EodtUrlopWs/wsdl/localhost_8080/eodt_j8/EodtUrlopWs.xsd_1.xsd"/>
-    <system systemId="file:/home/arti01/.netbeans/8.1/config/WebServices/RepozDokWs/catalog/localhost_8080/eodt_j8/RepozDokWs.wsdl" uri="xml-resources/web-service-references/RepozDokWs/wsdl/RepozDokWs.wsdl"/>
-    <system systemId="http://localhost:8080/eodt_j8/RepozDokWs?xsd=1" uri="xml-resources/web-service-references/RepozDokWs/wsdl/localhost_8080/eodt_j8/RepozDokWs.xsd_1.xsd"/>
-    <system systemId="file:/home/arti01/.netbeans/8.1/config/WebServices/WyslijMailWs/catalog/localhost_8080/eodt_j8/WyslijMailWs.wsdl" uri="xml-resources/web-service-references/WyslijMailWs/wsdl/WyslijMailWs.wsdl"/>
-    <system systemId="http://localhost:8080/eodt_j8/WyslijMailWs?xsd=1" uri="xml-resources/web-service-references/WyslijMailWs/wsdl/localhost_8080/eodt_j8/WyslijMailWs.xsd_1.xsd"/>
+    <system systemId="file:/home/arti01/.netbeans/8.1/config/WebServices/RepozDokWs/catalog/localhost_8080/eodt_ws/RepozDokWs.wsdl" uri="xml-resources/web-service-references/RepozDokWs/wsdl/RepozDokWs.wsdl"/>
+    <system systemId="file:/home/arti01/.netbeans/8.1/config/WebServices/WyslijMailWs/catalog/localhost_8080/eodt_ws/WyslijMailWs.wsdl" uri="xml-resources/web-service-references/WyslijMailWs/wsdl/WyslijMailWs.wsdl"/>
+    <system systemId="http://localhost:8080/eodt_ws/WyslijMailWs?xsd=1" uri="xml-resources/web-service-references/WyslijMailWs/wsdl/localhost_8080/eodt_ws/WyslijMailWs.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/eodt_ws/EodtUrlopWs?wsdl" uri="xml-resources/web-service-references/EodtUrlopWs/wsdl/localhost_8080/eodt_ws/EodtUrlopWs.wsdl"/>
+    <system systemId="http://localhost:8080/eodt_ws/EodtUrlopWs?xsd=1" uri="xml-resources/web-service-references/EodtUrlopWs/wsdl/localhost_8080/eodt_ws/EodtUrlopWs.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/eodt_ws/RepozDokWs?wsdl" uri="xml-resources/web-service-references/RepozDokWs_1/wsdl/localhost_8080/eodt_ws/RepozDokWs.wsdl"/>
+    <system systemId="http://localhost:8080/eodt_ws/RepozDokWs?xsd=1" uri="xml-resources/web-service-references/RepozDokWs_1/wsdl/localhost_8080/eodt_ws/RepozDokWs.xsd_1.xsd"/>
 </catalog>

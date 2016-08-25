@@ -25,7 +25,6 @@
 <xs:element name="fullPath" type="xs:string" minOccurs="0" />
 <xs:element name="shortName" type="xs:string" minOccurs="0" />
 <xs:element name="chidren" type="tns:drzPF" minOccurs="0" maxOccurs="unbounded" />
-<xs:element name="parent" type="tns:drzPF" minOccurs="0" />
 <xs:element name="type" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
