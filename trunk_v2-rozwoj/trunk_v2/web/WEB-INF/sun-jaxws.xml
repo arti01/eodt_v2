@@ -7,4 +7,7 @@
   <endpoint implementation="webserv.EodtUrlopWs" name="EodtUrlopWs" url-pattern="/EodtUrlopWs"/>
   <endpoint implementation="webserv.RepozDokWs" name="RepozDokWs" url-pattern="/RepozDokWs"/>
   <endpoint implementation="webserv.WyslijMailWs" name="WyslijMailWs" url-pattern="/WyslijMailWs"/>
+  <endpoint implementation="webserv.WyslijMailWs" name="WyslijMailWs" url-pattern="/WyslijMailWs"/>
+  <endpoint implementation="webserv.RepozDokWs" name="RepozDokWs" url-pattern="/RepozDokWs"/>
+  <endpoint implementation="webserv.EodtUrlopWs" name="EodtUrlopWs" url-pattern="/EodtUrlopWs"/>
 </endpoints>
