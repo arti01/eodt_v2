@@ -7,6 +7,7 @@ package pl.arti01.encja;
 import abst.AbstEncja;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -101,7 +102,11 @@ public class Kredyt extends AbstEncja implements Serializable {
     }
 
     public void setDataPierwSplaty(Date dataPierwSplaty) {
-        this.dataPierwSplaty = dataPierwSplaty;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dataPierwSplaty);
+        //rata zawsze w ostatni dzień miesiąca
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        this.dataPierwSplaty = cal.getTime();
     }
 
     public int getLiczbaRat() {

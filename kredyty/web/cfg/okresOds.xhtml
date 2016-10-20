@@ -32,11 +32,11 @@
                     </rich:column>
                     <rich:column  sortBy="#{item.dataOd}" sortOrder="ascending">
                         <f:facet name="header">data od</f:facet>
-                        <h:outputText value="#{item.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{item.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
                     </rich:column>
                     <rich:column >
                         <f:facet name="header">data do</f:facet>
-                        <h:outputText value="#{item.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{item.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
                     </rich:column>
 
                     <rich:column >

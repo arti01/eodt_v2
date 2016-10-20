@@ -1,0 +1,2 @@
+1. Proszę poprawić okresy odsetkowe, zwłaszcza zwracając uwagę na "datę do" - musi być równa "data od" kolejnego okresu -1 dzień
+2. Spłata raty kredytu następuje zawsze w ostatni dzień miesiąca i dla wyliczeń brane jest oprocentowanie dla tego dnia

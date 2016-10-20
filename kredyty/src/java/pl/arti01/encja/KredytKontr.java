@@ -21,11 +21,11 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class KredytKontr extends AbstKontroler<Kredyt> {
-
+    
     public KredytKontr() {
         super(new Kredyt());
     }
-
+    
     public Wynik oblicz(Kredyt kredyt) throws BrakOprocentowaniaEx {
         Wynik wynik;
         if (kredyt.isRatyRowne()) {
@@ -35,7 +35,7 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
         }
         return wynik;
     }
-
+    
     public Wynik obliczMalejaceRaty(Kredyt kredyt) throws BrakOprocentowaniaEx {
         //stworzenie wyniku
         Wynik wynik = new Wynik(kredyt);
@@ -46,6 +46,9 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
         BigDecimal odsetki;
         Calendar cal = Calendar.getInstance();
         cal.setTime(dataRaty);
+        //rata zawsze w ostatni dzień miesiąca
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        
         for (int i = 1; i <= kredyt.getLiczbaRat(); i++) {
             Double oproc;
             try {
@@ -66,13 +69,14 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
             rata.setWynik(wynik);
             wynik.getWynikRataList().add(rata);
             cal.add(Calendar.MONTH, 1);
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
-
+        
         kredyt.getWynikList().add(this.zrobPlik(wynik));
         this.edit(kredyt);
         return wynik;
     }
-
+    
     public Wynik obliczRowneRaty(Kredyt kredyt) throws BrakOprocentowaniaEx {
         //stworzenie wyniku
         Wynik wynik = new Wynik(kredyt);
@@ -82,15 +86,17 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
         BigDecimal kwota = kredyt.getKwota().setScale(2);
         Calendar cal = Calendar.getInstance();
         cal.setTime(dataRaty);
+        //rata zawsze w ostatni dzień miesiąca
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         int liczbaRat = kredyt.getLiczbaRat();
         Double oproc = new Double("0");
         Double oprocOld = new Double("0");
         for (int i = 1; i <= kredyt.getLiczbaRat(); i++) {
-
+            
             try {
                 oproc = new OkresOdsKontr().findDlaDaty(cal.getTime(), kredyt.getBank()).getOprocentowanie();
             } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 throw new BrakOprocentowaniaEx("brak oprocentowania dla" + sdf.format(cal.getTime()));
             }
             //jesli oprocentowanie jest nowe, to zmien kwote (przy pierwszej tez będzie ok, bo do splaty to calosc
@@ -99,12 +105,12 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
                 liczbaRat = kredyt.getLiczbaRat() - i + 1;
                 oprocOld = oproc;
             }
-
+            
             BigDecimal odsetki = this.obliczOdsetkiDlaOkresu(oproc, doSplaty);
             BigDecimal rataKapitalowa = this.obliczRateDlaOkresu(kwota, oproc, liczbaRat).subtract(odsetki);
-
+            
             doSplaty = doSplaty.subtract(rataKapitalowa);
-
+            
             WynikRata rata = new WynikRata();
             rata.setRataData(cal.getTime());
             rata.setDoSplaty(doSplaty);
@@ -115,17 +121,18 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
             rata.setWynik(wynik);
             wynik.getWynikRataList().add(rata);
             cal.add(Calendar.MONTH, 1);
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
         kredyt.getWynikList().add(this.zrobPlik(wynik));
         this.edit(kredyt);
         return wynik;
     }
-
+    
     public BigDecimal obliczOdsetkiDlaOkresu(Double procent, BigDecimal kwotaDoSplaty) {
         BigDecimal procPerOkr = new BigDecimal(procent).divide(new BigDecimal(12), 10, RoundingMode.HALF_EVEN);
         return kwotaDoSplaty.multiply(procPerOkr).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
-
+    
     public BigDecimal obliczRateDlaOkresu(BigDecimal kwota, Double procent, int liczbaRat) {
         BigDecimal procPerOkr = new BigDecimal(procent).divide(new BigDecimal(12), 10, RoundingMode.HALF_EVEN);
         //stala (1+p)^n
@@ -136,15 +143,15 @@ public class KredytKontr extends AbstKontroler<Kredyt> {
         BigDecimal mnoz = kwota.multiply(gora).setScale(10, BigDecimal.ROUND_HALF_EVEN);
         return mnoz.divide(mianownik, RoundingMode.HALF_EVEN).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
-
+    
     public Wynik zrobPlik(Wynik wynik) {
         //przygotowanie pliku
         PlikWynik pw = new PlikWynik();
         pw.setNazwa(wynik.getNazwa());
         pw.setWynik(wynik);
-
+        
         List<WynikRata> krokiSort = wynik.getWynikRataList();
-
+        
         Collections.sort(krokiSort, new Comparator<WynikRata>() {
             @Override
             public int compare(WynikRata o1, WynikRata o2) {

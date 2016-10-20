@@ -15,7 +15,7 @@
         <h:form>
         <h:panelGrid columns="4">
             <h:outputLabel value="data obliczeń:"/>
-            <h:outputText value="#{Wyniki.obiekt.dataWyliczenia}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+            <h:outputText value="#{Wyniki.obiekt.dataWyliczenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
 
             <h:outputLabel value="kwota:"/>
             <h:outputText value="#{Wyniki.obiekt.kwota}"/>
@@ -24,7 +24,7 @@
             <h:outputText value="#{Wyniki.obiekt.liczbaRat}"/>
 
             <h:outputLabel value="data pierwszej spłaty:"/>
-            <h:outputText value="#{Wyniki.obiekt.dataPierwSplaty}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+            <h:outputText value="#{Wyniki.obiekt.dataPierwSplaty}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
 
             <h:outputLabel value="nazwa banku:"/>
             <h:outputText value="#{Wyniki.obiekt.nazwaBanku}"/>
@@ -48,7 +48,7 @@
 
                     <rich:column>
                         <f:facet name="header">Data Raty</f:facet>
-                        <h:outputText value="#{item.rataData}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{item.rataData}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
                     </rich:column>
 
                     <rich:column>

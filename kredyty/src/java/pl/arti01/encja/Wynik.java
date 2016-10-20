@@ -8,6 +8,7 @@ import abst.AbstEncja;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -79,7 +80,11 @@ public class Wynik extends AbstEncja implements Serializable {
         this.liczbaRat=kredyt.getLiczbaRat();
         this.wynikRataList=new ArrayList<>();
         this.kredyt=kredyt;
-        this.dataPierwSplaty=kredyt.getDataPierwSplaty();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(kredyt.getDataPierwSplaty());
+        //rata zawsze w ostatni dzień miesiąca
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        this.dataPierwSplaty=cal.getTime();
         this.ratyRowne=kredyt.isRatyRowne();
         this.nazwa=kredyt.getNazwa();
     }
