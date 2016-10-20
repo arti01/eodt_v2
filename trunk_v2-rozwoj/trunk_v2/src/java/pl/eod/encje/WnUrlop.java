@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -88,6 +89,29 @@ public class WnUrlop implements Serializable {
     
     @Column(name = "info_dod", nullable = true)
     private String infoDod;
+    @Lob
+    @Column(name = "temat_szkolenia", nullable = true)
+    String temat_szkolenia;
+    @Size(max = 255)
+    @Column(name = "miejsce")
+    private String miejsce;
+    @Size(max = 255)
+    @Column(name = "cel")
+    private String cel;
+    @Size(max = 255)
+    @Column(name = "srodek_lok")
+    private String srodekLok;
+    private BigDecimal wpisowe;
+    private BigDecimal diety;
+    private BigDecimal koszty_dojazdu;
+    private BigDecimal hotel;
+    private BigDecimal inne;
+    @Column(precision=7, scale=2)
+    private BigDecimal kwotaWs;
+    private String nrrachunku;
+    private boolean pracodawca;
+    private boolean zgodnZbudz;
+    private boolean czyZaliczka;
 
     @OrderBy(value = "id ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopId", fetch = FetchType.LAZY, orphanRemoval = true)
@@ -113,17 +137,7 @@ public class WnUrlop implements Serializable {
     @JoinColumn(name = "przyjmujacy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Uzytkownik przyjmujacy;
-    @Size(max = 255)
-    @Column(name = "miejsce")
-    private String miejsce;
-    @Size(max = 255)
-    @Column(name = "cel")
-    private String cel;
-    @Size(max = 255)
-    @Column(name = "srodek_lok")
-    private String srodekLok;
-    private BigDecimal kwotaWs;
-    private boolean pracodawca;
+
     @Transient
     private Date dataOstZmiany;
     
@@ -134,6 +148,8 @@ public class WnUrlop implements Serializable {
     String dataDoStr;
     @Transient
     boolean calyDzien;
+    @Transient
+    Uzytkownik zaakceptowal;
 
     public WnUrlop() {
     }
@@ -308,11 +324,64 @@ public class WnUrlop implements Serializable {
     }
 
     public BigDecimal getKwotaWs() {
+        this.kwotaWs = getHotel().add(getInne()).add(getKoszty_dojazdu()).add(getWpisowe());
         return kwotaWs;
     }
 
     public void setKwotaWs(BigDecimal kwotaWs) {
         this.kwotaWs = kwotaWs;
+    }
+
+    public String getTemat_szkolenia() {
+        return temat_szkolenia;
+    }
+
+    public void setTemat_szkolenia(String temat_szkolenia) {
+        this.temat_szkolenia = temat_szkolenia;
+    }
+
+    public BigDecimal getWpisowe() {
+        if (wpisowe == null) {
+            wpisowe = new BigDecimal(0);
+        }
+        return wpisowe;
+    }
+
+    public void setWpisowe(BigDecimal wpisowe) {
+        this.wpisowe = wpisowe;
+    }
+
+    public BigDecimal getKoszty_dojazdu() {
+        if (koszty_dojazdu == null) {
+            koszty_dojazdu = new BigDecimal(0);
+        }
+        return koszty_dojazdu;
+    }
+
+    public void setKoszty_dojazdu(BigDecimal koszty_dojazdu) {
+        this.koszty_dojazdu = koszty_dojazdu;
+    }
+
+    public BigDecimal getHotel() {
+        if (hotel == null) {
+            hotel = new BigDecimal(0);
+        }
+        return hotel;
+    }
+
+    public void setHotel(BigDecimal hotel) {
+        this.hotel = hotel;
+    }
+
+    public BigDecimal getInne() {
+        if (inne == null) {
+            inne = new BigDecimal(0);
+        }
+        return inne;
+    }
+
+    public void setInne(BigDecimal inne) {
+        this.inne = inne;
     }
 
     @XmlElement
@@ -332,6 +401,53 @@ public class WnUrlop implements Serializable {
         return sdf.format(dataOd).equals("00:00") && sdf.format(dataDo).equals("23:59");
     }
 
+    public BigDecimal getDiety() {
+        if (diety == null) {
+            diety = new BigDecimal(0);
+        }
+        return diety;
+    }
+
+    public void setDiety(BigDecimal diety) {
+        this.diety = diety;
+    }
+
+    public String getNrrachunku() {
+        return nrrachunku;
+    }
+
+    public void setNrrachunku(String nrrachunku) {
+        this.nrrachunku = nrrachunku;
+    }
+
+    public boolean isZgodnZbudz() {
+        return zgodnZbudz;
+    }
+
+    public void setZgodnZbudz(boolean zgodnZbudz) {
+        this.zgodnZbudz = zgodnZbudz;
+    }
+
+    public boolean isCzyZaliczka() {
+        return czyZaliczka;
+    }
+
+    public void setCzyZaliczka(boolean czyZaliczka) {
+        this.czyZaliczka = czyZaliczka;
+    }
+
+    public Uzytkownik getZaakceptowal() {
+        zaakceptowal=null;
+        for(WnHistoria hist:this.wnHistoriaList){
+            if(hist.getStatusId().getId()==3){
+                return hist.getZmieniajacy();
+            }
+        }
+        return zaakceptowal;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

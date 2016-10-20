@@ -55,6 +55,7 @@ public class Login implements Serializable {
     boolean umSprz;
     boolean umDoc;
     boolean umRez;
+    boolean umRezPrzeg;
     boolean kalDec;
     String typLogowania;
     List<MenuLinki> menuLinki;
@@ -528,6 +529,12 @@ public class Login implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         return request.isUserInRole("eod_url_all");
+    }
+
+    public boolean isUmRezPrzeg() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_um_rez_przeg");
     }
 
     public void setUrlAll(boolean urlAll) {

@@ -3,6 +3,8 @@ package pl.eod2.managedUm;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -21,12 +23,17 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
+import pl.eod.encje.ConfigJpaController;
 import pl.eod.encje.Struktura;
+import pl.eod.encje.StrukturaDataModel;
+import pl.eod.encje.StrukturaJpaController;
 import pl.eod.encje.Uzytkownik;
+import pl.eod.encje.UzytkownikJpaController;
 import pl.eod.managed.Login;
 import pl.eod2.encje.DcRodzaj;
 import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmMasterGrupa;
+import pl.eod2.encje.UmMasterGrupaJpaController;
 import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmRezerwacjeKontr;
 import pl.eod2.encje.UmUrzadzenie;
@@ -54,6 +61,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private List<UmUrzadzenie> urzAll;
     private String viewKal;
     private Date initDate;
+    private StrukturaJpaController sC;
 
     public RezerwacjeMg() throws InstantiationException, IllegalAccessException {
         super("/um/rezerwacje", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -63,11 +71,14 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private void init() {
         initDate = Calendar.getInstance().getTime();
         eventModel = new DefaultScheduleModel();
+        sC = new StrukturaJpaController();
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
         zrobDrzewo(false, null);
-        for (Struktura s : login.getZalogowany().getUserId().getSpolkaId().getStrukturalist()) {
-                usersList.add(s.getUserId());
+        List<Struktura> stAll = sC.findStrukturaWidoczniAll();
+        stAll.remove(sC.findGeneryczny());
+        for (Struktura s : stAll) {
+            usersList.add(s.getUserId());
         }
         usersListSelect.addAll(usersList);
     }
@@ -82,20 +93,26 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     public void zrobDrzewo(boolean all, DcRodzaj rodz) {
         urzAll = new ArrayList<>();
         root = new DefaultTreeNode("urządzenia", null);
-        if(rodz!=null&&!rodz.getIdRodzajGrupa().isUrzMed()){
+        if (rodz != null && !rodz.getIdRodzajGrupa().isUrzMed()) {
             return;
         }
-        List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
+        boolean allSpolki = (new ConfigJpaController().findConfigNazwa("rez_all_sp").getWartosc()).equalsIgnoreCase("tak");
+        List<UmMasterGrupa> masterList;
+        if (allSpolki) {
+            masterList = new UmMasterGrupaJpaController().findUmMasterGrupaEntities();
+        } else {
+            masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
+        }
         for (UmMasterGrupa mg : masterList) {
-            if (!mg.isGrZrezerwacja()&&!all) {
+            if (!mg.isGrZrezerwacja() && !all) {
                 continue;
             }
-            if(rodz!=null&&!rodz.getUmMasterGrupaList().contains(mg)){
+            if (rodz != null && !rodz.getUmMasterGrupaList().contains(mg)) {
                 continue;
             }
             TreeNode mtr = new DefaultTreeNode("grupa", mg, root);
             for (UmGrupa gr : mg.getGrupaList()) {
-                if (!gr.isRezerwacje()&&!all) {
+                if (!gr.isRezerwacje() && !all) {
                     continue;
                 }
                 TreeNode gtr = new DefaultTreeNode("grupa", gr, mtr);
@@ -294,6 +311,15 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             obiekt.setUczestnikList(new ArrayList<>());
         }
         //usersList.removeAll(obiekt.getUczestnikList());
+        Collections.sort(usersListSelect, (Uzytkownik s1, Uzytkownik s2) -> {
+            int wynikC;
+            try {
+                wynikC = s1.getFullname().compareToIgnoreCase(s2.getFullname());
+            } catch (NullPointerException mpe) {
+                wynikC = 0;
+            }
+            return wynikC;
+        });
         for (Uzytkownik u : usersListSelect) {
             if (u.getAdrEmail().toLowerCase().contains(cos.toLowerCase()) || u.getFullname().toLowerCase().contains(cos.toLowerCase())) {
                 wynik.add(u);

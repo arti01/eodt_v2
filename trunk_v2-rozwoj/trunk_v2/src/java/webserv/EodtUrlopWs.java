@@ -79,7 +79,7 @@ public class EodtUrlopWs implements Serializable {
         UrlopObceM urOm = new UrlopObceM();
         urOm.setLogin(login);
         urOm.init();
-        urOm.setCalyDzien(false);
+        //urOm.setCalyDzien(false);
         urOm.setDataUrlopu(dataUrlopu);
         urOm.setGodzOdT(godzOd);
         urOm.setGodzDoT(godzDo);
@@ -116,7 +116,7 @@ public class EodtUrlopWs implements Serializable {
         UrlopObceM urOm = new UrlopObceM();
         urOm.setLogin(login);
         urOm.init();
-        urOm.setCalyDzien(true);
+        //urOm.setCalyDzien(true);
 
         Uzytkownik prac = userC.findUzytkownikByEmail(userEmail);
 
