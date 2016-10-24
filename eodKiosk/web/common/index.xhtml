@@ -1,0 +1,51 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="tytul">
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="center" style="background: transparent !important;">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+
+            <p:panelGrid columns="3" styleClass="menu" columnClasses="menu, menu, menu">
+                <p:commandButton value="KADRY 2020" style="width: 280px; height: 280px" styleClass="menu-button"/>
+                <p:commandButton value="PLATFORMA FLC" style="width: 320px; height: 280px" styleClass="menu-button"/>
+                <p:commandButton value="KONTAKTY" style="width: 280px; height: 280px" styleClass="menu-button"/>
+            </p:panelGrid>
+            <style>
+                .ui-carousel-header {
+                    margin: 0px 1px;
+                    height: 0px;
+                    overflow: hidden;
+                    padding: 7px 10px 8px;
+                    display: none !important;
+                    border: 0;
+                }
+            </style>
+            <p:layout style="width: 1000px; top: 50px">
+                <p:layoutUnit position="west" minSize="120">
+                    <p:graphicImage value="/images/login_out_button.png"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <p:panel style="position: absolute;top: 30px; width: 850px">
+                        <p:carousel  numVisible="1" effect="easeInStrong" headerText="Newsy" style="" 
+                                     circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="3000" vertical="true">             
+                            <p:tab>
+                                <h:outputText style="font-size: 150%; font-weight: bolder;" value="#{item.opis}" escape="false"/>
+                            </p:tab>
+                        </p:carousel>
+                    </p:panel>
+                </p:layoutUnit>
+            </p:layout>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+

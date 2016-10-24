@@ -1,0 +1,28 @@
+body {
+    background-image: url('../images/kiosk2.png');
+    background-repeat: no-repeat; 
+    background-attachment:fixed;
+}
+.ui-widget-content{
+    background: transparent !important;
+    border-width: 0px !important;
+    color: black;
+}
+
+.menu {
+    background: transparent !important;
+    border-width: 0px !important;
+}
+.menu-button{
+    font-size: 40px !important;
+}
+
+.icon-redaer{
+    background-color: transparent;
+    background-image: url('../images/redaer.png') !important;
+    background-size: 78px 78px;
+    background-repeat: no-repeat;
+    border: 0;
+    height: 78px;
+    width: 78px;
+}

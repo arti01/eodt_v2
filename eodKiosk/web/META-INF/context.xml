@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/eodKiosk"/>
+<Context path="/eodKiosk">
+    <Resource auth="Container" driverClassName="org.postgresql.Driver" maxIdle="3" maxTotal="10" maxWaitMillis="20000" name="jdbc/eod_ekiosk" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr?currentSchema=ekiosk" username="eod"/>
+</Context>
+

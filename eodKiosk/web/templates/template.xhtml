@@ -1,0 +1,41 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>eKiosk</title>
+    </h:head>
+
+    <h:body>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/style.css" />
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/images/ai.gif"/>
+            proszę czekać
+        </p:dialog>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        <p:layout style="min-width:400px;min-height:200px; width: 1024px; height: 600px" fullPage="false">
+            <p:layoutUnit position="north" style="border: 0; text-align: right;" size="100">
+                <p:commandButton styleClass="icon-redaer" value="" />
+            </p:layoutUnit>
+            <p:layoutUnit position="center" style="border: 0">
+                <h:form id="infoForm">
+                    <p:growl id="messages" showDetail="false" life="3700"/>
+                    <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
+                    <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
+                        <p:button outcome="/common/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>
+                    </p:dialog>
+                </h:form>
+                <ui:insert name="tytul"/>
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
