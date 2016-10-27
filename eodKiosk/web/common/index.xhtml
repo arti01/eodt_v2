@@ -5,7 +5,6 @@
                 template="/templates/template.xhtml"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui">
-
     <ui:define name="tytul">
     </ui:define>
 
@@ -15,13 +14,13 @@
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
             <p:panelGrid columns="3" styleClass="menu" columnClasses="menu, menu, menu">
-                <p:commandButton value="KADRY 2020" style="width: 260px; height: 140px" styleClass="menu-button"/>
-                <p:commandButton value="KONTAKTY" style="width: 260px; height: 140px" styleClass="menu-button"/>
-                <p:commandButton value="OBCE LINKI" style="width: 260px; height: 140px" styleClass="menu-button"/>
+                <p:commandButton value="KADRY 2020" style="width: 310px; height: 140px" styleClass="menu-button"/>
+                <p:commandButton value="KONTAKTY" style="width: 310px; height: 140px" styleClass="menu-button"/>
+                <p:commandButton value="OBCE LINKI" style="width: 310px; height: 140px" styleClass="menu-button"/>
             </p:panelGrid>
             <style>
                 .ui-carousel-header {
-                    margin: 0px 1px;
+                    margin: 0px 0px;
                     height: 0px;
                     overflow: hidden;
                     padding: 0px 0px 0px;
@@ -29,25 +28,20 @@
                     border: 0;
                 }
             </style>
-            <p:panel style="top: 190px; position: relative">
-                <table>
-                    <tr>
-                        <td>
-                            <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>
-                        </td>
-                        <td>
-                            <p:panel style="max-width: 800px; top: 20px; position: relative">
-                                <p:poll interval="20" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
-                                <p:carousel id="karuzela" numVisible="1" effect="easeInStrong" headerText="Newsy"
-                                             circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="2000" vertical="true">             
-                                    <p:tab>
-                                        <h:outputText style="font-size: 150%; font-weight: bolder;" value="#{item.nazwa}" escape="false"/>
-                                    </p:tab>
-                                </p:carousel>
-                            </p:panel>
-                        </td>
-                    </tr>
-                </table>    
+            <p:panel style="top: 242px; position: relative">
+                <p:panel style="float: left">
+                    <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>    
+                </p:panel>
+
+                <p:panel style="max-width: 900px; float: left; top: 45px; position: relative">
+                    <p:poll interval="20" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
+                    <p:carousel id="karuzela" numVisible="1" effect="easeInStrong" headerText="Newsy"
+                                circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="2000" vertical="true">             
+                        <p:tab>
+                            <h:outputText style="font-size: 150%; font-weight: bolder;" value="#{item.nazwa}" escape="false"/>
+                        </p:tab>
+                    </p:carousel>
+                </p:panel>
             </p:panel>
 
 
