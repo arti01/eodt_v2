@@ -6,17 +6,17 @@
 package manage.all;
 
 import abstr.AbstMg;
-import encje.EkNews;
-import encje.EkNewsKontr;
+import encje.EkObceLinki;
+import encje.EKObceLinkiKontr;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-@ManagedBean(name = "NewsMg")
+@ManagedBean(name = "ObceLinkiMg")
 @SessionScoped
-public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
+public class ObceLinkiMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
 
     private int listaSize = 0;
     
@@ -25,17 +25,13 @@ public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
         try {
             super.refresh();
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(NewsMg.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ObceLinkiMg.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public NewsMg() throws InstantiationException, IllegalAccessException {
-        super("/dcarch/listWbrakowanie", new EkNewsKontr(), new EkNews());
+    public ObceLinkiMg() throws InstantiationException, IllegalAccessException {
+        super("/dcarch/listWbrakowanie", new EKObceLinkiKontr(), new EkObceLinki());
         super.refresh();
-    }
-    
-    public void listener(){
-        lista=dcC.findEntities(5);
     }
     
     public int getListaSize() {

@@ -1,17 +1,29 @@
 body {
     background-image: url('../images/kiosk2.png');
+    background-size:960px;
     background-repeat: no-repeat; 
     background-attachment:fixed;
+    margin: 0 !important;
+    border: 0 !important;
+
 }
 .ui-widget-content{
     background: transparent !important;
     border-width: 0px !important;
     color: black;
+    padding: 0 !important;
+}
+
+.ui-panel .ui-panel-content{
+    padding: 0!important;
+    margin: 0 !important;
+    border: 0 !important;
 }
 
 .menu {
     background: transparent !important;
     border-width: 0px !important;
+    margin: 0 !important;
 }
 .menu-button{
     font-size: 40px !important;
