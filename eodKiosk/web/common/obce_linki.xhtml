@@ -1,0 +1,25 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="logowanie">
+        <p:button styleClass="icon-redaer" value="" outcome="/logineod/login_start.xhtml"/>
+    </ui:define>
+    
+    <ui:define name="content">
+        <h:form id="center" style="background: transparent !important;">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <p:dataGrid  value="#{ObceLinkiMg.lista}" var="link" columns="3" style="width: 100%;">
+                <p:commandButton value="#{link.opis}" style="width: 325px; height: 130px" styleClass="menu-button" action="#{ObceLinkiMg.wyswietl}">
+                    <f:setPropertyActionListener target="#{ObceLinkiMg.obiekt}" value="#{link}"/>
+                </p:commandButton>
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

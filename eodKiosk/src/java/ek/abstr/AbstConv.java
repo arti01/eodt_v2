@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package abstr;
+package ek.abstr;
 
 import java.io.Serializable;
 import javax.faces.component.UIComponent;

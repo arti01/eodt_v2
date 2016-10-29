@@ -1,4 +1,4 @@
-package abstr;
+package ek.abstr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 
 public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
 

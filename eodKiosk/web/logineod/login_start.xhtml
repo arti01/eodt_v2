@@ -1,0 +1,24 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="logowanie">
+        <p:button styleClass="icon-redaer" value="" outcome="/common/index.xhtml"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="center" style="background: transparent !important;">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+
+            <p:panelGrid columns="3" style="width: 100%;" columnClasses="menu, menu, menu">
+                <p:button value="Repozytorium plików" style="width: 310px; height: 140px" styleClass="menu-button" outcome="/logineod/rep_dok.xhtml"/>
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

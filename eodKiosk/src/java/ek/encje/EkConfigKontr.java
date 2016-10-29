@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package encje;
+package ek.encje;
 
-import abstr.AbstKontroler;
+import ek.abstr.AbstKontroler;
 
 
-public class EKObceLinkiKontr extends AbstKontroler<EkObceLinki> {
+public class EkConfigKontr extends AbstKontroler<EkConfig> {
 
-    public EKObceLinkiKontr() {
-        super(new EkObceLinki());
+    public EkConfigKontr() {
+        super(new EkConfig());
     }
 
 }

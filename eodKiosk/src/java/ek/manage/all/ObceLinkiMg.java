@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manage.all;
+package ek.manage.all;
 
-import abstr.AbstMg;
-import encje.EkObceLinki;
-import encje.EKObceLinkiKontr;
+import ek.abstr.AbstMg;
+import ek.encje.EkObceLinki;
+import ek.encje.EKObceLinkiKontr;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -19,9 +19,13 @@ import javax.faces.bean.SessionScoped;
 public class ObceLinkiMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
 
     private int listaSize = 0;
-    
+
+    public ObceLinkiMg() throws InstantiationException, IllegalAccessException {
+        super("/common/obce_linki", new EKObceLinkiKontr(), new EkObceLinki());
+    }
+
     @PostConstruct
-    public void init(){
+    public void init() {
         try {
             super.refresh();
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -29,17 +33,8 @@ public class ObceLinkiMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
         }
     }
 
-    public ObceLinkiMg() throws InstantiationException, IllegalAccessException {
-        super("/dcarch/listWbrakowanie", new EKObceLinkiKontr(), new EkObceLinki());
-        super.refresh();
-    }
-    
-    public int getListaSize() {
-        return listaSize;
-    }
-
-    public void setListaSize(int listaSize) {
-        this.listaSize = listaSize;
+    public String wyswietl() {
+        return "/common/includ_www";
     }
 
 }

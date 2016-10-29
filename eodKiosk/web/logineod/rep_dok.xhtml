@@ -1,0 +1,34 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="logowanie">
+        <p:button styleClass="icon-redaer" value="" outcome="/common/index.xhtml"/>
+    </ui:define>
+
+    
+    <ui:define name="content">
+        <h:form id="center">
+            <p:panel style="height: 50px !important">
+                <p:tree value="#{RepDokMg.root}" var="node" dynamic="true" style="width: 100%; background-color: white !important;" selectionMode="single">
+                    <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                        <h:outputText value="#{node.shortName}" />
+                    </p:treeNode>
+                    <p:treeNode type="file" icon="ui-icon-document">
+                        <p:commandLink ajax="false">
+                            <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
+                            <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
+                            <h:outputText value="#{node.shortName}" style="color: blue;"/>
+                            <p:fileDownload value="#{fileUploadBean.file}" />
+                        </p:commandLink>
+                    </p:treeNode>
+                </p:tree>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

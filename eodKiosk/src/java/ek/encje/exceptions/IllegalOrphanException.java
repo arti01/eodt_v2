@@ -1,4 +1,4 @@
-package encje.exceptions;
+package ek.encje.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

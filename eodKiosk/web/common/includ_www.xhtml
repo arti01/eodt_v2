@@ -1,0 +1,19 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template_includ_www.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <p:panel id="trescwwww" style="position: absolute; top:0; left: 0; border: 0px; margin: 0px; padding: 0px;">
+            <iframe frameborder="0"
+                    src="#{ObceLinkiMg.obiekt.nazwa}"
+                    name="someName" id="someId" sandbox="true" width="1018px;"
+                    height="584px" style="border: 0px; margin: 0px; padding: 0px;" scrolling="yes">
+            </iframe>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+

@@ -5,7 +5,6 @@ body {
     background-attachment:fixed;
     margin: 0 !important;
     border: 0 !important;
-
 }
 .ui-widget-content{
     background: transparent !important;
@@ -24,17 +23,36 @@ body {
     background: transparent !important;
     border-width: 0px !important;
     margin: 0 !important;
+    text-align: center;
 }
+
 .menu-button{
-    font-size: 40px !important;
+    font-size: 30px !important;
+    text-align: center;
 }
 
 .icon-redaer{
     background-color: transparent;
     background-image: url('../images/redaer.png') !important;
-    background-size: 78px 78px;
+    background-size: 78px 78px !important;
     background-repeat: no-repeat;
-    border: 0;
-    height: 78px;
-    width: 78px;
+    border: 0 !important;
+    height: 78px !important;
+    width: 78px !important;
+}
+
+.icon-redaer:hover{
+    border: 0 !important;
+}
+
+
+.icon-home-back{
+    background-color: transparent;
+    background-image: url('../images/home_back.png') !important;
+    background-size: 68px 68px;
+    background-repeat: no-repeat;
+    margin: 0 !important;
+    border: 0!important;
+    height: 68px;
+    width: 68px;
 }

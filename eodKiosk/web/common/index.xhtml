@@ -5,7 +5,9 @@
                 template="/templates/template.xhtml"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui">
-    <ui:define name="tytul">
+    
+    <ui:define name="logowanie">
+        <p:button styleClass="icon-redaer" value="" outcome="/logineod/login_start.xhtml"/>
     </ui:define>
 
     <ui:define name="content">
@@ -13,10 +15,10 @@
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-            <p:panelGrid columns="3" styleClass="menu" columnClasses="menu, menu, menu">
+            <p:panelGrid columns="3" style="width: 100%;" columnClasses="menu, menu, menu">
                 <p:commandButton value="KADRY 2020" style="width: 310px; height: 140px" styleClass="menu-button"/>
                 <p:commandButton value="KONTAKTY" style="width: 310px; height: 140px" styleClass="menu-button"/>
-                <p:commandButton value="OBCE LINKI" style="width: 310px; height: 140px" styleClass="menu-button"/>
+                <p:commandButton value="OBCE LINKI" style="width: 310px; height: 140px" styleClass="menu-button" action="#{ObceLinkiMg.list}" ajax="false"/>
             </p:panelGrid>
             <style>
                 .ui-carousel-header {
@@ -28,13 +30,13 @@
                     border: 0;
                 }
             </style>
-            <p:panel style="top: 242px; position: relative">
+            <p:panel style="top: 391px; position: absolute">
                 <p:panel style="float: left">
                     <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>    
                 </p:panel>
 
-                <p:panel style="max-width: 900px; float: left; top: 45px; position: relative">
-                    <p:poll interval="20" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
+                <p:panel style="max-width: 900px; float: left; top: 42px; position: relative">
+                    <p:poll interval="300" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
                     <p:carousel id="karuzela" numVisible="1" effect="easeInStrong" headerText="Newsy"
                                 circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="2000" vertical="true">             
                         <p:tab>

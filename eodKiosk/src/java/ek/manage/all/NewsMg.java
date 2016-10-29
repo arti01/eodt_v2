@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manage.all;
+package ek.manage.all;
 
-import abstr.AbstMg;
-import encje.EkNews;
-import encje.EkNewsKontr;
+import ek.abstr.AbstMg;
+import ek.encje.EkNews;
+import ek.encje.EkNewsKontr;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
