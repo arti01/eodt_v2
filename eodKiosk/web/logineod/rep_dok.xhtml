@@ -5,29 +5,28 @@
                 template="/templates/template.xhtml"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui">
-    
+
     <ui:define name="logowanie">
         <p:button styleClass="icon-redaer" value="" outcome="/common/index.xhtml"/>
     </ui:define>
 
-    
     <ui:define name="content">
         <h:form id="center">
-            <p:panel style="height: 50px !important">
-                <p:tree value="#{RepDokMg.root}" var="node" dynamic="true" style="width: 100%; background-color: white !important;" selectionMode="single">
+            <p:outputPanel style="width: 100%;height: 450px;overflow: auto;display: block">
+                <p:tree value="#{RepDokMg.root}" var="node" dynamic="true" style="width: 100%; font-size: 24px;" selectionMode="single">
                     <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
-                        <h:outputText value="#{node.shortName}" />
+                        <h:outputText value="#{node.shortName}"/>
                     </p:treeNode>
                     <p:treeNode type="file" icon="ui-icon-document">
-                        <p:commandLink ajax="false">
+                        <p:commandLink ajax="false" style="color: darkblue; text-decoration: none">
                             <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
                             <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
-                            <h:outputText value="#{node.shortName}" style="color: blue;"/>
+                            <h:outputText value="#{node.shortName}"/>
                             <p:fileDownload value="#{fileUploadBean.file}" />
                         </p:commandLink>
                     </p:treeNode>
                 </p:tree>
-            </p:panel>
+            </p:outputPanel>
         </h:form>
     </ui:define>
 </ui:composition>

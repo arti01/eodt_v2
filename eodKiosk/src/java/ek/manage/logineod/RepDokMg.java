@@ -16,6 +16,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import pl.eod.encje.WnUrlop;
+import pl.eod.encje.WnUrlopJpaController;
 
 @ManagedBean(name = "RepDokMg")
 @SessionScoped

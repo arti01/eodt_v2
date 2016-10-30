@@ -1,0 +1,11 @@
+2016-10-30
+
+1. aby wejść do części dla "zalogowanych" trzeba na razie kliknąć przycisk logowania
+2. ten sam przycisk służy do "wylogowania" i powrotu do strony głównej
+3. linki są w obcji inne linki i są w tabeli ekobcelinki gdzie nazwa to url np. http://www.wp.pl a opis (np. wirtualna polska) to tekst wyświetlany na przycisku
+4. repozytorium jest zdefiniowane w tabeli ekconfig jako:
+INSERT INTO ekiosk.ekconfig(id, nazwa, opis, wartosc) VALUES (1, 'dir_repo', '', '/home/arti01/tmp');
+
+jar do eod wymaga:
+<Resource auth="Container" driverClassName="org.postgresql.Driver" maxIdle="3" maxTotal="10" maxWaitMillis="20000" name="jdbc/eodt" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr" username="eod"/>
+w contex.xml - ważne, aby name="jdbc/eodt"
