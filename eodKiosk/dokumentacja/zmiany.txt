@@ -2,7 +2,7 @@
 
 1. aby wejść do części dla "zalogowanych" trzeba na razie kliknąć przycisk logowania
 2. ten sam przycisk służy do "wylogowania" i powrotu do strony głównej
-3. linki są w obcji inne linki i są w tabeli ekobcelinki gdzie nazwa to url np. http://www.wp.pl a opis (np. wirtualna polska) to tekst wyświetlany na przycisku
+3. linki są w opcji "inne linki" i są w tabeli ekobcelinki gdzie nazwa to url np. http://www.wp.pl a opis (np. wirtualna polska) to tekst wyświetlany na przycisku
 4. repozytorium jest zdefiniowane w tabeli ekconfig jako:
 INSERT INTO ekiosk.ekconfig(id, nazwa, opis, wartosc) VALUES (1, 'dir_repo', '', '/home/arti01/tmp');
 
