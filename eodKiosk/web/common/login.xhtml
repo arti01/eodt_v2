@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <form id="f1" method="POST" action="j_security_check">
+        <table style="width: 100%; align-content: center">
+            <tr>
+                <td colspan="2">Logowanie:</td>
+            </tr>
+            <tr>
+                <td>użyj karty:</td>
+                <td><input type="password" id="j_username" name="j_username" onchange="document.getElementById('f1').submit()" autofocus="autofocus" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="hidden" name="j_password" value="haslo"/></td>
+            </tr>
+            <tr>
+                <td colspan="2"><!-- <input type="submit" value="zaloguj"/> --></td>
+            </tr>
+        </table>
+    </form>
+    
+</html>
+

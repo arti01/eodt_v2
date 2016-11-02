@@ -7,16 +7,19 @@
                 xmlns:p="http://primefaces.org/ui">
     
     <ui:define name="logowanie">
-        <p:button styleClass="icon-redaer" value="" outcome="/common/index.xhtml"/>
+        <p:commandButton styleClass="icon-redaer" value="" action="#{LoginMg.logOut}" ajax="false"/>
     </ui:define>
 
     <ui:define name="content">
         <h:form id="center" style="background: transparent !important;">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
-
-            <p:panelGrid columns="3" style="width: 100%;" columnClasses="menu, menu, menu">
-                <p:button value="Repozytorium plików" style="width: 310px; height: 140px" styleClass="menu-button" outcome="/logineod/rep_dok.xhtml"/>
+            <p:panel rendered="#{LoginMg.user==null}">
+                <h3>Brak użytkownika w EOD</h3>
+            </p:panel>
+            <p:panelGrid columns="2" style="width: 100%; text-align:center; max-width: 1024px" columnClasses="menu, menu">
+                <p:button value="Repozytorium plików" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" outcome="/logineod/rep_dok.xhtml"/>
+                <p:commandButton value="Lista urlopów" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" action="#{UrlopMg.lista}" ajax="false"/>
             </p:panelGrid>
         </h:form>
     </ui:define>

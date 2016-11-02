@@ -3,6 +3,9 @@
   <persistence-unit name="eodEkiosk" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <non-jta-data-source>java:comp/env/jdbc/eod_ekiosk</non-jta-data-source>
+    <class>ek.encje.UserProfil</class>
+    <class>ek.encje.ViewUserRoles</class>
+    <class>ek.encje.Roles</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>

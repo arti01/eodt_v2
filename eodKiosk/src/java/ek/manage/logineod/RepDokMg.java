@@ -24,7 +24,7 @@ import pl.eod.encje.WnUrlopJpaController;
 public class RepDokMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
 
     private final int listaSize = 0;
-    private String dir_repo = "/home/arti01/tmp";
+    private String dir_repo;
     private TreeNode root;
     DrzPF drR;
 

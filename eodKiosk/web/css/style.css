@@ -19,6 +19,10 @@ body {
     border: 0 !important;
 }
 
+.ui-datepicker {
+    background-color: white !important;
+}
+
 .menu {
     background: transparent !important;
     border-width: 0px !important;
@@ -27,12 +31,12 @@ body {
 }
 
 .menu-button{
-    font-size: 30px !important;
+    font-size: 60px !important;
     text-align: center;
 }
 
 .icon-redaer{
-    background-color: transparent;
+    background-color: transparent !important;
     background-image: url('../images/redaer.png') !important;
     background-size: 78px 78px !important;
     background-repeat: no-repeat;
@@ -47,7 +51,7 @@ body {
 
 
 .icon-home-back{
-    background-color: transparent;
+    background-color: transparent !important;
     background-image: url('../images/home_back.png') !important;
     background-size: 68px 68px;
     background-repeat: no-repeat;

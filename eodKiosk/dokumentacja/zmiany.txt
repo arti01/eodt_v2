@@ -1,3 +1,28 @@
+2016-11-02
+Urlopy - trzeba wypełnić tabele user_profil - a dokladnie pole eod_id które musi być relacja do pola id tabeli uzytkownicy w eod
+
+2016-11-01
+
+Views dla procesu logowania.
+Trzeba pamiętać, aby właściwie skonfigurować namiary w contex.xml
+
+poniżej views do stworzenia (najlepiej zrobić tak, że jak po pierwszym deploymencie
+stworzą się tabele, to trzeba wywalić tabele które się nazywają tak, jak te views
+poniżej - bo się mogą stworzyć - i założyć views wg tego, co poniżej.
+Hasło na sztywno jest ustawione jako 'haslo' - wystarczy zmienić w definicji view.
+
+CREATE OR REPLACE VIEW ekiosk.view_user_roles AS 
+ SELECT roles.role_name,
+    user_profil.cardno
+   FROM ekiosk.j_user_role,
+    ekiosk.roles,
+    ekiosk.user_profil
+  WHERE j_user_role.rid = roles.id AND user_profil.id = j_user_role.uid;
+
+CREATE OR REPLACE VIEW ekiosk.view_user AS 
+ SELECT user_profil.cardno, char(50) 'haslo' as password
+   FROM ekiosk.user_profil;
+
 2016-10-30
 
 1. aby wejść do części dla "zalogowanych" trzeba na razie kliknąć przycisk logowania
