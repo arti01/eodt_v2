@@ -14,6 +14,8 @@ import javax.faces.convert.Converter;
 @ManagedBean(name = "WnRodzajeConv")
 @SessionScoped
 public class WnRodzajeConv implements Converter, Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     private Object object;
     WnRodzajeJpaController uC=new WnRodzajeJpaController();

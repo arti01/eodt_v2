@@ -10,6 +10,8 @@ import javax.faces.convert.Converter;
 @ManagedBean(name = "WnStatusyConv")
 @SessionScoped
 public class WnStatusyConv implements Converter, Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     private Object object;
     WnStatusyJpaController uC=new WnStatusyJpaController();
