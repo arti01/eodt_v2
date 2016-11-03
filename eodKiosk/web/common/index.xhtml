@@ -5,9 +5,10 @@
                 template="/templates/template.xhtml"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui">
-    
+
     <ui:define name="logowanie">
         <p:button styleClass="icon-redaer" value="" outcome="/logineod/login_start.xhtml"/>
+        
     </ui:define>
 
     <ui:define name="content">
@@ -20,7 +21,7 @@
                     <f:setPropertyActionListener target="#{ObceLinkiMg.obiekt}" value="#{link}"/>
                 </p:commandButton>
             </p:dataGrid>
-            
+
             <style>
                 .ui-carousel-header {
                     margin: 0px 0px;

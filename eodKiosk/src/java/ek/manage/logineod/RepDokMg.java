@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.event.NodeExpandEvent;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import pl.eod.encje.WnUrlop;
@@ -58,6 +60,10 @@ public class RepDokMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
             TreeNode tr1 = this.createTree(tr, dpN);
         }
         return tr;
+    }
+    
+    public void onNodeSelect(NodeSelectEvent event) {
+        event.getTreeNode().setExpanded(!event.getTreeNode().isExpanded());
     }
 
     public TreeNode getRoot() {

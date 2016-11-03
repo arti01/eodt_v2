@@ -7,23 +7,19 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="logowanie">
-        <p:commandButton styleClass="icon-redaer" value="" action="#{LoginMg.logOut}" ajax="false"/>
+        <p:button styleClass="icon-home-back" value="" outcome="/logineod/login_start"/>
     </ui:define>
 
     <ui:define name="content">
         <h:form id="center">
             <p:outputPanel style="width: 100%;height: 450px;overflow: auto;display: block">
                 <p:tree value="#{RepDokMg.root}" var="node" dynamic="true" style="width: 100%; font-size: 24px;" selectionMode="single">
+                    <p:ajax event="select" update=":center" listener="#{RepDokMg.onNodeSelect}" />
                     <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                         <h:outputText value="#{node.shortName}"/>
                     </p:treeNode>
                     <p:treeNode type="file" icon="ui-icon-document">
-                        <p:commandLink ajax="false" style="color: darkblue; text-decoration: none">
-                            <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
-                            <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
-                            <h:outputText value="#{node.shortName}"/>
-                            <p:fileDownload value="#{fileUploadBean.file}" />
-                        </p:commandLink>
+                        <h:outputText value="#{node.shortName}" style="color: darkblue; text-decoration: none"/>
                     </p:treeNode>
                 </p:tree>
             </p:outputPanel>
