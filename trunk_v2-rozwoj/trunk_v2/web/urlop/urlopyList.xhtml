@@ -298,7 +298,7 @@
                             <f:setPropertyActionListener target="#{UrlopM.dataUrlopu}" value="#{urlop.dataOd}"/>
                         </p:commandButton>
                         <p:commandButton id="imgWy" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 
-                                         process="@this" icon="ui-icon-play" oncomplete="PF('tableV').filter();">
+                                         process="@this" icon="ui-icon-play" >
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
                         <p:message for="imgWy"/>
