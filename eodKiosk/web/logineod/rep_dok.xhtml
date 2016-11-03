@@ -13,15 +13,30 @@
     <ui:define name="content">
         <h:form id="center">
             <p:outputPanel style="width: 100%;height: 450px;overflow: auto;display: block">
-                <p:tree value="#{RepDokMg.root}" var="node" dynamic="true" style="width: 100%; font-size: 24px;" selectionMode="single">
-                    <p:ajax event="select" update=":center" listener="#{RepDokMg.onNodeSelect}" />
-                    <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
-                        <h:outputText value="#{node.shortName}"/>
-                    </p:treeNode>
-                    <p:treeNode type="file" icon="ui-icon-document">
-                        <h:outputText value="#{node.shortName}" style="color: darkblue; text-decoration: none"/>
-                    </p:treeNode>
-                </p:tree>
+                <p:tabView value="#{RepDokMg.inneRoot}" var="rootInne">
+                    <p:tab title="#{rootInne.data}">
+                        <p:tree value="#{rootInne}" var="node" dynamic="true" style="width: 100%; font-size: 24px;" selectionMode="single">
+                            <p:ajax event="select" update=":center" listener="#{RepDokMg.onNodeSelect}" />
+
+                            <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                                <h:outputText value="#{node.shortName}"/>
+                            </p:treeNode>
+                            <p:treeNode type="file" icon="ui-icon-document">
+                                <h:outputText value="#{node.shortName} " style="color: darkblue; text-decoration: none; font-size: 90%;"/>
+                                <p:commandButton ajax="false" value="Drukuj" style="font-size: 70%">
+                                    <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
+                                    <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
+                                    <p:fileDownload value="#{fileUploadBean.file}" />
+                                </p:commandButton>
+                                <p:commandButton value="Email" style="font-size: 70%" action="#{RepDokMg.zZalaczZserwera}" rendered="#{RepDokMg.loginMg.userProfil.email.length()>0}"
+                                                 update=":infoForm:messages" >
+                                    <f:setPropertyActionListener target="#{RepDokMg.fullPath}" value="#{node.fullPath}" />
+                                    <f:setPropertyActionListener target="#{RepDokMg.shortName}" value="#{node.shortName}" />
+                                </p:commandButton>
+                            </p:treeNode>
+                        </p:tree>    
+                    </p:tab>
+                </p:tabView>
             </p:outputPanel>
         </h:form>
     </ui:define>

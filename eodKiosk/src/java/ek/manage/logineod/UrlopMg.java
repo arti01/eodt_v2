@@ -7,7 +7,6 @@ package ek.manage.logineod;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,10 +17,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import pl.eod.encje.KomKolejka;
-import pl.eod.encje.WnHistoria;
 import pl.eod.encje.WnRodzajeJpaController;
-import pl.eod.encje.WnStatusy;
 import pl.eod.encje.WnUrlop;
 import pl.eod.encje.WnUrlopJpaController;
 

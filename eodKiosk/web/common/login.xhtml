@@ -1,23 +1,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-    
-    <form id="f1" method="POST" action="j_security_check">
-        <table style="width: 100%; align-content: center">
-            <tr>
-                <td colspan="2">Logowanie:</td>
-            </tr>
-            <tr>
-                <td>użyj karty:</td>
-                <td><input type="password" id="j_username" name="j_username" onchange="document.getElementById('f1').submit()" autofocus="autofocus" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="hidden" name="j_password" value="haslo"/></td>
-            </tr>
-            <tr>
-                <td colspan="2"><!-- <input type="submit" value="zaloguj"/> --></td>
-            </tr>
-        </table>
-    </form>
-    
-</html>
+    <DIV style="z-index:-1; position: absolute;top:0px;left:0px; width: 1024px; height: 600px; background-image: url('../../images/kiosk2.png');background-size:1024px;
+         background-repeat: no-repeat;   background-attachment:fixed; border: 0px solid red;">
 
+        <div style="z-index:1; position:relative; top: 100px;left: 250px; width: 500px;  margin: 0 0 0 0; border: 1px solid black; background-color: gray; opacity: 0.5; ">
+            <div style="z-index:2; background-color:white; opacity: 1.0; border: solid green 0px;color: black;">
+                <form id="f1" method="POST" action="j_security_check">
+                    <table style="width: 100%; align-content: center; opacity: 1.0;font-family:arial, tahoma; font-size:24px; color: black;">
+                        <tr >
+                            <td colspan="2" align="center" style=" color: black;"><u>LOGOWANIE</u><br/><br/></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Przyłóż kartę:</td>
+                            <td><input type="password" id="j_username" name="j_username" onchange="document.getElementById('f1').submit()" autofocus="autofocus" /></td>
+                        </tr>
+                        <tr>
+                            <td><br/><br/></td>
+                            <td><input type="hidden" name="j_password" value="haslo"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><a href="javascript: history.back();" style="text-decoration: none; color: black;"><img alt="Powrót" src="../../images/cross.png" border="0" width="30px"/>Powrót do poprzedniej strony</a></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </DIV>
+</html>
