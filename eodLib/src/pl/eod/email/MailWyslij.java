@@ -1,0 +1,135 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.eod.email;
+
+import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import pl.eod.encje.ConfigJpaController;
+
+/**
+ *
+ * @author arti01
+ */
+public class MailWyslij {
+
+    private String zalacznikZserwera = "";
+
+    public MailWyslij(String temat, String tresc, String adresat) {
+        this.adresat = adresat;
+        this.temat = temat;
+        this.tresc = tresc;
+        ConfigJpaController confC = new ConfigJpaController();
+        this.mail_smtp_host = confC.findConfigNazwa("mail_smtp_host").getWartosc();
+        this.mail_smtp_socketFactory_port = confC.findConfigNazwa("mail_smtp_socketFactory_port").getWartosc();
+        this.mail_smtp_port = confC.findConfigNazwa("mail_smtp_port").getWartosc();
+        this.username = confC.findConfigNazwa("username").getWartosc();
+        this.password = confC.findConfigNazwa("password").getWartosc();
+        this.mail_smtp_from = confC.findConfigNazwa("mail_smtp_from").getWartosc();
+        this.link = confC.findConfigNazwa("email_link").getWartosc();
+        this.czy_ssl = confC.findConfigNazwa("czy_ssl").getWartosc();
+        this.tresc = this.tresc + "\n\r" + this.link;
+    }
+    String temat;
+    String tresc;
+    String adresat;
+    String mail_smtp_host;
+    String mail_smtp_socketFactory_port;
+    String mail_smtp_port;
+    String mail_smtp_from;
+    String username;
+    String password;
+    String link;
+    String czy_ssl;
+
+    public String wyslij() {
+        Properties props = new Properties();
+        String mess=null;
+        /*props.put("mail.smtp.host", "smtp.gmail.com");
+         props.put("mail.smtp.socketFactory.port", "465");
+         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+         props.put("mail.smtp.auth", "true");
+         props.put("mail.smtp.port", "465");*/
+        props.put("mail.smtp.host", mail_smtp_host);
+        props.put("mail.smtp.socketFactory.port", mail_smtp_socketFactory_port);
+        if (czy_ssl.equals("tak")) {
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        }
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", mail_smtp_port);
+
+        Session session;
+        session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            //message.setFrom(new InternetAddress("from@no-spam.com"));
+            message.setFrom(new InternetAddress(mail_smtp_from));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adresat));
+            message.setSubject(temat);
+            message.setText(tresc);
+
+            //wysylka zalacznikow
+            if (!zalacznikZserwera.isEmpty()) {
+                BodyPart messageBodyPart = new MimeBodyPart();
+
+                // Now set the actual message
+                messageBodyPart.setText(tresc);
+
+                // Create a multipar message
+                Multipart multipart = new MimeMultipart();
+
+                // Set text message part
+                multipart.addBodyPart(messageBodyPart);
+                messageBodyPart = new MimeBodyPart();
+                String filename = zalacznikZserwera;
+                DataSource source = new FileDataSource(filename);
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(source.getName());
+                multipart.addBodyPart(messageBodyPart);
+
+                // Send the complete message parts
+                message.setContent(multipart);
+            }
+            // Send message
+
+            Transport.send(message);
+            System.out.println("Done");
+            zalacznikZserwera = "";
+            mess = "wysyłka udana";
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            mess = "NIE udane - BŁĄÐ";
+        }
+        return mess;
+    }
+
+    public String getZalacznikZserwera() {
+        return zalacznikZserwera;
+    }
+
+    public void setZalacznikZserwera(String zalacznikZserwera) {
+        this.zalacznikZserwera = zalacznikZserwera;
+    }
+
+}
