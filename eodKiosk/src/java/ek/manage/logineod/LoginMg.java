@@ -12,6 +12,9 @@ import ek.encje.UserProfil;
 import ek.encje.UserProfilKontr;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -33,6 +36,7 @@ public class LoginMg implements Serializable {
     private String iddle;
     String stanNadgodzin;
     String stanUrlopow;
+    String okresRozl;
     KioskManager km;
 
     @PostConstruct
@@ -46,8 +50,13 @@ public class LoginMg implements Serializable {
         Long iddL = new Long(confC.findEntities("iddle").getWartosc());
         this.iddle = Long.toString(iddL * 60 * 1000);
         km = new KioskManager();
-        stanNadgodzin = km.pobierzStanNadgodzin("10-2016", new Long(2085));
-        stanUrlopow = km.pobierzStanUrlopow(2016, new Long(2085));
+        SimpleDateFormat sdf=new SimpleDateFormat("MM-yyyy");
+        SimpleDateFormat sdfY=new SimpleDateFormat("yyyy");
+        stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
+        stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
+        
+        okresRozl=km.pobierzOkresRozlicz(sdf.format(Calendar.getInstance().getTime()));
+        
         EkLog log=new EkLog();
         log.setNazwa("logowanie");
         log.setOpis(userProfil.getCardno());
@@ -94,6 +103,14 @@ public class LoginMg implements Serializable {
 
     public void setStanUrlopow(String stanUrlopow) {
         this.stanUrlopow = stanUrlopow;
+    }
+
+    public String getOkresRozl() {
+        return okresRozl;
+    }
+
+    public void setOkresRozl(String okresRozl) {
+        this.okresRozl = okresRozl;
     }
 
 }

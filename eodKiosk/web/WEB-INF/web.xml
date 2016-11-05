@@ -53,7 +53,7 @@
     </security-role>
     <error-page>
         <error-code>500</error-code>
-        <location>/common/error.xhtml</location>
+        <location>/common/error.html</location>
     </error-page>
     <security-constraint>
         <display-name>ekiosk</display-name>

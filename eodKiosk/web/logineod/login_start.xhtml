@@ -48,6 +48,9 @@
                 <p:button value="Repozytorium plików" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" outcome="/logineod/rep_dok.xhtml"/>
                 <p:commandButton value="Lista urlopów" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" action="#{UrlopMg.lista}" ajax="false"/>
             </p:panelGrid>
+            <p:outputPanel style="text-align: center; margin: 20px">
+                okres rozliczeniowy: #{LoginMg.okresRozl}
+            </p:outputPanel>
         </h:form>
     </ui:define>
 </ui:composition>
