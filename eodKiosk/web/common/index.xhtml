@@ -8,7 +8,7 @@
 
     <ui:define name="logowanie">
         <p:button styleClass="icon-redaer" value="" outcome="/logineod/login_start.xhtml"/>
-        
+
     </ui:define>
 
     <ui:define name="content">
@@ -16,8 +16,9 @@
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-            <p:dataGrid id="glMenu" value="#{ObceLinkiMg.lista}" var="link" columns="2" style="width: 100%; text-align:center; max-width: 1024px">
-                <p:commandButton value="#{link.opis}" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" action="#{ObceLinkiMg.wyswietl}">
+            <p:dataGrid id="glMenu" value="#{ObceLinkiMg.lista}" var="link" columns="2" style="width: 100%; text-align:center; max-width: 1024px" 
+                        rows="4" paginator="true" paginatorPosition="top">
+                <p:commandButton value="#{link.opis}" style="width: 480px; max-height: 160px; min-height: 160px;" styleClass="menu-button" action="#{ObceLinkiMg.wyswietl}">
                     <f:setPropertyActionListener target="#{ObceLinkiMg.obiekt}" value="#{link}"/>
                 </p:commandButton>
             </p:dataGrid>
@@ -34,15 +35,19 @@
             </style>
             <p:panel style="top: 395px; position: absolute">
                 <p:panel style="float: left">
-                    <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>    
+                    <h:link outcome="/logineod/odbicie">
+                        <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>
+                    </h:link>
                 </p:panel>
 
                 <p:panel style="max-width: 900px; float: left; top: 40px; position: relative">
-                    <p:poll interval="600" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
+                    <p:poll interval="666" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
                     <p:carousel id="karuzela" numVisible="1" effect="easeInStrong" headerText="Newsy"
                                 circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="7000" vertical="true">             
                         <p:tab>
-                            <h:outputText style="font-weight: bolder;" value="#{item.nazwa}" escape="false"/>
+                            <p:commandLink style="font-weight: bolder; color: black; text-decoration: none;" value="#{item.nazwa}" ajax="false" action="#{NewsMg.detale}">
+                                <f:setPropertyActionListener target="#{NewsMg.obiekt}" value="#{item}"/>
+                            </p:commandLink>
                         </p:tab>
                     </p:carousel>
                 </p:panel>

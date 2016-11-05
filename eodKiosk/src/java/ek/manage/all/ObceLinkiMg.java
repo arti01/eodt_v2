@@ -18,7 +18,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ObceLinkiMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
 
-    private int listaSize = 0;
+    private final int listaSize = 0;
 
     public ObceLinkiMg() throws InstantiationException, IllegalAccessException {
         super("/common/obce_linki", new EKObceLinkiKontr(), new EkObceLinki());

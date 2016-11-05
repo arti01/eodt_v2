@@ -31,7 +31,7 @@ body {
 }
 
 .menu-button{
-    font-size: 60px !important;
+    font-size: 45px !important;
     text-align: center;
 }
 
@@ -43,6 +43,7 @@ body {
     border: 0 !important;
     height: 78px !important;
     width: 78px !important;
+    padding: 0;
 }
 
 .icon-redaer:hover{

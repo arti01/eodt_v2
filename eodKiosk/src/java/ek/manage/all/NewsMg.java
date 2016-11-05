@@ -19,19 +19,9 @@ import javax.faces.bean.SessionScoped;
 public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
 
     private int listaSize = 0;
-    
-    @PostConstruct
-    public void init(){
-        try {
-            super.refresh();
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(NewsMg.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public NewsMg() throws InstantiationException, IllegalAccessException {
-        super("/dcarch/listWbrakowanie", new EkNewsKontr(), new EkNews());
-        super.refresh();
+        super("/common/news", new EkNewsKontr(), new EkNews());
     }
     
     public void listener(){
@@ -44,6 +34,10 @@ public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
 
     public void setListaSize(int listaSize) {
         this.listaSize = listaSize;
+    }
+
+    public String detale(){
+        return super.link;
     }
 
 }

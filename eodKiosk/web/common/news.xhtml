@@ -1,0 +1,35 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="logowanie">
+        <p:button styleClass="icon-home-back" value="" outcome="/common/index"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:scrollPanel style="max-height: 475px;">
+            <p:panelGrid style="width: 100%; background-color: whitesmoke; opacity: .8">
+                <p:row>
+                    <p:column style="border: 0; padding: 5px">
+                        data: 
+                        <h:outputText value="#{NewsMg.obiekt.dataDodania}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="text-align: center; font-weight: bold; border: 0; padding: 5px">
+                        <h:outputText value="#{NewsMg.obiekt.nazwa}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2" style="border: 0; padding: 10px;">
+                        <h:outputText value="#{NewsMg.obiekt.opis}" escape="false"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </p:scrollPanel>
+    </ui:define>
+</ui:composition>
+

@@ -14,7 +14,7 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
     public final Y dcC;
     public X obiekt;
     public String error;
-    private final String link;
+    public final String link;
 
     @SuppressWarnings({"unchecked", "unchecked"})
     public AbstMg(String s, AbstKontroler<X> ak, X obiekt) throws InstantiationException, IllegalAccessException {

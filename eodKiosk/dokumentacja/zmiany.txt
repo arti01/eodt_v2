@@ -1,3 +1,17 @@
+2016-11-05
+wygasanie sesji:
+INSERT INTO ekiosk.ekconfig(id, nazwa, opis, wartosc) VALUES (2, 'iddle', 'wygasniecie sesji w minutach', '1');
+
+Paginator dla kafli na stronie głównej
+
+Repozytoria powinny już się rozwijać poprawnie
+
+Info o urlopach i nadgodz. się pojawia po zalogowaniu
+
+Szczegóły newsów na całym ekranie
+
+Zielony przycisk (i czarny od czytnika też) wpisują informacje o zalogowaniu (cardno)
+
 2016-11-02
 Urlopy - trzeba wypełnić tabele user_profil - a dokladnie pole eod_id które musi być relacja do pola id tabeli uzytkownicy w eod
 
