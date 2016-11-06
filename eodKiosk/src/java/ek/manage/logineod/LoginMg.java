@@ -6,15 +6,15 @@
 package ek.manage.logineod;
 
 import ek.encje.EkConfigKontr;
-import ek.encje.EkLog;
-import ek.encje.EkLogKontr;
 import ek.encje.UserProfil;
 import ek.encje.UserProfilKontr;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -34,33 +34,58 @@ public class LoginMg implements Serializable {
     private UzytkownikJpaController userC;
     private Uzytkownik user;
     private String iddle;
-    String stanNadgodzin;
-    String stanUrlopow;
-    String okresRozl;
-    KioskManager km;
+    private String stanNad50;
+    private String stanNad100;
+    private String stanUrlLim;
+    private String stanUrlWyk;
+    private String stanUrlPoz;
+    private String okrRozOd;
+    private String okrRozDo;
+    private KioskManager km;
+    private boolean urodziny = false;
 
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
-        userC = new UzytkownikJpaController();
-        user = userC.findUzytkownik(userProfil.getEodId().longValue());
-        EkConfigKontr confC = new EkConfigKontr();
-        Long iddL = new Long(confC.findEntities("iddle").getWartosc());
-        this.iddle = Long.toString(iddL * 60 * 1000);
-        km = new KioskManager();
-        SimpleDateFormat sdf=new SimpleDateFormat("MM-yyyy");
-        SimpleDateFormat sdfY=new SimpleDateFormat("yyyy");
-        stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
-        stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
-        
-        okresRozl=km.pobierzOkresRozlicz(sdf.format(Calendar.getInstance().getTime()));
-        
-        EkLog log=new EkLog();
-        log.setNazwa("logowanie");
-        log.setOpis(userProfil.getCardno());
-        new EkLogKontr().create(log);
+        if (request != null) {
+            userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
+            userC = new UzytkownikJpaController();
+            user = userC.findUzytkownik(userProfil.getEodId().longValue());
+            EkConfigKontr confC = new EkConfigKontr();
+            Long iddL = new Long(confC.findEntities("iddle").getWartosc());
+            this.iddle = Long.toString(iddL * 60 * 1000);
+            km = new KioskManager();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
+            SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
+            SimpleDateFormat sdfF = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdfMD = new SimpleDateFormat("MM-dd");
+            String stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
+            String[] stnS = stanNadgodzin.split("\\|");
+            stanNad50 = stnS[0];
+            stanNad100 = stnS[0];
+            String stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
+            String[] stuS = stanUrlopow.split("\\|");
+            stanUrlLim = stuS[0];
+            stanUrlWyk = stuS[1];
+            stanUrlPoz = stuS[2];
+            String okresRozl = km.pobierzOkresRozlicz(sdf.format(Calendar.getInstance().getTime()));
+            String[] okrS = okresRozl.split("\\|");
+            okrRozOd = okrS[0];
+            okrRozDo = okrS[1];
+            String dataUr;
+            try {
+                dataUr = sdfMD.format(sdfF.parse(km.pobierzDateUrodzin(userProfil.getEcpId().longValue())));
+                System.err.println(dataUr);
+                String dataCur = sdfMD.format(Calendar.getInstance().getTime());
+                urodziny = dataCur.equals(dataUr);
+                System.err.println(dataCur);
+            } catch (ParseException ex) {
+                Logger.getLogger(LoginMg.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }
 
     public String logOut() throws IOException {
@@ -89,28 +114,36 @@ public class LoginMg implements Serializable {
         this.iddle = iddle;
     }
 
-    public String getStanNadgodzin() {
-        return stanNadgodzin;
+    public String getStanNad50() {
+        return stanNad50;
     }
 
-    public void setStanNadgodzin(String stanNadgodzin) {
-        this.stanNadgodzin = stanNadgodzin;
+    public String getStanNad100() {
+        return stanNad100;
     }
 
-    public String getStanUrlopow() {
-        return stanUrlopow;
+    public String getStanUrlLim() {
+        return stanUrlLim;
     }
 
-    public void setStanUrlopow(String stanUrlopow) {
-        this.stanUrlopow = stanUrlopow;
+    public String getStanUrlWyk() {
+        return stanUrlWyk;
     }
 
-    public String getOkresRozl() {
-        return okresRozl;
+    public String getStanUrlPoz() {
+        return stanUrlPoz;
     }
 
-    public void setOkresRozl(String okresRozl) {
-        this.okresRozl = okresRozl;
+    public String getOkrRozOd() {
+        return okrRozOd;
+    }
+
+    public String getOkrRozDo() {
+        return okrRozDo;
+    }
+
+    public boolean isUrodziny() {
+        return urodziny;
     }
 
 }

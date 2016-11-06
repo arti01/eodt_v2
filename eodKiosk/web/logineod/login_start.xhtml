@@ -8,35 +8,65 @@
 
     <ui:define name="logowanie">
         <h:panelGrid columns="2" style="width: 100%;">
-            <p:panelGrid style="margin-left: auto; margin-right: -45px; margin-top: -20px; margin-bottom: auto; text-align: center;">
-                <p:row style="font-weight: bold; font-size: 75%;">
-                    <p:column style="border: 0;">
-                        stan nadgodzin
-                    </p:column>
-                    <p:column  style="border: 0;">
-                        stan urlopu
-                    </p:column>
-                </p:row>
-                <p:row style="font-size: 73%">
-                    <p:column style="border: 0;">
-                        <h:outputText value="#{LoginMg.stanNadgodzin}"/>
-                    </p:column>
-                    <p:column style="border: 0;">
-                        <h:outputText value="#{LoginMg.stanUrlopow}"/>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
+            <h:panelGrid columns="2" style="width: 100%; font-size: 75%;">
+                <p:panelGrid style="margin-left: 250px; margin-right: auto; margin-top: -25px; margin-bottom: auto; text-align: center;">
+                    <p:row>
+                        <p:column style="border: 0; font-weight: bold;">
+                            Stan nadgodzin
+                        </p:column>
+                        <p:column style="border: 0; text-align: right">
+                            50% - 
+                        </p:column>
+                        <p:column style="border: 0;">
+                            <h:outputText value="#{LoginMg.stanNad50}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="border: 0;">
+                        </p:column>
+                        <p:column  style="border: 0; text-align: right">
+                            100% - 
+                        </p:column>
+                        <p:column style="border: 0;">
+                            <h:outputText value="#{LoginMg.stanNad100}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+                <p:panelGrid style="margin-left: auto; margin-right: 0px; margin-top:0px; margin-bottom: auto; text-align: center;">
+                    <p:row>
+                        <p:column style="border: 0; font-weight: bold;">
+                            Stan urlopu
+                        </p:column>
+                        <p:column style="border: 0; text-align: left">
+                            <h:outputText value="#{LoginMg.stanUrlLim}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="border: 0;">
+                        </p:column>
+                        <p:column style="border: 0; text-align: left">
+                            <h:outputText value="#{LoginMg.stanUrlWyk}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  style="border: 0;">
+                        </p:column>
+                        <p:column style="border: 0; text-align: left">
+                            <h:outputText value="#{LoginMg.stanUrlPoz}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:panelGrid>
             <p:commandButton styleClass="icon-redaer" value="" action="#{LoginMg.logOut}" ajax="false"/>
         </h:panelGrid>
     </ui:define>
 
-
-
     <ui:define name="content">
         <h:form id="center" style="background: transparent !important;">
             <p:idleMonitor timeout="#{LoginMg.iddle}" onidle="PF('dlg1').show();"/>
-            <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400" style="font-size: 150%;">
-                <p:commandButton action="#{LoginMg.logOut()}" value="Wyjdź" icon="ui-icon-extlink" style="font-size: 120%;"/>
+            <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400" style="font-size: 150%; background: white !important; text-align: center">
+                <p:commandButton action="#{LoginMg.logOut}" value="Wyjdź" style="font-size: 100%; width: 100%; border: 0; margin: 0" ajax="false" immediate="true"/>
             </p:dialog>
 
             <p:defaultCommand target="dummy"/>
@@ -49,7 +79,10 @@
                 <p:commandButton value="Lista urlopów" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" action="#{UrlopMg.lista}" ajax="false"/>
             </p:panelGrid>
             <p:outputPanel style="text-align: center; margin: 20px">
-                okres rozliczeniowy: #{LoginMg.okresRozl}
+                okres rozliczeniowy: #{LoginMg.okrRozOd} - #{LoginMg.okrRozDo}
+            </p:outputPanel>
+            <p:outputPanel style="text-align: center; margin: 70px; font-size: 28px; font-style: italic; background-color: gold; padding: 13px" rendered="#{LoginMg.urodziny}">
+                Wszystkiego najlepszego z okazji urodzin!
             </p:outputPanel>
         </h:form>
     </ui:define>

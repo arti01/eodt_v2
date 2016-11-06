@@ -16,7 +16,7 @@
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-            <p:dataGrid id="glMenu" value="#{ObceLinkiMg.lista}" var="link" columns="2" style="width: 100%; text-align:center; max-width: 1024px" 
+            <p:dataGrid id="glMenu" value="#{ObceLinkiMg.lista}" var="link" columns="2" style="width: 100%; text-align:center; max-width: 1024px; font-size: 85%;" 
                         rows="4" paginator="true" paginatorPosition="top">
                 <p:commandButton value="#{link.opis}" style="width: 480px; max-height: 160px; min-height: 160px;" styleClass="menu-button" action="#{ObceLinkiMg.wyswietl}">
                     <f:setPropertyActionListener target="#{ObceLinkiMg.obiekt}" value="#{link}"/>
@@ -35,7 +35,7 @@
             </style>
             <p:panel style="top: 395px; position: absolute">
                 <p:panel style="float: left">
-                    <h:link outcome="/logineod/odbicie">
+                    <h:link outcome="/common/obecnosc">
                         <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>
                     </h:link>
                 </p:panel>

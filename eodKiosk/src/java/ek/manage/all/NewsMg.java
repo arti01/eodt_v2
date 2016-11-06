@@ -19,6 +19,7 @@ import javax.faces.bean.SessionScoped;
 public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
 
     private int listaSize = 0;
+    String naglowek;
 
     public NewsMg() throws InstantiationException, IllegalAccessException {
         super("/common/news", new EkNewsKontr(), new EkNews());
@@ -39,5 +40,5 @@ public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
     public String detale(){
         return super.link;
     }
-
+    
 }

@@ -58,6 +58,14 @@ body {
     background-repeat: no-repeat;
     margin: 0 !important;
     border: 0!important;
-    height: 68px;
+    height: 68px !important;
     width: 68px;
+}
+.repo-text{
+    color: darkblue; 
+    text-decoration: none; 
+    font-size: 90%;
+}
+.repo-text:hover{
+    color: white;
 }
