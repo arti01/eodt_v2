@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -49,41 +50,44 @@ public class LoginMg implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         if (request != null) {
-            userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
-            userC = new UzytkownikJpaController();
-            user = userC.findUzytkownik(userProfil.getEodId().longValue());
-            EkConfigKontr confC = new EkConfigKontr();
-            Long iddL = new Long(confC.findEntities("iddle").getWartosc());
-            this.iddle = Long.toString(iddL * 60 * 1000);
-            km = new KioskManager();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
-            SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
-            SimpleDateFormat sdfF = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat sdfMD = new SimpleDateFormat("MM-dd");
-            String stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
-            String[] stnS = stanNadgodzin.split("\\|");
-            stanNad50 = stnS[0];
-            stanNad100 = stnS[0];
-            String stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
-            String[] stuS = stanUrlopow.split("\\|");
-            stanUrlLim = stuS[0];
-            stanUrlWyk = stuS[1];
-            stanUrlPoz = stuS[2];
-            String okresRozl = km.pobierzOkresRozlicz(sdf.format(Calendar.getInstance().getTime()));
-            String[] okrS = okresRozl.split("\\|");
-            okrRozOd = okrS[0];
-            okrRozDo = okrS[1];
-            String dataUr;
             try {
+                
+                userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
+                userC = new UzytkownikJpaController();
+                user = userC.findUzytkownik(userProfil.getEodId().longValue());
+                EkConfigKontr confC = new EkConfigKontr();
+                Long iddL = new Long(confC.findEntities("iddle").getWartosc());
+                this.iddle = Long.toString(iddL * 60 * 1000);
+                km = new KioskManager();
+                SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
+                SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
+                SimpleDateFormat sdfF = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdfMD = new SimpleDateFormat("MM-dd");
+                SimpleDateFormat sdfTest = new SimpleDateFormat("MM-dd hh:mm");
+                String stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
+                String[] stnS = stanNadgodzin.split("\\|");
+                stanNad50 = stnS[0];
+                stanNad100 = stnS[0];
+                String stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
+                String[] stuS = stanUrlopow.split("\\|");
+                stanUrlLim = stuS[0];
+                stanUrlWyk = stuS[1];
+                stanUrlPoz = stuS[2];
+                String okresRozl = km.pobierzOkresRozlicz(sdf.format(Calendar.getInstance().getTime()));
+                String[] okrS = okresRozl.split("\\|");
+                okrRozOd = okrS[0];
+                okrRozDo = okrS[1];
+                String dataUr;
+
                 dataUr = sdfMD.format(sdfF.parse(km.pobierzDateUrodzin(userProfil.getEcpId().longValue())));
-                System.err.println(dataUr);
+                System.err.println(dataUr + "data ur");
                 String dataCur = sdfMD.format(Calendar.getInstance().getTime());
                 urodziny = dataCur.equals(dataUr);
-                System.err.println(dataCur);
-            } catch (ParseException ex) {
+                System.err.println(dataCur + "data current");
+                System.err.println(sdfTest.format(Calendar.getInstance().getTime()) + "data z godzina");
+            } catch (ParseException | java.lang.ArrayIndexOutOfBoundsException ex) {
                 Logger.getLogger(LoginMg.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
 
     }

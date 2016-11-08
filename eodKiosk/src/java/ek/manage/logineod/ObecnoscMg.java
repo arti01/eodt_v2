@@ -25,9 +25,9 @@ public class ObecnoscMg  implements Serializable {
         log.setNazwa("logowanie");
         log.setOpis(cardno);
         new EkLogKontr().create(log);
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, cardno+": Obecność odnotowana",  null);
-        cardno=null;
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Obecność odnotowana",  null);
         FacesContext.getCurrentInstance().addMessage(null, message);
+        cardno=null;
         return "/common/index";
     }
     
