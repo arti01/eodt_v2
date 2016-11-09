@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -35,6 +34,7 @@ public class LoginMg implements Serializable {
     private UzytkownikJpaController userC;
     private Uzytkownik user;
     private String iddle;
+    private String iddle30;
     private String stanNad50;
     private String stanNad100;
     private String stanUrlLim;
@@ -51,13 +51,14 @@ public class LoginMg implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         if (request != null) {
             try {
-                
+
                 userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
                 userC = new UzytkownikJpaController();
                 user = userC.findUzytkownik(userProfil.getEodId().longValue());
                 EkConfigKontr confC = new EkConfigKontr();
                 Long iddL = new Long(confC.findEntities("iddle").getWartosc());
                 this.iddle = Long.toString(iddL * 60 * 1000);
+                this.iddle30 = Long.toString(iddL * 60 * 1000+30000);
                 km = new KioskManager();
                 SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
                 SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
@@ -80,11 +81,11 @@ public class LoginMg implements Serializable {
                 String dataUr;
 
                 dataUr = sdfMD.format(sdfF.parse(km.pobierzDateUrodzin(userProfil.getEcpId().longValue())));
-                System.err.println(dataUr + "data ur");
+                //System.err.println(dataUr + "data ur");
                 String dataCur = sdfMD.format(Calendar.getInstance().getTime());
                 urodziny = dataCur.equals(dataUr);
-                System.err.println(dataCur + "data current");
-                System.err.println(sdfTest.format(Calendar.getInstance().getTime()) + "data z godzina");
+                //System.err.println(dataCur + "data current");
+                //System.err.println(sdfTest.format(Calendar.getInstance().getTime()) + "data z godzina");
             } catch (ParseException | java.lang.ArrayIndexOutOfBoundsException ex) {
                 Logger.getLogger(LoginMg.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -96,6 +97,11 @@ public class LoginMg implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         //FacesContext.getCurrentInstance().getExternalContext().redirect("/");
         return "/common/index.xhtml";
+    }
+
+    public void processTimeOut() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../common/index.xhtml");
     }
 
     public UserProfil getUserProfil() {
@@ -148,6 +154,10 @@ public class LoginMg implements Serializable {
 
     public boolean isUrodziny() {
         return urodziny;
+    }
+ 
+    public String getIddle30() {
+        return iddle30;
     }
 
 }

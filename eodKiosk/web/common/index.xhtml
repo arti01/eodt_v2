@@ -33,14 +33,14 @@
                 }
             </style>
             <p:panel style="top: 395px; position: absolute">
-                <p:panel style="float: left">
-                    <h:link outcome="/common/obecnosc">
+                <p:panel style="float: left" >
+                    <h:link outcome="/common/obecnosc" rendered="#{ObecnoscMg.ipGreen}">
                         <p:graphicImage value="/images/login_out_button.png" styleClass="menu"/>
                     </h:link>
                 </p:panel>
 
-                <p:panel style="max-width: 900px; float: left; top: 40px; position: relative">
-                    <p:poll interval="666" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
+                <p:panel style="max-width: 890px; float: left; top: 40px; position: relative; margin-left: 10px;">
+                    <p:poll interval="121" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
                     <p:carousel id="karuzela" numVisible="1" effect="easeInStrong" headerText="Newsy"
                                 circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="7000" vertical="true">             
                         <p:tab>

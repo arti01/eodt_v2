@@ -8,5 +8,5 @@ CREATE OR REPLACE VIEW ekiosk.view_user_roles AS
   WHERE j_user_role.rid = roles.id AND user_profil.id = j_user_role.uid;
 
 CREATE OR REPLACE VIEW ekiosk.view_user AS 
- SELECT user_profil.cardno, char(50) 'haslo' as password
+ SELECT user_profil.cardno, char(50) 'b9e78e02a97b1fa8aa0a2dca67d04095' as password
    FROM ekiosk.user_profil;

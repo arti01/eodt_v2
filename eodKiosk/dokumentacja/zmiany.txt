@@ -1,3 +1,13 @@
+2016-11-09
+nowy parametr
+INSERT INTO ekiosk.ekconfig(id, nazwa, opis, wartosc) VALUES (3, 'ip_green', 'ip dla których wyswietli sie rejestracja obecnosci', '192.168.1.101,1111111');
+
+md5 (haslo to:s9dde.kdf23xwf)
+
+CREATE OR REPLACE VIEW ekiosk.view_user AS 
+ SELECT user_profil.cardno, char(50) 'b9e78e02a97b1fa8aa0a2dca67d04095' as password
+   FROM ekiosk.user_profil;
+
 2016-11-05
 wygasanie sesji:
 INSERT INTO ekiosk.ekconfig(id, nazwa, opis, wartosc) VALUES (2, 'iddle', 'wygasniecie sesji w minutach', '1');

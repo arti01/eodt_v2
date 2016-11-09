@@ -51,7 +51,7 @@ public class RepDokMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
             EkConfigKontr confC = new EkConfigKontr();
             this.dir_repo = confC.findEntities("dir_repo").getWartosc();
             if (this.dir_repo != null && this.dir_repo.length() > 0) {
-                this.drzewko();
+                //this.drzewko();
                 this.inneDrzewka();
             }
             super.refresh();
@@ -68,6 +68,7 @@ public class RepDokMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
 
     private TreeNode createTree(TreeNode node, DrzPF dp) {
         TreeNode tr = new DefaultTreeNode(dp.getType(), dp, node);
+        tr.setExpanded(false);
         for (DrzPF dpN : dp.getChidren()) {
             TreeNode tr1 = this.createTree(tr, dpN);
         }
@@ -85,6 +86,7 @@ public class RepDokMg extends AbstMg<EkObceLinki, EKObceLinkiKontr> {
         }
         for (Repozytoria rep : repoAll) {
             DefaultTreeNode rootT = new DefaultTreeNode(rep.getNazwa(), null);
+            rootT.setExpanded(false);
             DrzPF drRT = new DrzPF(rep.getSciezka(), rep.getNazwa(), null);
             this.createTree(rootT, drRT);
             inneRoot.add(rootT);

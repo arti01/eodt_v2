@@ -50,6 +50,7 @@ public class EkLog extends ek.abstr.AbstEncja implements Serializable {
     private String opis;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataZdarzenia=new Date();
+    private String ip;
     public EkLog() {
     }
 
@@ -97,6 +98,14 @@ public class EkLog extends ek.abstr.AbstEncja implements Serializable {
 
     public void setDataZdarzenia(Date dataZdarzenia) {
         this.dataZdarzenia = dataZdarzenia;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
 
