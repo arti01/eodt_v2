@@ -5,20 +5,17 @@ import java.io.FileNotFoundException;
 import org.primefaces.model.UploadedFile;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
+import javax.faces.bean.RequestScoped;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 
 @ManagedBean(name = "fileUploadBean")
-@SessionScoped
+@RequestScoped
 public class FileUploadBean implements Serializable {
 
     private static final long serialVersionUID = 1L;

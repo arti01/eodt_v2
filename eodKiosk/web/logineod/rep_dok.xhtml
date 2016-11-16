@@ -29,7 +29,7 @@
                     <p:tab title="#{rootInne.data}" id="tabR">
                         <p:scrollPanel style="width: 100%;height: 410px;overflow: auto;display: block" id="scrP">
                             <p:tree value="#{rootInne}" var="node" dynamic="true" style="width: 150%;font-size: 22px;" selectionMode="single" id="rootTr">
-                                <p:ajax event="select" update="@parent:scrP" listener="#{RepDokMg.onNodeSelect}" />
+                                <p:ajax event="select" update="@parent:scrP" listener="#{RepDokMg.onNodeSelect}" global="false" />
 
                                 <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                                     <h:outputText value="#{node.shortName}" style="font-size: 90%"/>
@@ -39,8 +39,9 @@
                                     <p:commandButton ajax="false" value="Drukuj" style="font-size: 70%">
                                         <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
                                         <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
-                                        <p:fileDownload value="#{fileUploadBean.file}" />
+                                        <p:fileDownload value="#{fileUploadBean.file}"/>
                                     </p:commandButton>
+
                                     <p:commandButton value="Email" style="font-size: 70%" action="#{RepDokMg.zZalaczZserwera}" rendered="#{RepDokMg.loginMg.userProfil.email.length()>0}"
                                                      update=":infoForm:messages" >
                                         <f:setPropertyActionListener target="#{RepDokMg.fullPath}" value="#{node.fullPath}" />
