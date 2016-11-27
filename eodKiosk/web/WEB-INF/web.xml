@@ -61,5 +61,19 @@
         <auth-constraint>
             <role-name>user</role-name>
         </auth-constraint>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>ekiosk-admin</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <description>admin</description>
+            <url-pattern>/faces/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
     </security-constraint>
 </web-app>

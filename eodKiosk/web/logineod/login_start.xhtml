@@ -11,11 +11,11 @@
             <p:commandButton styleClass="icon-redaer" value="" action="#{LoginMg.logOut}" ajax="false"/>
         </h:panelGrid>
     </ui:define>
-    
+
     <ui:define name="content">
-        
+
         <h:form id="center" style="background: transparent !important;">            
-            
+
             <p:idleMonitor id="id2" timeout="#{LoginMg.iddle}" onidle="PF('dlg1').show();"/>
             <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400" style="font-size: 150%; background: white !important; text-align: center">
                 <p:commandButton action="#{LoginMg.logOut}" value="Wyjdź" style="font-size: 100%; width: 100%; border: 0; margin: 0" ajax="false" immediate="true"/>
@@ -24,9 +24,19 @@
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
             <p:panel rendered="#{LoginMg.user==null}">
-                <h3>Brak użytkownika w EOD</h3>
+                <h5>Brak użytkownika w EOD</h5>
             </p:panel>
-            <p:panelGrid columns="2" style="width: 100%; text-align:center; max-width: 1024px" columnClasses="menu, menu">
+            <p:panelGrid columns="2" rendered="#{LoginMg.user!=null}" columnClasses="menu, menu" style="width: 100%; text-align:center; max-width: 1024px">
+                <h:outputText value="Dzień dobry #{LoginMg.userProfil.fullname}" style="font-weight: bold"/>
+                <p:panelGrid columns="2" columnClasses="menu">
+                    <p:outputLabel value="email - kliknij aby zmienić:"/>
+                    <p:inplace id="ajax" editor="true">
+                        <p:inputText value="#{LoginMg.userProfil.email}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{LoginMg.listSave}"/>
+                    </p:inplace>
+                </p:panelGrid>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="width: 100%; text-align:center; max-width: 1024px" columnClasses="menu, menu" rendered="#{LoginMg.userProfil.eodId!=null}">
                 <p:button value="Repozytorium plików" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" outcome="/logineod/rep_dok.xhtml"/>
                 <p:commandButton value="Lista urlopów" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" action="#{UrlopMg.lista}" ajax="false"/>
             </p:panelGrid>
@@ -42,7 +52,7 @@
                         <p:column style="border: 1px solid black; text-align: right">
                             50%:<h:outputText value="#{LoginMg.stanNad50}"/>
                         </p:column>
-                        
+
                     </p:row>
                     <p:row>
                         <p:column style="border: 0px solid black;">
@@ -50,10 +60,10 @@
                         <p:column  style="border: 1px solid black; text-align: right">
                             100%:<h:outputText value="#{LoginMg.stanNad100}"/>
                         </p:column>
-                        
+
                     </p:row>
                 </p:panelGrid>
-                
+
                 <p:panelGrid style="text-align: center; margin-left:150px;">
                     <p:row>
                         <p:column style="border: 0; font-weight: bold;width: 150px;text-align:right; ">
@@ -79,7 +89,7 @@
                     </p:row>
                 </p:panelGrid>
             </h:panelGrid>
-            
+
             <p:outputPanel style="text-align: center; margin: 7px; font-size: 28px; font-style: italic; background-color: gold; padding: 13px" rendered="#{LoginMg.urodziny}">
                 Wszystkiego najlepszego z okazji urodzin!
             </p:outputPanel>

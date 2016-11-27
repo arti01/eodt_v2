@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ek.manage.all;
+package ek.manage.admin;
 
 import ek.abstr.AbstMg;
 import ek.encje.EkNews;
 import ek.encje.EkNewsKontr;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.event.RowEditEvent;
+import pl.eod2.encje.UmGrupa;
+import pl.eod2.encje.exceptions.NonexistentEntityException;
 
-@ManagedBean(name = "NewsMg")
+@ManagedBean(name = "AdmNewsMg")
 @SessionScoped
-public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
+public class AdmNewsMg extends AbstMg<EkNews, EkNewsKontr> {
 
     private int listaSize = 0;
     String naglowek;
 
-    public NewsMg() throws InstantiationException, IllegalAccessException {
-        super("/common/news", new EkNewsKontr(), new EkNews());
-        lista=dcC.findEntities(5);
+    public AdmNewsMg() throws InstantiationException, IllegalAccessException {
+        super("/admin/news_list", new EkNewsKontr(), new EkNews());
     }
     
     public void listener(){
@@ -37,6 +39,10 @@ public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
 
     public String detale(){
         return super.link;
+    }
+    public void editList(RowEditEvent event) throws NonexistentEntityException, Exception {
+        obiekt = (EkNews) event.getObject();
+        edytujList();
     }
     
 }

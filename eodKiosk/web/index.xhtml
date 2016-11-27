@@ -4,11 +4,30 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>Facelet Title</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <link rel="stylesheet" type="text/css" href="/eodKiosk/" />
     </h:head>
     <h:body>
         Hello from Facelets
         <br />
         <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+        <h:form>
+            <h:commandLink action="#{ekNews.listSetup}" value="Show All EkNews Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{ekConfig.listSetup}" value="Show All EkConfig Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{ekNews.listSetup}" value="Show All EkNews Items"/>
+        </h:form>
+        <br />
+        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+        <br />
+        <h:link outcome="/admin/ekNews/List" value="Show All EkNews Items"/>
     </h:body>
+
+
+
+
 </html>
 

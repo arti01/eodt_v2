@@ -41,4 +41,9 @@ public class UserProfilKontr implements Serializable {
             em.close();
         }
     }
+    
+    public String save(UserProfil up){
+        getEntityManager().merge(up);
+        return "zmiana wykonana";
+    }
 }

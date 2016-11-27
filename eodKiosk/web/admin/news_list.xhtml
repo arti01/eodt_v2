@@ -1,0 +1,120 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateGPF.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <h:form id="center">
+            <p:fieldset id="formWprow" collapsed="#{AdmNewsMg.obiekt.id==null}" toggleable="true" legend="Dodaj news (zwiń/rozwiń)" 
+                        style="">
+                <p:panelGrid columns="3" id="form" columnClasses="column1, column2">
+                    <p:outputLabel for="nazwa" value="tytuł"/>
+                    <p:inputText id="nazwa" value="#{AdmNewsMg.obiekt.nazwa}" size="90"/>
+                    <p:message for="nazwa"/>
+                    
+                    <p:outputLabel for="prior" value="proprytet"/>
+                    <p:inputSwitch id="prior" value="#{AdmNewsMg.obiekt.priorytet}" onLabel="TAK" offLabel="NIE"/>
+                    <p:message for="prior"/>
+                    
+                    <p:outputLabel for="data" value="data"/>
+                    <p:calendar id="data" value="#{AdmNewsMg.obiekt.dataDodania}" pattern="yyyy-MM-dd" locale="pl" showOn="button"/>
+                    <p:message for="data"/>
+                    
+                    <p:outputLabel for="tresc" value="tytuł"/>
+                    <p:inputTextarea id="tresc" value="#{AdmNewsMg.obiekt.opis}" rows="20" cols="80"/>
+                    <p:message for="tresc"/>
+                    
+                </p:panelGrid>
+                <center>
+                    <p:message for="dodaj" styleClass="error"/>
+                    <p:commandButton id="dodaj" value="Dodaj" action="#{AdmNewsMg.dodaj}" update=":infoForm:messages, :center:table, formWprow" process="formWprow"/>
+                </center>
+            </p:fieldset>
+
+            <p:dataTable id="table" value="#{AdmNewsMg.lista}" var="item" paginator="true" rowsPerPageTemplate="20, 50, 100" rows="20" sortBy="#{item.dataDodania}" sortOrder="descending"
+                         widgetVar="tableV" emptyMessage="brak danych" style="text-align: center" editable="true">
+                <p:ajax event="rowEdit" listener="#{AdmNewsMg.editList}" update=":infoForm:messages"/>
+                <p:column headerText="data dodania">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.dataDodania}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" locale="pl" timeZone="CET"/>
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInputData" value="#{item.dataDodania}" style="width:100%">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </p:inputText>
+                            <p:message for="modelInputData"/>
+                        </f:facet>
+                    </p:cellEditor>
+                    <p:message for="table"/>
+                </p:column>
+                <p:column headerText="tytuł">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.nazwa}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInputNazwa" value="#{item.nazwa}" style="width:100%"/>
+                            <p:message for="modelInputNazwa"/>
+                        </f:facet>
+                    </p:cellEditor>
+                    <p:message for="table"/>
+                </p:column>
+
+                <p:column>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:spacer width="1"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputTextarea id="modelInputOpis" value="#{item.opis}" style="min-width: 300px; width:100%" rows="30"/>
+                            <p:message for="modelInputOpis"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="priorytet">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:inputSwitch value="#{item.priorytet}" onLabel="TAK" offLabel="NIE" disabled="true"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneButton value="#{item.priorytet}">
+                                <f:selectItem itemLabel="TAK" itemValue="true" />
+                                <f:selectItem itemLabel="NIE" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:80px" headerText="Treść - rozwiń">
+                    <p:rowToggler />
+                </p:column>
+
+                <p:column style="width: 35px" headerText="edycja">
+                    <p:rowEditor editTitle="edytuj"/>
+                </p:column>
+
+                <p:column style="width: 30px">
+                    <p:commandButton title="usuń" update="table" icon="ui-icon-trash" action="#{AdmNewsMg.usun}" process="@this"
+                                     style="font-weight: lighter; font-size: smaller;">
+                        <f:setPropertyActionListener value="#{item}" target="#{AdmNewsMg.obiekt}"/>
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+
+                <p:rowExpansion>
+                    <h:outputText value="#{item.opis}"/>
+                </p:rowExpansion>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

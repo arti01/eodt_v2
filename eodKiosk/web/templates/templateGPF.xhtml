@@ -1,0 +1,129 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            .ui-state-disabled, .ui-widget-content .ui-state-disabled{
+                opacity: .7;
+            }
+            .ui-widget-content {
+                font-size: 12px;
+            }
+
+            .ui-widget .ui-widget {
+                font-size: 11px;
+            }
+
+            .disable-scroll .ui-dialog-content {
+                overflow: hidden !important;
+            }
+            .ui-menu .ui-menu-parent .ui-menu-child {
+                white-space: nowrap !important;
+                width: 19em;
+            }
+
+            ul.ui-menu-child
+            {
+                white-space: nowrap;
+                width: auto;
+            }
+            .ui-menu .ui-menu-child
+            {
+                left: 30px;
+            }
+            .ui-menu .ui-menuitem-link{
+                font-size: 12px;
+            }
+            .column1 {
+                vertical-align: top;
+                width: 47%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2 {
+                vertical-align: top;
+                width: 100%;
+                text-align: left;
+                border-style: hidden;
+            }
+            .column1p {
+                vertical-align: top;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2p {
+                vertical-align: top;
+                text-align: left;
+                border-style: hidden;
+            }
+            .column1_50 {
+                vertical-align: top;
+                width: 50%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2_50 {
+                vertical-align: top;
+                width: 50%;
+                text-align: left;
+                border-style: hidden;
+            }
+            .ui-column-title{
+                font-size: 10px;
+            }
+            .ui-widget-content .ui-inputfield{
+                font-size: 11px;
+            }
+            .fc-event{
+                font-size: 11px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/images/ai.gif"/>
+            proszę czekać
+        </p:dialog>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        <p:layout style="min-width:400px;min-height:200px;" fullPage="true">
+            <p:layoutUnit position="north">
+                <table width="100%" style="font-size: 21px; margin: 0px" border="0"><tr>
+                        <td align="center"><i><b><font size="6">E</font></b></i><font size="5">iosk - Administracja</font></td>
+                    </tr>
+                </table>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:form id="infoForm"  rendered="#{!login.bladLicencj}">
+                    <p:growl id="messages" showDetail="false" life="3700"/>
+                    <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
+                    <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
+                        <p:button outcome="/common/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>
+                    </p:dialog>
+
+                    <p:menubar toggleEvent="click">
+                        <p:menuitem value="Start" outcome="/common/index.xhtml" icon="ui-icon-refresh"/>
+                        <p:menuitem value="Newsy" action="#{AdmNewsMg.list}" ajax="false"/>
+                    </p:menubar>
+                </h:form>
+                <h1 align="center">
+                    <ui:insert name="tytul"/>
+                </h1>
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+        <script type="text/javascript">
+            PrimeFaces.locales['pl'] = {closeText: 'Zamknij', prevText: 'Poprzedni', nextText: 'Następny', monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'], monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'], dayNames: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'], dayNamesShort: ['Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'], dayNamesMin: ['N', 'P', 'W', 'Ś', 'Cz', 'P', 'S'], weekHeader: 'Tydzień', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix: 'r', timeOnlyTitle: 'Tylko czas', timeText: 'Czas', hourText: 'Godzina', minuteText: 'Minuta', secondText: 'Sekunda', currentText: 'Teraz', ampm: false, month: 'Miesiąc', week: 'Tydzień', day: 'Dzień', allDayText: 'Cały dzień'};
+        </script>
+    </h:body>
+</html>

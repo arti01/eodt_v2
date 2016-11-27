@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 
 public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
 
-    public List<X> lista=new ArrayList<>();
+    public List<X> lista = new ArrayList<>();
     public final Y dcC;
     public X obiekt;
     public String error;
@@ -21,7 +21,7 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
         link = s;
         this.dcC = (Y) ak.getClass().newInstance();
         this.obiekt = obiekt;
-        lista=dcC.findEntities();
+        lista = dcC.findEntities();
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +31,7 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
 
     @SuppressWarnings("unchecked")
     public void refresh() throws InstantiationException, IllegalAccessException {
-        lista=dcC.findEntities();
+        lista = dcC.findEntities();
         obiekt = (X) obiekt.getClass().newInstance();
         error = null;
     }
@@ -68,16 +68,39 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             for (Map.Entry<String, String> entry : errorMap.entrySet()) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, entry.getValue(), entry.getValue());
-                UIComponent input = zapisz.getParent().findComponent(entry.getKey());    
+                UIComponent input = zapisz.getParent().findComponent(entry.getKey());
                 try {
                     context.addMessage(input.getClientId(context), message);
                 } catch (NullPointerException e) {
                     context.addMessage(null, message);
                 }
-                lista=dcC.findEntities();
+                lista = dcC.findEntities();
             }
         } else {
             refresh();
+        }
+        return errorMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, String> edytujList() throws Exception {
+        @SuppressWarnings("unchecked")
+        Map<String, String> errorMap = dcC.edit(obiekt);
+        if (!errorMap.isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            //przycisk zapisz/dodaj
+            UIComponent zapisz = UIComponent.getCurrentComponent(context);
+            for (Map.Entry<String, String> entry : errorMap.entrySet()) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, entry.getValue(), entry.getValue());
+                UIComponent input = zapisz.getParent().findComponent(entry.getKey());
+                try {
+                    context.addMessage(input.getClientId(context), message);
+                } catch (NullPointerException e) {
+                    context.addMessage(null, message);
+                }
+            }
+        } else {
+            obiekt = (X) obiekt.getClass().newInstance();
         }
         return errorMap;
     }

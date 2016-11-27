@@ -11,19 +11,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-
 public class EkNewsKontr extends AbstKontroler<EkNews> {
 
     public EkNewsKontr() {
         super(new EkNews());
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "unchecked"})
     public List<EkNews> findEntities(int limit) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNamedQuery("EkNews.findOstatnie");
-            return (List<EkNews>) q.setMaxResults(limit).getResultList();
+            Query qp = em.createNamedQuery("EkNews.findPriorytet");
+            System.err.println(qp.getResultList().size());
+            if (qp.getResultList().size() > 0) {
+                return (List<EkNews>) qp.getResultList();
+            } else {
+                Query q = em.createNamedQuery("EkNews.findOstatnie");
+                return (List<EkNews>) q.setMaxResults(limit).getResultList();
+            }
         } catch (NoResultException | ArrayIndexOutOfBoundsException ex) {
             //ex.printStackTrace();
             //logger.log(Level.SEVERE, "blad", ex);
@@ -32,5 +37,5 @@ public class EkNewsKontr extends AbstKontroler<EkNews> {
             em.close();
         }
     }
-    
+
 }

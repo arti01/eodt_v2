@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -51,20 +52,21 @@ public class LoginMg implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         if (request != null) {
             try {
-
                 userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
                 userC = new UzytkownikJpaController();
-                user = userC.findUzytkownik(userProfil.getEodId().longValue());
+                if (userProfil.getEodId() != null) {
+                    user = userC.findUzytkownik(userProfil.getEodId().longValue());
+                }
                 EkConfigKontr confC = new EkConfigKontr();
                 Long iddL = new Long(confC.findEntities("iddle").getWartosc());
                 this.iddle = Long.toString(iddL * 60 * 1000);
-                this.iddle30 = Long.toString(iddL * 60 * 1000+30000);
+                this.iddle30 = Long.toString(iddL * 60 * 1000 + 30000);
                 km = new KioskManager();
                 SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
                 SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
                 SimpleDateFormat sdfF = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat sdfMD = new SimpleDateFormat("MM-dd");
-                SimpleDateFormat sdfTest = new SimpleDateFormat("MM-dd hh:mm");
+                //SimpleDateFormat sdfTest = new SimpleDateFormat("MM-dd hh:mm");
                 String stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
                 String[] stnS = stanNadgodzin.split("\\|");
                 stanNad50 = stnS[0];
@@ -90,7 +92,6 @@ public class LoginMg implements Serializable {
                 Logger.getLogger(LoginMg.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 
     public String logOut() throws IOException {
@@ -102,6 +103,12 @@ public class LoginMg implements Serializable {
     public void processTimeOut() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().redirect("../common/index.xhtml");
+    }
+
+    public void listSave() {
+        String info = uPK.save(userProfil);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public UserProfil getUserProfil() {
@@ -155,7 +162,7 @@ public class LoginMg implements Serializable {
     public boolean isUrodziny() {
         return urodziny;
     }
- 
+
     public String getIddle30() {
         return iddle30;
     }

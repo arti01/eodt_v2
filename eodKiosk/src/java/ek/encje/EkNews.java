@@ -7,6 +7,7 @@ package ek.encje;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "EkNews.findAll", query = "SELECT d FROM EkNews d"),
     @NamedQuery(name = "EkNews.findById", query = "SELECT d FROM EkNews d WHERE d.id = :id"),
     @NamedQuery(name = "EkNews.findByNazwa", query = "SELECT d FROM EkNews d WHERE d.nazwa = :nazwa"),
+    @NamedQuery(name = "EkNews.findPriorytet", query = "SELECT d FROM EkNews d WHERE d.priorytet = true"),
     @NamedQuery(name = "EkNews.findOstatnie", query = "SELECT d FROM EkNews d ORDER BY d.dataDodania DESC")})
 public class EkNews extends ek.abstr.AbstEncja implements Serializable {
 
@@ -46,8 +48,10 @@ public class EkNews extends ek.abstr.AbstEncja implements Serializable {
     @Lob
     private String opis;
     @Temporal(javax.persistence.TemporalType.DATE)
-    Date dataDodania;
+    Date dataDodania=new Date();
+    boolean priorytet;
 
+    
     @Override
     public Long getId() {
         return id;
@@ -83,6 +87,15 @@ public class EkNews extends ek.abstr.AbstEncja implements Serializable {
     public void setDataDodania(Date dataDodania) {
         this.dataDodania = dataDodania;
     }
+
+    public boolean isPriorytet() {
+        return priorytet;
+    }
+
+    public void setPriorytet(boolean priorytet) {
+        this.priorytet = priorytet;
+    }
+
     
 
     @Override
@@ -101,10 +114,7 @@ public class EkNews extends ek.abstr.AbstEncja implements Serializable {
             return false;
         }
         final EkNews other = (EkNews) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !(!Objects.equals(this.id, other.id) && (this.id == null || !this.id.equals(other.id)));
     }
 
 }

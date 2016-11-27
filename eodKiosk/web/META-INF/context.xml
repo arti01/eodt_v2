@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/eodKiosk">
-    <Realm className="org.apache.catalina.realm.JDBCRealm" connectionURL="jdbc:postgresql://192.168.1.13:5432/eod_ocr?currentSchema=ekiosk&amp;user=eod&amp;password=eod" debug="99" 
-           driverName="org.postgresql.Driver" resourceName="ekiosk" 
-           roleNameCol="role_name" userCredCol="password" userNameCol="cardno" userRoleTable="view_user_roles" userTable="view_user"
-           digest="md5"/>
-    <Resource auth="Container" driverClassName="org.postgresql.Driver" initialSize="1" maxIdle="3" maxTotal="10" maxWaitMillis="20000" name="jdbc/eod_ekiosk" username="eod" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr?currentSchema=ekiosk"/>
-    <Resource auth="Container" driverClassName="org.postgresql.Driver" initialSize="1" maxIdle="3" maxTotal="10" maxWaitMillis="20000" name="jdbc/eodt" username="eod" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr"/>
+  <Realm className="org.apache.catalina.realm.JDBCRealm" connectionURL="jdbc:postgresql://192.168.1.13:5432/eod_ocr?currentSchema=ekiosk&amp;user=eod&amp;password=eod" debug="99" digest="md5" driverName="org.postgresql.Driver" resourceName="ekiosk" roleNameCol="role_name" userCredCol="password" userNameCol="cardno" userRoleTable="view_user_roles" userTable="view_user"/>
+  <Resource auth="Container" driverClassName="org.postgresql.Driver" initialSize="1" maxIdle="3" maxTotal="10" maxWaitMillis="20000" name="jdbc/eod_ekiosk" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr?currentSchema=ekiosk" username="eod"/>
+  <Resource auth="Container" driverClassName="org.postgresql.Driver" initialSize="1" maxIdle="3" maxTotal="10" maxWaitMillis="20000" name="jdbc/eodt" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr" username="eod"/>
 </Context>
-
