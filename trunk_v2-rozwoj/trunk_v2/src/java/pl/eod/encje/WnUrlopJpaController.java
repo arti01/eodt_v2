@@ -16,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
 
 /**
  *
@@ -238,7 +239,8 @@ public class WnUrlopJpaController implements Serializable {
             CriteriaQuery cq = cb.createQuery();
             Root<WnUrlop> rt = cq.from(WnUrlop.class);
             cq.select(em.getCriteriaBuilder().count(rt));
-            cq.where(cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime()));
+            Predicate predCzas=cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime());
+            cq.where(predCzas);
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
@@ -262,7 +264,8 @@ public class WnUrlopJpaController implements Serializable {
             CriteriaQuery cq = cb.createQuery();
             Root<WnUrlop> rt = cq.from(WnUrlop.class);
             cq.select(em.getCriteriaBuilder().count(rt));
-            cq.where(cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime()));
+            Predicate predCzas=cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia),cal.getTime());
+            cq.where(predCzas);
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
