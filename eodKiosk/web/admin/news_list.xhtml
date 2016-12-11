@@ -12,22 +12,22 @@
             <p:fieldset id="formWprow" collapsed="#{AdmNewsMg.obiekt.id==null}" toggleable="true" legend="Dodaj news (zwiń/rozwiń)" 
                         style="">
                 <p:panelGrid columns="3" id="form" columnClasses="column1, column2">
-                    <p:outputLabel for="nazwa" value="tytuł"/>
+                    <p:outputLabel for="nazwa" value="Tytuł"/>
                     <p:inputText id="nazwa" value="#{AdmNewsMg.obiekt.nazwa}" size="90"/>
                     <p:message for="nazwa"/>
-                    
-                    <p:outputLabel for="prior" value="proprytet"/>
+
+                    <p:outputLabel for="prior" value="Priorytet"/>
                     <p:inputSwitch id="prior" value="#{AdmNewsMg.obiekt.priorytet}" onLabel="TAK" offLabel="NIE"/>
                     <p:message for="prior"/>
-                    
-                    <p:outputLabel for="data" value="data"/>
+
+                    <p:outputLabel for="data" value="Data"/>
                     <p:calendar id="data" value="#{AdmNewsMg.obiekt.dataDodania}" pattern="yyyy-MM-dd" locale="pl" showOn="button"/>
                     <p:message for="data"/>
-                    
-                    <p:outputLabel for="tresc" value="tytuł"/>
+
+                    <p:outputLabel for="tresc" value="Treść - wpisz prostą treść lub po zapisaniu skorzystaj z edytora"/>
                     <p:inputTextarea id="tresc" value="#{AdmNewsMg.obiekt.opis}" rows="20" cols="80"/>
                     <p:message for="tresc"/>
-                    
+
                 </p:panelGrid>
                 <center>
                     <p:message for="dodaj" styleClass="error"/>
@@ -38,7 +38,7 @@
             <p:dataTable id="table" value="#{AdmNewsMg.lista}" var="item" paginator="true" rowsPerPageTemplate="20, 50, 100" rows="20" sortBy="#{item.dataDodania}" sortOrder="descending"
                          widgetVar="tableV" emptyMessage="brak danych" style="text-align: center" editable="true">
                 <p:ajax event="rowEdit" listener="#{AdmNewsMg.editList}" update=":infoForm:messages"/>
-                <p:column headerText="data dodania">
+                <p:column headerText="Data dodania">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{item.dataDodania}">
@@ -47,14 +47,14 @@
                         </f:facet>
                         <f:facet name="input">
                             <p:inputText id="modelInputData" value="#{item.dataDodania}" style="width:100%">
-                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                <f:convertDateTime pattern="yyyy-MM-dd" locale="pl" timeZone="CET"/>
                             </p:inputText>
                             <p:message for="modelInputData"/>
                         </f:facet>
                     </p:cellEditor>
                     <p:message for="table"/>
                 </p:column>
-                <p:column headerText="tytuł">
+                <p:column headerText="Tytuł">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{item.nazwa}"/>
@@ -67,19 +67,7 @@
                     <p:message for="table"/>
                 </p:column>
 
-                <p:column>
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <p:spacer width="1"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputTextarea id="modelInputOpis" value="#{item.opis}" style="min-width: 300px; width:100%" rows="30"/>
-                            <p:message for="modelInputOpis"/>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="priorytet">
+                <p:column headerText="Priorytet">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:inputSwitch value="#{item.priorytet}" onLabel="TAK" offLabel="NIE" disabled="true"/>
@@ -93,28 +81,38 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column style="width:80px" headerText="Treść - rozwiń">
-                    <p:rowToggler />
-                </p:column>
-
-                <p:column style="width: 35px" headerText="edycja">
+                <p:column style="width: 35px" headerText="Edycja">
                     <p:rowEditor editTitle="edytuj"/>
                 </p:column>
 
-                <p:column style="width: 30px">
+                <p:column style="width: 70px" headerText="Edycja treści">
+                    <p:commandButton update=":center:newsDetail" oncomplete="PF('newsOP').show('#{component.clientId}')" icon="ui-icon-search" title="View" process="@this">
+                        <f:setPropertyActionListener value="#{item}" target="#{AdmNewsMg.obiekt}"/>
+                    </p:commandButton>
+                </p:column>
+
+                <p:column style="width: 30px" headerText="usuń">
                     <p:commandButton title="usuń" update="table" icon="ui-icon-trash" action="#{AdmNewsMg.usun}" process="@this"
                                      style="font-weight: lighter; font-size: smaller;">
                         <f:setPropertyActionListener value="#{item}" target="#{AdmNewsMg.obiekt}"/>
                         <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:column>
-
-                <p:rowExpansion>
-                    <h:outputText value="#{item.opis}"/>
-                </p:rowExpansion>
-
             </p:dataTable>
-        </h:form>
-    </ui:define>
-</ui:composition>
+
+            <style>
+                .ui-editor{
+                    background: white;
+                </style>
+
+                <p:overlayPanel id="newsOP" widgetVar="newsOP" showEffect="fade" hideEffect="fade" dismissable="false" showCloseIcon="false" style="background: white;">
+                    <p:outputPanel id="newsDetail" style="text-align:center; background-color: white;">
+                        <p:editor widgetVar="editor1" value="#{AdmNewsMg.obiekt.opis}"/>
+                    </p:outputPanel>
+                    <p:commandButton value="zapisz" action="#{AdmNewsMg.edytujList}" process=":center:newsOP" oncomplete="PF('newsOP').hide()"/>
+                </p:overlayPanel>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
 

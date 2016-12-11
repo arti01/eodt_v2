@@ -7,6 +7,9 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="logowanie">
+        <p:panel style="position: absolute; top: 20px; right: 130px">
+            <p:clock pattern="HH:mm:ss" mode="server"/>
+        </p:panel>
         <p:button styleClass="icon-redaer" value="" outcome="/logineod/login_start.xhtml"/>
     </ui:define>
 

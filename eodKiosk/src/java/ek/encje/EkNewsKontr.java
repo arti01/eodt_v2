@@ -22,7 +22,6 @@ public class EkNewsKontr extends AbstKontroler<EkNews> {
         EntityManager em = getEntityManager();
         try {
             Query qp = em.createNamedQuery("EkNews.findPriorytet");
-            System.err.println(qp.getResultList().size());
             if (qp.getResultList().size() > 0) {
                 return (List<EkNews>) qp.getResultList();
             } else {

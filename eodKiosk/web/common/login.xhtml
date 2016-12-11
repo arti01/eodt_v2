@@ -1,7 +1,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <script type="text/javascript">
+            //<![CDATA[
+            function zegar()
+            {
+            //pobranie aktualnej godziny, minuty i sekundy
+            var czas = new Date();
+            godzina = czas.getHours(); if (godzina <= 9) {godzina = "0" + godzina; }
+            minuta = czas.getMinutes(); if (minuta <= 9) {minuta = "0" + minuta; }
+            sekunda = czas.getSeconds(); if (sekunda <= 9) {sekunda = "0" + sekunda; }
+
+
+            //wyswietlenie godziny w polu formularza
+            //zapis przypisania do pola formularza wyglada tak:
+            document.forms["zegarek"].elements["pokaz"].value = godzina + ":" + minuta + ":" + sekunda;
+            }
+            //]]>
+            setInterval("zegar();", 1000);
+        </script> 
+    </head>
     <div style="z-index:-1; position: absolute;top:0px;left:0px; width: 1024px; height: 600px; background-image: url('../../images/kiosk2.png');background-size:1024px;
          background-repeat: no-repeat;   background-attachment:fixed; border: 0px solid red;">
         <div style="z-index:1; position:relative; top: 100px;left: 250px; width: 500px;  margin: 0 0 0 0; border: 1px solid black; background-color: gray; opacity: 0.5; ">
+
+            <form id="zegarek">
+                <input type="text" value="" name="pokaz" style="width: 80px;" />
+            </form> 
+
             <div style="z-index:2; background-color:white; opacity: 1.0; border: solid green 0px;color: black;">
                 <form id="f1" method="POST" action="j_security_check">
                     <table style="width: 100%; align-content: center; opacity: 1.0;font-family:arial, tahoma; font-size:24px; color: black;">
