@@ -24,7 +24,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "EkObceLinki.findAll", query = "SELECT d FROM EkObceLinki d"),
+    @NamedQuery(name = "EkObceLinki.findAll", query = "SELECT d FROM EkObceLinki d WHERE d.poZalogowaniu = false"),
+    @NamedQuery(name = "EkObceLinki.findPoZalogowaniu", query = "SELECT d FROM EkObceLinki d WHERE d.poZalogowaniu = true"),
     @NamedQuery(name = "EkObceLinki.findById", query = "SELECT d FROM EkObceLinki d WHERE d.id = :id"),
     @NamedQuery(name = "EkObceLinki.findByNazwa", query = "SELECT d FROM EkObceLinki d WHERE d.nazwa = :nazwa")})
 public class EkObceLinki extends ek.abstr.AbstEncja implements Serializable {
@@ -42,6 +43,7 @@ public class EkObceLinki extends ek.abstr.AbstEncja implements Serializable {
     @Size(max = 10485760)
     @Lob
     private String opis;
+    boolean poZalogowaniu;
 
     @Override
     public Long getId() {
@@ -71,7 +73,13 @@ public class EkObceLinki extends ek.abstr.AbstEncja implements Serializable {
         this.opis = opis;
     }
 
-    
+    public boolean isPoZalogowaniu() {
+        return poZalogowaniu;
+    }
+
+    public void setPoZalogowaniu(boolean poZalogowaniu) {
+        this.poZalogowaniu = poZalogowaniu;
+    }    
 
     @Override
     public int hashCode() {

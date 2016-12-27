@@ -22,6 +22,7 @@
                         rows="4" paginator="true" paginatorPosition="top">
                 <p:commandButton value="#{link.opis}" style="width: 480px; max-height: 160px; min-height: 160px;" styleClass="menu-button" action="#{ObceLinkiMg.wyswietl}">
                     <f:setPropertyActionListener target="#{ObceLinkiMg.obiekt}" value="#{link}"/>
+                    <f:setPropertyActionListener target="#{ObceLinkiMg.poZalog}" value="#{false}"/>
                 </p:commandButton>
             </p:dataGrid>
 

@@ -42,7 +42,8 @@
                 <ui:insert name="tytul"/>
                 <ui:insert name="content">Put default content here, if any.</ui:insert>
                 <p:panel style="top:0px; left: 0px; height: 68px; width: 68px; margin: 0; border: 0">
-                    <p:button styleClass="icon-home-back" value="" outcome="/common/index"/>
+                    <p:button styleClass="icon-home-back" value="" outcome="/common/index" rendered="#{!ObceLinkiMg.poZalog}"/>
+                    <p:button styleClass="icon-home-back" value="" outcome="/logineod/login_start" rendered="#{ObceLinkiMg.poZalog}"/>
                 </p:panel>
             </p:layoutUnit>
         </p:layout>
