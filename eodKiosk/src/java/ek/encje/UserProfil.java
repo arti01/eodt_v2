@@ -7,6 +7,7 @@ package ek.encje;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,11 +20,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import pl.eod.encje.Uzytkownik;
 
 /**
  *
@@ -32,13 +33,20 @@ import pl.eod.encje.Uzytkownik;
 @Entity
 @Table(name = "user_profil")
 @NamedQueries({
-    @NamedQuery(name = "UserProfil.findAll", query = "SELECT u FROM UserProfil u"),
-    @NamedQuery(name = "UserProfil.findById", query = "SELECT u FROM UserProfil u WHERE u.id = :id"),
-    @NamedQuery(name = "UserProfil.findByEcpId", query = "SELECT u FROM UserProfil u WHERE u.ecpId = :ecpId"),
-    @NamedQuery(name = "UserProfil.findByCardno", query = "SELECT u FROM UserProfil u WHERE u.cardno = :cardno"),
-    @NamedQuery(name = "UserProfil.findByEmail", query = "SELECT u FROM UserProfil u WHERE u.email = :email"),
-    @NamedQuery(name = "UserProfil.findByEodId", query = "SELECT u FROM UserProfil u WHERE u.eodId = :eodId"),
-    @NamedQuery(name = "UserProfil.findByFullname", query = "SELECT u FROM UserProfil u WHERE u.fullname = :fullname"),
+    @NamedQuery(name = "UserProfil.findAll", query = "SELECT u FROM UserProfil u")
+    ,
+    @NamedQuery(name = "UserProfil.findById", query = "SELECT u FROM UserProfil u WHERE u.id = :id")
+    ,
+    @NamedQuery(name = "UserProfil.findByEcpId", query = "SELECT u FROM UserProfil u WHERE u.ecpId = :ecpId")
+    ,
+    @NamedQuery(name = "UserProfil.findByCardno", query = "SELECT u FROM UserProfil u WHERE u.cardno = :cardno")
+    ,
+    @NamedQuery(name = "UserProfil.findByEmail", query = "SELECT u FROM UserProfil u WHERE u.email = :email")
+    ,
+    @NamedQuery(name = "UserProfil.findByEodId", query = "SELECT u FROM UserProfil u WHERE u.eodId = :eodId")
+    ,
+    @NamedQuery(name = "UserProfil.findByFullname", query = "SELECT u FROM UserProfil u WHERE u.fullname = :fullname")
+    ,
     @NamedQuery(name = "UserProfil.findByPin", query = "SELECT u FROM UserProfil u WHERE u.pin = :pin")})
 public class UserProfil implements Serializable {
 
@@ -64,6 +72,10 @@ public class UserProfil implements Serializable {
     private String fullname;
     @Column(name = "pin")
     private Integer pin;
+    @Temporal(TemporalType.DATE)
+    private Date dataPotwierdzenia;
+    @Column(name = "telefon")
+    private String telefon;
     @ManyToMany()
     @JoinTable(name = "view_user_roles",
             joinColumns = @JoinColumn(name = "cardno", referencedColumnName = "cardno"),
@@ -139,6 +151,26 @@ public class UserProfil implements Serializable {
 
     public void setRoleList(List<Roles> roleList) {
         this.roleList = roleList;
+    }
+
+    public Date getDataPotwierdzenia() {
+        return dataPotwierdzenia;
+    }
+
+    public void setDataPotwierdzenia(Date dataPotwierdzenia) {
+        this.dataPotwierdzenia = dataPotwierdzenia;
+    }
+
+    public String getTelefon() {
+        if (telefon == null) {
+            return "wprowadź numer";
+        } else {
+            return telefon;
+        }
+    }
+
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -106,6 +107,14 @@ public class LoginMg implements Serializable {
     }
 
     public void listSave() {
+        uPK.save(userProfil);
+        String info="Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z ustawą o ochronie danych osobowych w celu przesyłania drogą elektroniczną na podany przeze mnie prywatny adres email oraz prywatny numer telefonu komórkowego dokumentów dotyczących obsługi procesów HR / kadrowo-płacowych, w tym ankiet, newslettera oraz innych informacji z tym związanych, zgodnie z ustawą  o świadczeniu usług drogą elektroniczną. Podanie danych osobowych jest dobrowolne. Zostałem/am poinformowany/a, że przysługuje mi prawo dostępu do swoich danych, możliwości ich poprawiania, żądania zaprzestania ich przetwarzania. Administratorem danych jest Fresenius Nephrocare Polska Sp. z o.o. / Fresenius Medical Care Polska SA z siedzibą  w Poznaniu";
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void potwierdzSave() {
+        userProfil.setDataPotwierdzenia(new Date());
         String info = uPK.save(userProfil);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);
         FacesContext.getCurrentInstance().addMessage(null, message);

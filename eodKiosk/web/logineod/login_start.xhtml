@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="logowanie">
-        <h:panelGrid columns="2" style="width: 100%;">
+        <h:panelGrid columns="2" style="width: 100%;border: 0px solid yellow;">
             <p:commandButton styleClass="icon-redaer" value="" action="#{LoginMg.logOut}" ajax="false"/>
         </h:panelGrid>
     </ui:define>
@@ -18,7 +18,7 @@
 
             <p:idleMonitor id="id2" timeout="#{LoginMg.iddle}" onidle="PF('dlg1').show();"/>
             <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400" style="font-size: 150%; background: white !important; text-align: center">
-                <p:commandButton action="#{LoginMg.logOut}" value="Wyjdź" style="font-size: 100%; width: 100%; border: 0; margin: 0" ajax="false" immediate="true"/>
+                <p:commandButton action="#{LoginMg.logOut}" value="Wyjdź" style="font-size: 100%; width: 100%; border: 0; margin: 0; padding:0;" ajax="false" immediate="true"/>
             </p:dialog>
 
             <p:defaultCommand target="dummy"/>
@@ -26,22 +26,39 @@
             <p:panel rendered="#{LoginMg.user==null}">
                 <h5>Brak użytkownika w EOD</h5>
             </p:panel>
-            <p:panelGrid columns="2" rendered="#{LoginMg.user!=null}" columnClasses="menu, menu" style="width: 100%; text-align:center; max-width: 1024px">
-                <h:outputText value="Dzień dobry #{LoginMg.userProfil.fullname}" style="font-weight: bold"/>
-                <p:panelGrid columns="2" columnClasses="menu">
+            <p:panelGrid columns="2" rendered="#{LoginMg.user!=null}" columnClasses="menu, menu" style="position:relative; top: 0px;  border:0px solid red; width: 100%; text-align:center; max-width: 1024px">
+                <h:outputText value="Dzień dobry #{LoginMg.userProfil.fullname}" style="font-weight: bold;font-size: 16px;"/>
+                <p:panelGrid columns="3" columnClasses="menu" style="font-size: 16px;vertical-align: middle;">
                     <p:outputLabel value="email:"/>
                     <p:inplace id="ajax" editor="true">
                         <p:inputText value="#{LoginMg.userProfil.email}" required="true" label="text" />
-                        <p:ajax event="save" listener="#{LoginMg.listSave}"/>
+                        <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
                     </p:inplace>
-                    <p:spacer/>
-                    <p:panel style="font-size: 70%; vertical-align:top">
+                    
+                    <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
                         <h:outputText value="kliknij aby zmienić"/>    
                     </p:panel>
+                    
+                    <p:outputLabel value="telefon:"/>
+                    <p:inplace id="ajaxtel" editor="true">
+                        <p:inputText value="#{LoginMg.userProfil.telefon}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
+                    </p:inplace>
+                    
+                    <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
+                        <h:outputText value="kliknij aby zmienić"/>    
+                    </p:panel>
+                    <p:growl id="grtel" sticky="true"/>
                 </p:panelGrid>
             </p:panelGrid>
-            <p:panel style="font-size: 10px; font-weight: bold; text-align: center; margin-left: 5px; margin-right: 5px">
+            <p:panel style="font-size: 10px; font-weight: bold; text-align: center; margin-left: 5px; margin-right: 5px" rendered="#{(LoginMg.userProfil.dataPotwierdzenia==null)}">
+                <p:separator/>
                 Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z ustawą o ochronie danych osobowych w celu przesyłania drogą elektroniczną na podany przeze mnie prywatny adres email oraz prywatny numer telefonu komórkowego dokumentów dotyczących obsługi procesów HR / kadrowo-płacowych, w tym ankiet, newslettera oraz innych informacji z tym związanych, zgodnie z ustawą  o świadczeniu usług drogą elektroniczną. Podanie danych osobowych jest dobrowolne. Zostałem/am poinformowany/a, że przysługuje mi prawo dostępu do swoich danych, możliwości ich poprawiania, żądania zaprzestania ich przetwarzania. Administratorem danych jest Fresenius Nephrocare Polska Sp. z o.o. / Fresenius Medical Care Polska SA z siedzibą  w Poznaniu
+                <p:separator/>
+                <p:inputSwitch value="#{(LoginMg.userProfil.dataPotwierdzenia!=null)}" offLabel="Potwierdź" onLabel="Potwierdzono" style="font-size: 13px" immediate="true">
+                    <p:ajax listener="#{LoginMg.potwierdzSave}"/>
+                </p:inputSwitch>
+                <p:separator/>
             </p:panel>
             <p:tabView orientation="top">
                 <p:tab title="Druki/Wnioski">
@@ -49,51 +66,41 @@
                         <p:button value="DRUKI/WNIOSKI" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" outcome="/logineod/rep_dok.xhtml"/>
                         <p:commandButton value="TWOJE WNIOSKI" style="width: 480px; max-height: 180px; min-height: 180px;" styleClass="menu-button" action="#{UrlopMg.lista}" ajax="false"/>
                     </p:panelGrid>
-                    <p:outputPanel style="text-align: center; margin: 10px">
-                        Okres rozliczeniowy: #{LoginMg.okrRozOd} - #{LoginMg.okrRozDo}
+                    <p:outputPanel style="text-align: center; margin: 2px;font-size:14px;">
+                        <b>Okres rozliczeniowy:</b> #{LoginMg.okrRozOd} - #{LoginMg.okrRozDo}
                     </p:outputPanel>
-                    <h:panelGrid style="width: 90%; font-size: 75%;" columns="2">
-                        <p:panelGrid style="margin-left: 50px; margin-right: auto; margin-top: 0px;  text-align: center;">
+                    <h:panelGrid style="width: 100%; font-size: 14px;" columns="1">
+                        <p:panelGrid style="margin-left: 80px; margin-right: auto; margin-top: 0px;  text-align: center;border: 0px solid yellow;">
                             <p:row>
                                 <p:column style="border: 0; font-weight: bold; width: 150px;text-align:right;">
-                                    Stan nadgodzin
+                                    Stan nadgodzin:
                                 </p:column>
-                                <p:column style="border: 1px solid black; text-align: right">
+                                <p:column style="border: 1px solid black; text-align: right;width: 120px;">
                                     50%:<h:outputText value="#{LoginMg.stanNad50}"/>
                                 </p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column style="border: 0px solid black;">
-                                </p:column>
-                                <p:column  style="border: 1px solid black; text-align: right">
+                                <p:column  style="border: 1px solid black; text-align: right;width: 120px;">
                                     100%:<h:outputText value="#{LoginMg.stanNad100}"/>
                                 </p:column>
                             </p:row>
+                            
                         </p:panelGrid>
 
-                        <p:panelGrid style="text-align: center; margin-left:150px;">
+                        <p:panelGrid style="text-align: center; margin-left:80px;border: 0px solid yellow;">
                             <p:row>
                                 <p:column style="border: 0; font-weight: bold;width: 150px;text-align:right; ">
-                                    Stan urlopu
+                                    Stan urlopu:
                                 </p:column>
-                                <p:column style="border: 1px solid black; text-align: left">
+                                <p:column style="border: 1px solid black; text-align: left;width: 210px;">
                                     <h:outputText value="#{LoginMg.stanUrlLim}"/>
                                 </p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column style="border: 0;">
-                                </p:column>
-                                <p:column style="border: 1px solid black; text-align: left">
+                                <p:column style="border: 1px solid black; text-align: left;width: 210px;">
                                     <h:outputText value="#{LoginMg.stanUrlWyk}"/>
                                 </p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column  style="border: 0;">
-                                </p:column>
-                                <p:column style="border: 1px solid black; text-align: left">
+                                <p:column style="border: 1px solid black; text-align: left;width: 210px;">
                                     <h:outputText value="#{LoginMg.stanUrlPoz}"/>
                                 </p:column>
                             </p:row>
+                            
                         </p:panelGrid>
                     </h:panelGrid>
                 </p:tab>

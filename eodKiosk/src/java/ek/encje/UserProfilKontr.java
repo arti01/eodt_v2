@@ -6,6 +6,8 @@
 package ek.encje;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -15,6 +17,7 @@ import javax.persistence.Query;
 public class UserProfilKontr implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    static final Logger LOGGER = Logger.getAnonymousLogger();
 
     public UserProfilKontr() {
         if (this.emf == null) {
@@ -41,9 +44,20 @@ public class UserProfilKontr implements Serializable {
             em.close();
         }
     }
-    
-    public String save(UserProfil up){
-        getEntityManager().merge(up);
+
+    public String save(UserProfil up) {
+        try {
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            em.merge(up);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "blad", ex);
+        } finally {
+            if (getEntityManager() != null) {
+                getEntityManager().close();
+            }
+        }
         return "zmiana wykonana";
     }
 }
