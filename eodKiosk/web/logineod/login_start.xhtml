@@ -48,15 +48,21 @@
                     <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
                         <h:outputText value="kliknij aby zmienić"/>    
                     </p:panel>
-                    <p:growl id="grtel" sticky="true"/>
+                    <style>
+                        .ui-growl-item{
+                            font-size: 12px;
+                            font-weight: normal;
+                        }
+                    </style>
+                    <p:growl id="grtel" sticky="false"/>
                 </p:panelGrid>
             </p:panelGrid>
-            <p:panel style="font-size: 10px; font-weight: bold; text-align: center; margin-left: 5px; margin-right: 5px" rendered="#{(LoginMg.userProfil.dataPotwierdzenia==null)}">
+            <p:panel id="potwForm1" style="font-size: 10px; font-weight: bold; text-align: center; margin-left: 5px; margin-right: 5px" rendered="#{!LoginMg.potwierdzenie}">
                 <p:separator/>
                 Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z ustawą o ochronie danych osobowych w celu przesyłania drogą elektroniczną na podany przeze mnie prywatny adres email oraz prywatny numer telefonu komórkowego dokumentów dotyczących obsługi procesów HR / kadrowo-płacowych, w tym ankiet, newslettera oraz innych informacji z tym związanych, zgodnie z ustawą  o świadczeniu usług drogą elektroniczną. Podanie danych osobowych jest dobrowolne. Zostałem/am poinformowany/a, że przysługuje mi prawo dostępu do swoich danych, możliwości ich poprawiania, żądania zaprzestania ich przetwarzania. Administratorem danych jest Fresenius Nephrocare Polska Sp. z o.o. / Fresenius Medical Care Polska SA z siedzibą  w Poznaniu
                 <p:separator/>
-                <p:inputSwitch value="#{(LoginMg.userProfil.dataPotwierdzenia!=null)}" offLabel="Potwierdź" onLabel="Potwierdzono" style="font-size: 13px" immediate="true">
-                    <p:ajax listener="#{LoginMg.potwierdzSave}"/>
+                <p:inputSwitch value="#{LoginMg.userProfil.jestData}" offLabel="Potwierdź" onLabel="Potwierdzono" style="font-size: 13px" id="potwForm">
+                    <p:ajax listener="#{LoginMg.potwierdzSave}" process="@form"/>
                 </p:inputSwitch>
                 <p:separator/>
             </p:panel>

@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -74,6 +75,8 @@ public class UserProfil implements Serializable {
     private Integer pin;
     @Temporal(TemporalType.DATE)
     private Date dataPotwierdzenia;
+    @Transient
+    private boolean jestData;
     @Column(name = "telefon")
     private String telefon;
     @ManyToMany()
@@ -169,6 +172,18 @@ public class UserProfil implements Serializable {
         }
     }
 
+    public boolean isJestData() {
+        if (getDataPotwierdzenia() == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void setJestData(boolean jestData) {
+        this.jestData = jestData;
+    }
+    
     public void setTelefon(String telefon) {
         this.telefon = telefon;
     }

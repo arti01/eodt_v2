@@ -5,6 +5,7 @@
  */
 package ek.abstr;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,9 @@ import javax.persistence.criteria.CriteriaQuery;
  * @author 103039
  * @param <X>
  */
-public abstract class AbstKontroler<X extends AbstEncja> {
+public abstract class AbstKontroler<X extends AbstEncja> implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private final X type;
     static final Logger LOGGER = Logger. getAnonymousLogger();

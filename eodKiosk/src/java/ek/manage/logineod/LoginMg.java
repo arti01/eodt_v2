@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ public class LoginMg implements Serializable {
     private String okrRozDo;
     private KioskManager km;
     private boolean urodziny = false;
+    private boolean potwierdzenie = false;
 
     @PostConstruct
     public void init() {
@@ -54,6 +56,7 @@ public class LoginMg implements Serializable {
         if (request != null) {
             try {
                 userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
+                potwierdzenie=userProfil.isJestData();
                 userC = new UzytkownikJpaController();
                 if (userProfil.getEodId() != null) {
                     user = userC.findUzytkownik(userProfil.getEodId().longValue());
@@ -69,12 +72,17 @@ public class LoginMg implements Serializable {
                 SimpleDateFormat sdfMD = new SimpleDateFormat("MM-dd");
                 //SimpleDateFormat sdfTest = new SimpleDateFormat("MM-dd hh:mm");
                 String stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
+                //stanNadgodzin=stanNadgodzin.replace("Brak", " - ");
                 String[] stnS = stanNadgodzin.split("\\|");
                 stanNad50 = stnS[0];
                 stanNad100 = stnS[0];
                 String stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
                 String[] stuS = stanUrlopow.split("\\|");
                 stanUrlLim = stuS[0];
+                if(stuS.length<2){
+                    Logger.getLogger(LoginMg.class.getName()).log(Level.SEVERE, "brak komletu informacji z ECP");
+                    return;
+                }
                 stanUrlWyk = stuS[1];
                 stanUrlPoz = stuS[2];
                 String okresRozl = km.pobierzOkresRozlicz(sdf.format(Calendar.getInstance().getTime()));
@@ -108,14 +116,14 @@ public class LoginMg implements Serializable {
 
     public void listSave() {
         uPK.save(userProfil);
-        String info="Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z ustawą o ochronie danych osobowych w celu przesyłania drogą elektroniczną na podany przeze mnie prywatny adres email oraz prywatny numer telefonu komórkowego dokumentów dotyczących obsługi procesów HR / kadrowo-płacowych, w tym ankiet, newslettera oraz innych informacji z tym związanych, zgodnie z ustawą  o świadczeniu usług drogą elektroniczną. Podanie danych osobowych jest dobrowolne. Zostałem/am poinformowany/a, że przysługuje mi prawo dostępu do swoich danych, możliwości ich poprawiania, żądania zaprzestania ich przetwarzania. Administratorem danych jest Fresenius Nephrocare Polska Sp. z o.o. / Fresenius Medical Care Polska SA z siedzibą  w Poznaniu";
+        String info = "Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z ustawą o ochronie danych osobowych w celu przesyłania drogą elektroniczną na podany przeze mnie prywatny adres email oraz prywatny numer telefonu komórkowego dokumentów dotyczących obsługi procesów HR / kadrowo-płacowych, w tym ankiet, newslettera oraz innych informacji z tym związanych, zgodnie z ustawą  o świadczeniu usług drogą elektroniczną. Podanie danych osobowych jest dobrowolne. Zostałem/am poinformowany/a, że przysługuje mi prawo dostępu do swoich danych, możliwości ich poprawiania, żądania zaprzestania ich przetwarzania. Administratorem danych jest Fresenius Nephrocare Polska Sp. z o.o. / Fresenius Medical Care Polska SA z siedzibą  w Poznaniu";
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
+
     public void potwierdzSave() {
-        userProfil.setDataPotwierdzenia(new Date());
-        String info = uPK.save(userProfil);
+        uPK.save(userProfil);
+        String info = "zmiana wykonana";
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
@@ -174,6 +182,14 @@ public class LoginMg implements Serializable {
 
     public String getIddle30() {
         return iddle30;
+    }
+
+    public boolean isPotwierdzenie() {
+        return potwierdzenie;
+    }
+
+    public void setPotwierdzenie(boolean potwierdzenie) {
+        this.potwierdzenie = potwierdzenie;
     }
 
 }
