@@ -34,29 +34,38 @@
                         <p:inputText value="#{LoginMg.userProfil.email}" required="true" label="text" />
                         <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
                     </p:inplace>
-                    
+
                     <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
                         <h:outputText value="kliknij aby zmienić"/>    
                     </p:panel>
-                    
+
                     <p:outputLabel value="telefon:"/>
                     <p:inplace id="ajaxtel" editor="true">
                         <p:inputText value="#{LoginMg.userProfil.telefon}" required="true" label="text" />
                         <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
                     </p:inplace>
-                    
+
                     <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
                         <h:outputText value="kliknij aby zmienić"/>    
                     </p:panel>
-                    <style>
-                        .ui-growl-item{
-                            font-size: 12px;
-                            font-weight: normal;
-                        }
-                    </style>
-                    <p:growl id="grtel" sticky="false"/>
                 </p:panelGrid>
             </p:panelGrid>
+
+            <style>
+                .ui-growl{
+                    left: 25px;
+                    width: 90%;
+                }
+                .ui-growl-message {
+                    padding: 0 0 5px 0;
+                    width: 100%;
+                    float: left;
+                    font-size: 12px;
+                    font-weight: normal;
+                }
+            </style>
+            <p:growl id="grtel" sticky="false"/>
+
             <p:panel id="potwForm1" style="font-size: 10px; font-weight: bold; text-align: center; margin-left: 5px; margin-right: 5px" rendered="#{!LoginMg.potwierdzenie}">
                 <p:separator/>
                 Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z ustawą o ochronie danych osobowych w celu przesyłania drogą elektroniczną na podany przeze mnie prywatny adres email oraz prywatny numer telefonu komórkowego dokumentów dotyczących obsługi procesów HR / kadrowo-płacowych, w tym ankiet, newslettera oraz innych informacji z tym związanych, zgodnie z ustawą  o świadczeniu usług drogą elektroniczną. Podanie danych osobowych jest dobrowolne. Zostałem/am poinformowany/a, że przysługuje mi prawo dostępu do swoich danych, możliwości ich poprawiania, żądania zaprzestania ich przetwarzania. Administratorem danych jest Fresenius Nephrocare Polska Sp. z o.o. / Fresenius Medical Care Polska SA z siedzibą  w Poznaniu
@@ -88,7 +97,7 @@
                                     100%:<h:outputText value="#{LoginMg.stanNad100}"/>
                                 </p:column>
                             </p:row>
-                            
+
                         </p:panelGrid>
 
                         <p:panelGrid style="text-align: center; margin-left:80px;border: 0px solid yellow;">
@@ -106,7 +115,7 @@
                                     <h:outputText value="#{LoginMg.stanUrlPoz}"/>
                                 </p:column>
                             </p:row>
-                            
+
                         </p:panelGrid>
                     </h:panelGrid>
                 </p:tab>

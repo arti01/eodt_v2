@@ -13,6 +13,8 @@ import javax.persistence.Query;
 
 public class EkNewsKontr extends AbstKontroler<EkNews> {
 
+    private static final long serialVersionUID = 1L;
+
     public EkNewsKontr() {
         super(new EkNews());
     }

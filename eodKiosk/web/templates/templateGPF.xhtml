@@ -114,6 +114,8 @@
                     <p:menubar toggleEvent="click">
                         <p:menuitem value="Start" outcome="/common/index.xhtml" icon="ui-icon-refresh"/>
                         <p:menuitem value="Newsy" action="#{AdmNewsMg.list}" ajax="false"/>
+                        <p:menuitem value="Profile użytkowników" action="#{AdmUserMg.list}" ajax="false"/>
+                        <p:menuitem value="Dodaj profil" action="#{AdmUserMg.addForm}" ajax="false"/>
                     </p:menubar>
                 </h:form>
                 <h1 align="center">

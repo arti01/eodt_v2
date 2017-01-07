@@ -1,0 +1,83 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateGPF.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <h:form id="center">
+
+            <p:dataTable id="table" value="#{AdmUserMg.lista}" var="item" paginator="true" rowsPerPageTemplate="20, 50, 100" rows="20"
+                         widgetVar="tableV" emptyMessage="brak danych" style="text-align: center" editable="true" sortBy="#{item.fullname}">
+                <p:ajax event="rowEdit" listener="#{AdmUserMg.editList}" update=":infoForm:messages"/>
+                <p:column headerText="Imię nazwisko" filterBy="#{item.fullname}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.fullname}">
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInputData" value="#{item.fullname}" style="width:100%">
+                            </p:inputText>
+                            <p:message for="modelInputData"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Email">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.email}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInputNazwa" value="#{item.email}" style="width:100%"/>
+                            <p:message for="modelInputNazwa"/>
+                        </f:facet>
+                    </p:cellEditor>
+                    <p:message for="table"/>
+                </p:column>
+                
+                <p:column headerText="Telefon">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.telefon}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInputTelefon" value="#{item.telefon}" style="width:100%"/>
+                            <p:message for="modelInputTelefon"/>
+                        </f:facet>
+                    </p:cellEditor>
+                    <p:message for="table"/>
+                </p:column>
+                <p:column headerText="Eod - nazwisko">
+                    <h:outputText value="#{item.uzytkownik.fullname}"/>
+                </p:column>
+                <p:column headerText="Eod - email">
+                    <h:outputText value="#{item.uzytkownik.adrEmail}"/>
+                </p:column>
+                
+                <p:column headerText="Ecp - nazwisko">
+                    <h:outputText value="#{item.userEcp.fullname}"/>
+                </p:column>
+                <p:column headerText="Ecp - email">
+                    <h:outputText value="#{item.userEcp.email}"/>
+                </p:column>
+
+                <p:column style="width: 35px" headerText="Edycja">
+                    <p:rowEditor editTitle="edytuj"/>
+                </p:column>
+
+                <p:column style="width: 30px" headerText="usuń">
+                    <p:commandButton title="usuń" update="table" icon="ui-icon-trash" action="#{AdmUserMg.usun}" process="@this"
+                                     style="font-weight: lighter; font-size: smaller;">
+                        <f:setPropertyActionListener value="#{item}" target="#{AdmUserMg.obiekt}"/>
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +33,6 @@ public class LoginMg implements Serializable {
     private static final long serialVersionUID = 1L;
     private UserProfil userProfil;
     private final UserProfilKontr uPK = new UserProfilKontr();
-    private UzytkownikJpaController userC;
     private Uzytkownik user;
     private String iddle;
     private String iddle30;
@@ -57,10 +55,7 @@ public class LoginMg implements Serializable {
             try {
                 userProfil = uPK.findByCardno(request.getUserPrincipal().getName());
                 potwierdzenie=userProfil.isJestData();
-                userC = new UzytkownikJpaController();
-                if (userProfil.getEodId() != null) {
-                    user = userC.findUzytkownik(userProfil.getEodId().longValue());
-                }
+                user=uPK.findUzytkownik(userProfil);
                 EkConfigKontr confC = new EkConfigKontr();
                 Long iddL = new Long(confC.findEntities("iddle").getWartosc());
                 this.iddle = Long.toString(iddL * 60 * 1000);
@@ -122,6 +117,11 @@ public class LoginMg implements Serializable {
     }
 
     public void potwierdzSave() {
+        if (userProfil.getDataPotwierdzenia() == null) {
+            userProfil.setDataPotwierdzenia(new Date());
+        } else {
+            userProfil.setDataPotwierdzenia(null);
+        }
         uPK.save(userProfil);
         String info = "zmiana wykonana";
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);

@@ -1,0 +1,71 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateGPF.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <h:form id="center">
+            <p:wizard flowListener="#{AdmUserMg.onFlowProcess}">
+                <p:tab id="ecp" title="Dane ECP">
+                    <p:panel header="wybierz użytkownika z ECP">
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="column1, column2" width="800px">
+                            <h:outputText value="Zacznij wpisywać email ECP lub imię i nazwisko (min. 3 znaki):" />
+                            <p:autoComplete id="themePojoEcp" value="#{AdmUserMg.obiekt.ecpId}" completeMethod="#{AdmUserMg.completeEcpUser}"
+                                            var="us" itemLabel="#{us.email}" itemValue="#{us.id}" size="80" minQueryLength="3" required="true"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                
+                <p:tab id="personal" title="Dane podstawowe">
+                    <p:panel header="Wprowadź dane profilu">
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="column1, column2" width="800px">
+                            <h:outputText value="Imię nazwisko:" />
+                            <p:inputText value="#{AdmUserMg.obiekt.fullname}" required="true" label="Imię nazwisko" validatorMessage="brak danych" size="80"/>
+
+                            <h:outputText value="Email:" />
+                            <p:inputText value="#{AdmUserMg.obiekt.email}" required="true" label="email" validatorMessage="to nie jest email" size="80"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="eod" title="Dane EOD">
+                    <p:panel header="wybierz użytkownika z EOD">
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="column1, column2" width="800px">
+                            <h:outputText value="Zacznij wpisywać email EOD lub imię i nazwisko (min. 3 znaki):" />
+                            <p:autoComplete id="themePojo" value="#{AdmUserMg.obiekt.eodId}" completeMethod="#{AdmUserMg.completeUser}"
+                                            var="us" itemLabel="#{us.adrEmail}" itemValue="#{us.id}" size="80" minQueryLength="3"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                
+                 <p:tab id="confirm" title="Potwierdzenie">
+                     <p:panel header="Potwierdź">
+                         <h:panelGrid columns="2" columnClasses="column1, column2" width="800px">
+                             <p:outputLabel value="Imię nazwisko:"/>
+                             <h:outputText value="#{AdmUserMg.obiekt.fullname}" style="background-color: saddlebrown"/>
+                             
+                             <p:outputLabel value="Email:"/>
+                             <h:outputText value="#{AdmUserMg.obiekt.email}" style="background-color: saddlebrown"/>
+                             
+                             <p:outputLabel value="Email i nazwisko z EOD:"/>
+                             <h:outputText value="#{AdmUserMg.obiekt.uzytkownik.adrEmail} #{AdmUserMg.obiekt.uzytkownik.fullname}" style="background-color: saddlebrown"/>
+                             
+                             <p:outputLabel value="Email i nazwisko z ECP:"/>
+                             <h:outputText value="#{AdmUserMg.obiekt.userEcp.email} #{AdmUserMg.obiekt.userEcp.fullname}" style="background-color: saddlebrown"/>
+                             
+                             <p:commandButton value="Zapisz" action="#{AdmUserMg.dodajProf}" ajax="false"/>
+                         </h:panelGrid> 
+                     </p:panel>
+                 </p:tab>
+            </p:wizard>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
