@@ -65,7 +65,7 @@ public class Roles implements Serializable {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

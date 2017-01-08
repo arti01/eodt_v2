@@ -8,7 +8,9 @@ package ek.encje;
 import ek.abstr.AbstKontroler;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -74,10 +76,32 @@ public class UserProfilKontr extends AbstKontroler<UserProfil> implements Serial
     }
 
     @Override
+    public Map<String, String> create(UserProfil obiekt) {
+        Map<String, String> wynik;
+        wynik=super.create(obiekt);
+        try {
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createNativeQuery("INSERT INTO ekiosk.j_user_role(uid, rid) VALUES ("+obiekt.getId()+", 2)");
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "blad", ex);
+        } finally {
+            if (getEntityManager() != null) {
+                getEntityManager().close();
+            }
+        }
+        return wynik;
+    }
+
+    @Override
     public void destroy(UserProfil up) {
         try {
             EntityManager em = getEntityManager();
             em.getTransaction().begin();
+            Query queryd = em.createNativeQuery("delete from j_user_role where uid = "+up.getId());
+            queryd.executeUpdate();
             Query query = em.createNativeQuery("delete from user_profil where id = "+up.getId());
             query.executeUpdate();
             em.getTransaction().commit();

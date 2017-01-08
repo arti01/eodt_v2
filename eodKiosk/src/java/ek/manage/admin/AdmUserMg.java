@@ -10,7 +10,6 @@ import ek.encje.UserProfil;
 import ek.encje.UserProfilKontr;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -83,7 +82,7 @@ public class AdmUserMg extends AbstMg<UserProfil, UserProfilKontr> {
         this.skip = skip;
     }
 
-    public String dodajProf() throws InstantiationException, IllegalAccessException {
+    public String dodajProf() throws InstantiationException, IllegalAccessException, Exception {
         dodaj(); //To change body of generated methods, choose Tools | Templates.
         return "/admin/user_list?faces-redirect=true";
     }

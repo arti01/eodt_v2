@@ -23,7 +23,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import pl.eod.encje.Uzytkownik;
-import pl.eod.encje.UzytkownikJpaController;
 import pl.esoftking.ekiosk.app.KioskManager;
 
 @ManagedBean(name = "LoginMg")
@@ -117,13 +116,16 @@ public class LoginMg implements Serializable {
     }
 
     public void potwierdzSave() {
+        String info;
         if (userProfil.getDataPotwierdzenia() == null) {
             userProfil.setDataPotwierdzenia(new Date());
+            info = "Zgoda potwierdzona";
         } else {
             userProfil.setDataPotwierdzenia(null);
+            info = "Zgoda wycofana";
         }
         uPK.save(userProfil);
-        String info = "zmiana wykonana";
+        
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, info, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
