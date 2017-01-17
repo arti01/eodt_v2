@@ -36,7 +36,7 @@
         <realm-name>ekiosk</realm-name>
         <form-login-config>
             <form-login-page>/common/login.xhtml</form-login-page>
-            <form-error-page>/common/login.xhtml</form-error-page>
+            <form-error-page>/common/error.html</form-error-page>
         </form-login-config>
     </login-config>
     <security-role>
@@ -60,8 +60,6 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>user</role-name>
-        </auth-constraint>
-        <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>

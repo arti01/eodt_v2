@@ -28,26 +28,18 @@
             </p:panel>
             <p:panelGrid columns="2" rendered="#{LoginMg.user!=null}" columnClasses="menu, menu" style="position:relative; top: 0px;  border:0px solid red; width: 100%; text-align:center; max-width: 1024px">
                 <h:outputText value="Dzień dobry #{LoginMg.userProfil.fullname}" style="font-weight: bold;font-size: 16px;"/>
-                <p:panelGrid columns="3" columnClasses="menu" style="font-size: 16px;vertical-align: middle;">
+                <p:panelGrid columns="2" columnClasses="menu" style="font-size: 16px;vertical-align: middle;">
                     <p:outputLabel value="email:"/>
                     <p:inplace id="ajax" editor="true">
                         <p:inputText value="#{LoginMg.userProfil.email}" required="true" label="text" />
                         <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
                     </p:inplace>
 
-                    <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
-                        <h:outputText value="kliknij aby zmienić"/>    
-                    </p:panel>
-
                     <p:outputLabel value="telefon:"/>
                     <p:inplace id="ajaxtel" editor="true">
                         <p:inputText value="#{LoginMg.userProfil.telefon}" required="true" label="text" />
                         <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
                     </p:inplace>
-
-                    <p:panel style="font-size: 12px;margin:0,0,0,0 ;vertical-align:top">
-                        <h:outputText value="kliknij aby zmienić"/>    
-                    </p:panel>
                 </p:panelGrid>
             </p:panelGrid>
 
