@@ -169,7 +169,7 @@ public class UserProfil extends ek.abstr.AbstEncja implements Serializable {
     }
 
     public String getTelefon() {
-        if (telefon == null) {
+        if (telefon == null||telefon.isEmpty()) {
             return "wprowadź numer";
         } else {
             return telefon;
@@ -177,11 +177,7 @@ public class UserProfil extends ek.abstr.AbstEncja implements Serializable {
     }
 
     public boolean isJestData() {
-        if (getDataPotwierdzenia() == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return getDataPotwierdzenia() != null;
     }
 
     public void setJestData(boolean jestData) {
