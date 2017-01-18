@@ -16,7 +16,7 @@
                         <h:panelGrid columns="2" columnClasses="column1, column2" width="800px">
                             <h:outputText value="Zacznij wpisywać email ECP lub imię i nazwisko (min. 3 znaki):" />
                             <p:autoComplete id="themePojoEcp" value="#{AdmUserMg.obiekt.ecpId}" completeMethod="#{AdmUserMg.completeEcpUser}"
-                                            var="us" itemLabel="#{us.email}" itemValue="#{us.id}" size="80" minQueryLength="3" required="true"/>
+                                            var="us" itemLabel="#{us.fullname}" itemValue="#{us.id}" size="80" minQueryLength="3" required="true"/>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>

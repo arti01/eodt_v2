@@ -138,7 +138,7 @@ public class AdmUserMg extends AbstMg<UserProfil, UserProfilKontr> {
                     continue uzLi;
                 }
             }
-            if (u.getEmail().toLowerCase().startsWith(query) || u.getFullname().toLowerCase().startsWith(query)) {
+            if (u.getFullname().toLowerCase().startsWith(query)) {
                 filteredThemes.add(u);
             }
         }

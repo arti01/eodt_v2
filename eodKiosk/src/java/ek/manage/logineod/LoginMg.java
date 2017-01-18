@@ -99,6 +99,7 @@ public class LoginMg implements Serializable {
 
     public String logOut() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        System.err.println("wylogow");
         //FacesContext.getCurrentInstance().getExternalContext().redirect("/");
         return "/common/index.xhtml";
     }

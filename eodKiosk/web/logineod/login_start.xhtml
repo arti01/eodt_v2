@@ -12,14 +12,19 @@
         </h:panelGrid>
     </ui:define>
 
+
+
     <ui:define name="content">
+
+        <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" width="600" style="font-size: 150%; background: white !important; text-align: center" modal="true" appendTo="@(body)">
+            <h:form>
+                <p:commandButton action="#{LoginMg.logOut}" value="Wyjdź" style="font-size: 100%; width: 100%; border: 0; margin: 0; padding:0;" ajax="false" immediate="true"/>
+            </h:form>
+        </p:dialog>
 
         <h:form id="center" style="background: transparent !important;">            
 
             <p:idleMonitor id="id2" timeout="#{LoginMg.iddle}" onidle="PF('dlg1').show();"/>
-            <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400" style="font-size: 150%; background: white !important; text-align: center">
-                <p:commandButton action="#{LoginMg.logOut}" value="Wyjdź" style="font-size: 100%; width: 100%; border: 0; margin: 0; padding:0;" ajax="false" immediate="true"/>
-            </p:dialog>
 
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>

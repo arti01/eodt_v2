@@ -48,7 +48,6 @@
         <role-name>user</role-name>
     </security-role>
     <error-page>
-        <error-code>500</error-code>
         <location>/common/error.html</location>
     </error-page>
     <security-constraint>
