@@ -46,7 +46,7 @@
                 <p:panel style="max-width: 890px; float: left; top: 40px; position: relative; margin-left: 10px;">
                     <p:poll interval="121" listener="#{NewsMg.listener}" update="karuzela" process="@this"/>
                     <p:carousel id="karuzela" numVisible="1" effect="easeInStrong" headerText="Newsy"
-                                circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="7000" vertical="true">             
+                                circular="true" value="#{NewsMg.lista}" var="item" autoPlayInterval="10000" vertical="true">             
                         <p:tab>
                             <p:commandLink style="font-weight: bolder; color: black; text-decoration: none;" value="#{item.nazwa}" ajax="false" action="#{NewsMg.detale}">
                                 <f:setPropertyActionListener target="#{NewsMg.obiekt}" value="#{item}"/>

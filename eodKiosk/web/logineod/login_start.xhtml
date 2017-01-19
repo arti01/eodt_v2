@@ -32,15 +32,15 @@
                 <h5>Brak użytkownika w EOD</h5>
             </p:panel>
             <p:panelGrid columns="2" rendered="#{LoginMg.user!=null}" columnClasses="menu, menu" style="position:relative; top: 0px;  border:0px solid red; width: 100%; text-align:center; max-width: 1024px">
-                <h:outputText value="Dzień dobry #{LoginMg.userProfil.fullname}" style="font-weight: bold;font-size: 16px;"/>
-                <p:panelGrid columns="2" columnClasses="menu" style="font-size: 16px;vertical-align: middle;">
-                    <p:outputLabel value="email:"/>
+                <h:outputText value="Pracownik: #{LoginMg.userProfil.fullname}" style="font-weight: bold;font-size: 16px;"/>
+               <p:panelGrid columns="2" columnClasses="menu" style="font-size: 16px;vertical-align: middle;">
+                    <p:outputLabel value="Email:"/>
                     <p:inplace id="ajax" editor="true">
                         <p:inputText value="#{LoginMg.userProfil.email}" required="true" label="text" />
                         <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
                     </p:inplace>
 
-                    <p:outputLabel value="telefon:"/>
+                    <p:outputLabel value="Telefon:"/>
                     <p:inplace id="ajaxtel" editor="true">
                         <p:inputText value="#{LoginMg.userProfil.telefon}" required="true" label="text" />
                         <p:ajax event="save" listener="#{LoginMg.listSave}" update="grtel"/>
