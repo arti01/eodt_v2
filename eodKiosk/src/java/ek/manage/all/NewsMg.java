@@ -38,5 +38,5 @@ public class NewsMg extends AbstMg<EkNews, EkNewsKontr> {
     public String detale(){
         return super.link;
     }
-    
-}
+
+    }
