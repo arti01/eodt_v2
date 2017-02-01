@@ -9,7 +9,7 @@
     <ui:define name="logowanie">
         <p:poll interval="60" update="clock"/>
         <p:panel id="clock" style="position: absolute; top: 20px; right: 130px">
-            <p:clock pattern="HH:mm:ss" mode="server" autoSync="true"/>
+            <p:clock pattern="HH:mm:ss" mode="client"/>
         </p:panel>
         <p:button styleClass="icon-redaer" value="" outcome="/logineod/login_start.xhtml"/>
     </ui:define>
