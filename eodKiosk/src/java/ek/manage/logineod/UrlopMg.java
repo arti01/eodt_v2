@@ -35,6 +35,8 @@ public class UrlopMg implements Serializable {
     private Date godzOdT;
     private Date godzDoT;
     private Date dataUrlopu;
+    private boolean widokKalData1=false;
+    private boolean widokKalData2=false;
 
     @PostConstruct
     public void init() {
@@ -105,6 +107,14 @@ public class UrlopMg implements Serializable {
         return "/logineod/urlop_list";
     }
 
+    public void ustawData1(){
+        widokKalData1=false;
+    }
+    
+    public void ustawData2(){
+        widokKalData2=false;
+    }
+    
     public WnUrlop getUrlop() {
         return urlop;
     }
@@ -159,6 +169,22 @@ public class UrlopMg implements Serializable {
 
     public void setDataUrlopu(Date dataUrlopu) {
         this.dataUrlopu = dataUrlopu;
+    }
+
+    public boolean isWidokKalData1() {
+        return widokKalData1;
+    }
+
+    public void setWidokKalData1(boolean widokKalData1) {
+        this.widokKalData1 = widokKalData1;
+    }
+
+    public boolean isWidokKalData2() {
+        return widokKalData2;
+    }
+
+    public void setWidokKalData2(boolean widokKalData2) {
+        this.widokKalData2 = widokKalData2;
     }
 
 }
