@@ -65,7 +65,7 @@ public class LoginMg implements Serializable {
                 SimpleDateFormat sdfF = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat sdfMD = new SimpleDateFormat("MM-dd");
                 //SimpleDateFormat sdfTest = new SimpleDateFormat("MM-dd hh:mm");
-                String stanNadgodzin = km.pobierzStanNadgodzin(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
+                String stanNadgodzin = km.pobierzStanNadgodzinOkresRozliczeniowy(sdf.format(Calendar.getInstance().getTime()), userProfil.getEcpId().longValue());
                 //stanNadgodzin=stanNadgodzin.replace("Brak", " - ");
                 String[] stnS = stanNadgodzin.split("\\|");
                 stanNad50 = stnS[0];
