@@ -10,6 +10,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,6 +19,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
 import pl.eod.encje.WnRodzajeJpaController;
 import pl.eod.encje.WnUrlop;
 import pl.eod.encje.WnUrlopJpaController;
@@ -37,6 +41,7 @@ public class UrlopMg implements Serializable {
     private Date dataUrlopu;
     private boolean widokKalData1=false;
     private boolean widokKalData2=false;
+    private boolean wprowadzanie=false;
 
     @PostConstruct
     public void init() {
@@ -49,11 +54,16 @@ public class UrlopMg implements Serializable {
         }
     }
 
-    public void dodaj() throws ParseException {
+    public void dodaj() {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
-        String error = urlC.dodajUrlop(urlop, dataUrlopu, godzOdT, godzDoT);
+        String error = null;
+        try {
+            error = urlC.dodajUrlop(urlop, dataUrlopu, godzOdT, godzDoT);
+        } catch (ParseException ex) {
+            Logger.getLogger(UrlopMg.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (error != null) {
             message.setSummary(error);
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -63,6 +73,7 @@ public class UrlopMg implements Serializable {
             message.setSummary("wniosek zapisany");
             message.setSeverity(FacesMessage.SEVERITY_INFO);
         }
+        wprowadzanie=false;
         context.addMessage(zapisz.getClientId(context), message);
     }
 
@@ -187,4 +198,21 @@ public class UrlopMg implements Serializable {
         this.widokKalData2 = widokKalData2;
     }
 
+    public boolean isWprowadzanie() {
+        return wprowadzanie;
+    }
+
+    public void setWprowadzanie(boolean wprowadzanie) {
+        System.err.println(wprowadzanie);
+        this.wprowadzanie = wprowadzanie;
+    }
+    
+    public void handleToggleWprow(ToggleEvent event) {
+        if(event.getVisibility().compareTo(Visibility.VISIBLE)==0){
+            wprowadzanie=true;
+        }
+        if(event.getVisibility().compareTo(Visibility.HIDDEN)==0){
+            wprowadzanie=false;
+        }
+    }
 }

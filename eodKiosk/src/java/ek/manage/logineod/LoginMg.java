@@ -69,7 +69,7 @@ public class LoginMg implements Serializable {
                 //stanNadgodzin=stanNadgodzin.replace("Brak", " - ");
                 String[] stnS = stanNadgodzin.split("\\|");
                 stanNad50 = stnS[0];
-                stanNad100 = stnS[0];
+                stanNad100 = stnS[1];
                 String stanUrlopow = km.pobierzStanUrlopow(new Long(sdfY.format(Calendar.getInstance().getTime())).intValue(), userProfil.getEcpId().longValue());
                 String[] stuS = stanUrlopow.split("\\|");
                 stanUrlLim = stuS[0];
