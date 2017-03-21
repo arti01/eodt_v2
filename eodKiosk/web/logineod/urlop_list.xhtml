@@ -100,7 +100,10 @@
                         <p:message for="infoDod" styleClass="error" rendered="#{UrlopMg.urlop.rodzajId.id!=30}"/>
 
                         <p:outputLabel for="miejsce" value="Delegacja - miejsce: " rendered="#{UrlopMg.urlop.rodzajId.id==5 or UrlopMg.urlop.rodzajId.id==6}"/>
-                        <h:inputText id="miejsce" value="#{UrlopMg.urlop.miejsce}" size="50" rendered="#{UrlopMg.urlop.rodzajId.id==5 or UrlopMg.urlop.rodzajId.id==6}"/>
+                        <p:keyboard value="#{UrlopMg.urlop.miejsce}" layout="custom" layoutTemplate="space-space-ąśżźćłó-space-space-space-back,1234567890,qwertyuiop-space-clear,asdfghjkl,zxcvbnm._,shift-space-spacebar-space-close"
+                                    styleClass="klawiatura" size="50" rendered="#{UrlopMg.urlop.rodzajId.id==5 or UrlopMg.urlop.rodzajId.id==6}"/>
+
+                        <h:inputText id="miejsce" value="#{UrlopMg.urlop.miejsce}" size="50" rendered="#{(UrlopMg.urlop.rodzajId.id==5 or UrlopMg.urlop.rodzajId.id==6) and false}"/>
                         <p:message for="miejsce" styleClass="error"  rendered="#{UrlopMg.urlop.rodzajId.id==5 or UrlopMg.urlop.rodzajId.id==6}"/>
 
                         <p:outputLabel for="cel" value="Delegacja - cel: " rendered="#{UrlopMg.urlop.rodzajId.id==5 or UrlopMg.urlop.rodzajId.id==6}"/>

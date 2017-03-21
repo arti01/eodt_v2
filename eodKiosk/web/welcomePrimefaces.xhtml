@@ -12,7 +12,40 @@
                 <title>PrimeFaces</title>
             </f:facet>
         </h:head>
-
+        <style>
+            .keypad-row {
+                width: auto !important;
+            }
+            .keypad-key {
+                font-size: 1.7em !important;
+                width: 32px !important;
+            }
+            
+            .keypad-close {
+                font-size: 1.7em !important;
+                width:80px !important;
+            }
+            .keypad-clear {
+                font-size: 1.7em !important;
+                width:80px !important;
+            }
+            .keypad-back {
+                font-size: 1.7em !important;
+                width:80px !important;
+            }
+            .keypad-enter {
+                font-size: 1.7em !important;
+                width:80px !important;
+            }
+            .keypad-shift {
+                font-size: 1.7em !important;
+                width:80px !important;
+            }
+            .keypad-spacebar {
+                font-size: 1.7em !important;
+                width:245px !important;
+            }
+        </style>
         <h:body>
 
             <p:layout fullPage="true">
@@ -40,6 +73,8 @@
 
                 <p:layoutUnit position="center">
                     Welcome to PrimeFaces
+                    <p:keyboard layout="custom" layoutTemplate="space-space-ąśżźćłó-space-space-space-back,1234567890,qwertyuiop-space-clear,asdfghjkl,zxcvbnm._,shift-space-spacebar-space-close" />
+                    
                 </p:layoutUnit>
 
             </p:layout>

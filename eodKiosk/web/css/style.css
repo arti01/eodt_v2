@@ -69,3 +69,39 @@ body {
 .repo-text:hover{
     color: white;
 }
+
+.klawiatura{
+    background-color: white !important;
+}
+.keypad-row {
+    width: auto !important;
+}
+.keypad-key {
+    font-size: 1.6em !important;
+    width: 32px !important;
+}
+
+.keypad-close {
+    font-size: 1.6em !important;
+    width:80px !important;
+}
+.keypad-clear {
+    font-size: 1.6em !important;
+    width:80px !important;
+}
+.keypad-back {
+    font-size: 1.6em !important;
+    width:80px !important;
+}
+.keypad-enter {
+    font-size: 1.6em !important;
+    width:80px !important;
+}
+.keypad-shift {
+    font-size: 1.6em !important;
+    width:80px !important;
+}
+.keypad-spacebar {
+    font-size: 1.6em !important;
+    width:245px !important;
+}
