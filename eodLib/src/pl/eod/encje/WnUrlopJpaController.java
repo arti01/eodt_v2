@@ -292,6 +292,10 @@ public class WnUrlopJpaController implements Serializable {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
+        cal.clear(Calendar.ZONE_OFFSET);
+        calOd.clear(Calendar.ZONE_OFFSET);
+        calDo.clear(Calendar.ZONE_OFFSET);
+        
         if (urlop.getRodzajId().getId()==40 ||urlop.getRodzajId().getId()==30||urlop.getRodzajId().getId()==3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
@@ -306,8 +310,8 @@ public class WnUrlopJpaController implements Serializable {
             calOd.set(Calendar.HOUR_OF_DAY, 0);
             calOd.set(Calendar.MINUTE, 0);
             calDo.setTime(urlop.getDataDo());
-            calDo.set(Calendar.HOUR_OF_DAY, 23);
-            calDo.set(Calendar.MINUTE, 59);
+            calDo.setTime(urlop.getDataDo());
+            calDo.set(calDo.get(Calendar.YEAR), calDo.get(Calendar.MONTH), calDo.get(Calendar.DATE), 23, 59);
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
         }
