@@ -137,18 +137,18 @@
                                     </f:facet>
 
                                     <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
-                                    <p:inputNumber id="wpisowe" value="#{UrlopMg.urlop.wpisowe}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
-                                        <p:ajax event="change" update="form" process="form"/>
+                                    <p:inputNumber id="wpisowe" value="#{UrlopMg.urlop.wpisowe}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
+                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
                                     </p:inputNumber>
 
                                     <p:outputLabel for="hotel" value="Hotel: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}"/>
                                     <p:inputNumber id="hotel" value="#{UrlopMg.urlop.hotel}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50}">
-                                        <p:ajax event="change" update="form" process="form"/>
+                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
                                     </p:inputNumber>
 
                                     <p:outputLabel for="inne" value="Inne koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}"/>
                                     <p:inputNumber id="inne" value="#{UrlopMg.urlop.inne}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}">
-                                        <p:ajax event="change" update="form" process="form"/>
+                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
                                     </p:inputNumber>
 
                                     <p:outputLabel for="inne_opis" value="Inne (opis): " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
@@ -160,7 +160,7 @@
                                     <p:outputLabel for="koszty_dojazdu" value="Koszty/ryczałt dojazdu: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
                                     <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopMg.urlop.czyRyczalty}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
                                     <p:inputNumber id="koszty_dojazdu1" value="#{UrlopMg.urlop.koszty_dojazdu}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
-                                        <p:ajax event="change" update="form" process="form"/>
+                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
                                     </p:inputNumber>
 
                                     <p:outputLabel for="kwota" value="Przewidywane koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
