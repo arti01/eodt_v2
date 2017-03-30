@@ -159,19 +159,19 @@
 
                                     <p:outputLabel for="koszty_dojazdu" value="Koszty/ryczałt dojazdu: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
                                     <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopMg.urlop.czyRyczalty}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
-                                    <p:inputNumber id="koszty_dojazdu1" value="#{UrlopMg.urlop.koszty_dojazdu}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
+                                    <p:inputNumber id="koszty_dojazdu1" value="#{UrlopMg.urlop.koszty_dojazdu}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
                                         <p:ajax event="change" update="form" process="form"/>
                                     </p:inputNumber>
 
                                     <p:outputLabel for="kwota" value="Przewidywane koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
-                                    <p:inputNumber id="kwota" value="#{UrlopMg.urlop.kwotaWs}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}" disabled="true">
+                                    <p:inputNumber id="kwota" value="#{UrlopMg.urlop.kwotaWs}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}" disabled="true">
                                     </p:inputNumber>
 
                                     <h:panelGroup>
                                         <p:outputLabel for="nrrachunku" value="Nr rachunku bankowego: " rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
                                         <p:message for="nrrachunku"/>
                                     </h:panelGroup>
-                                    <p:inputText id="nrrachunku" value="#{UrlopMg.urlop.nrrachunku}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}" size="26" required="true" requiredMessage="nr rachunku jest wymagany" />
+                                    <p:inputText id="nrrachunku" value="#{UrlopMg.urlop.nrrachunku}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}" size="26" maxlength="26" required="true" requiredMessage="nr rachunku jest wymagany" />
 
                                     <p:outputLabel for="walutarachunku" value="Waluta rachunku: " rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
                                     <p:selectOneMenu id="walutarachunku" value="#{UrlopMg.urlop.walutarachunku}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}">
@@ -195,7 +195,7 @@
 
                 
                 <p:fieldset id="fieldTab" collapsed="#{UrlopMg.wprowadzanie}" toggleable="true" legend="Zwiń/rozwiń listę urlopów" 
-                            widgetVar="fieldTabV" style="font-size: 75%; background-color: whitesmoke !important;">
+                            widgetVar="fieldTabV" style="font-size: 100%; background-color: whitesmoke !important;">
                     <p:dataTable id="table" value="#{UrlopMg.list}" var="urlop" paginator="true" rowsPerPageTemplate="9, 20, 50, 100" rows="9" sortBy="#{urlop.id}" 
                                  sortOrder="descending" widgetVar="tableV" emptyMessage="brak danych" style="font-size: 66%; text-align: center; background-color: whitesmoke">
                         <p:column headerText="Wprowadzony" sortBy="#{urlop.dataWprowadzenia}">
@@ -223,7 +223,7 @@
                             <h:outputText value="#{urlop.akceptant.fullname}" rendered="#{urlop.statusId.id!=3}"/>
                             <h:outputText value="#{urlop.zaakceptowal.fullname}" rendered="#{urlop.statusId.id==3}"/>
                         </p:column>
-                        <p:column headerText="Akcje" style="width: 110px;" exportable="false">
+                        <p:column headerText="Akcje" style="width: 110px; font-size: 120%;" exportable="false">
                             <p:tooltip for="imgEd" value="Edytuj"/>
                             <p:tooltip for="imgAn" value="Anuluj"/>
                             <p:tooltip for="imgDe" value="Usun"/>
