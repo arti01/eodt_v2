@@ -122,7 +122,7 @@
                         <p:message for="czyZal" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
                         <p:outputLabel value="" rendered="#{(UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50)}"/>
 
-                        <p:panelGrid columns="3" columnClasses="column1a, column2a" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}">
+                        <p:panelGrid columns="1" columnClasses="column1a, column2a" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}">
                             <p:panelGrid columns="2" columnClasses="column1, column2" rendered="#{(UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50)}" id="temSzk">
                                 <p:outputLabel value="Temat szkolenia: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50}"/>
                                 <p:inputText value="#{UrlopMg.urlop.temat_szkolenia}" size="40" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50}"/>
@@ -130,42 +130,44 @@
                                 <p:inputText id="miejscowosc" value="#{UrlopMg.urlop.miejsce}" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50}" size="40"/>
                             </p:panelGrid>
 
-                            <h:panelGroup id="czyZalPanel">
+                            <p:fragment autoUpdate="true" id="czyZalPanel">
                                 <p:panelGrid columns="2" columnClasses="column1, column2" rendered="#{UrlopMg.urlop.czyZaliczka}">
                                     <f:facet name="header">
                                         <p:outputLabel value="Koszty:" rendered="#{(UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50) and UrlopMg.urlop.czyZaliczka}"/>
                                     </f:facet>
+                                        
+                                        <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
+                                        <p:inputNumber id="wpisowe" value="#{UrlopMg.urlop.wpisowe}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
+                                            
+                                        </p:inputNumber>
 
-                                    <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
-                                    <p:inputNumber id="wpisowe" value="#{UrlopMg.urlop.wpisowe}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
-                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
-                                    </p:inputNumber>
+                                        <p:outputLabel for="hotel" value="Hotel: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}"/>
+                                        <p:inputNumber id="hotel" value="#{UrlopMg.urlop.hotel}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50}">
+                                            
+                                        </p:inputNumber>
 
-                                    <p:outputLabel for="hotel" value="Hotel: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}"/>
-                                    <p:inputNumber id="hotel" value="#{UrlopMg.urlop.hotel}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50}">
-                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
-                                    </p:inputNumber>
+                                        <p:outputLabel for="inne" value="Inne koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}"/>
+                                        <p:inputNumber id="inne" value="#{UrlopMg.urlop.inne}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}">
+                                            
+                                        </p:inputNumber>
 
-                                    <p:outputLabel for="inne" value="Inne koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}"/>
-                                    <p:inputNumber id="inne" value="#{UrlopMg.urlop.inne}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}">
-                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
-                                    </p:inputNumber>
+                                        <p:outputLabel for="inne_opis" value="Inne (opis): " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
+                                        <p:inputText id="inne_opis" value="#{UrlopMg.urlop.infoDod}" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}" size="40"/>
 
-                                    <p:outputLabel for="inne_opis" value="Inne (opis): " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
-                                    <p:inputText id="inne_opis" value="#{UrlopMg.urlop.infoDod}" rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==50 or UrlopMg.urlop.rodzajId.id==6}" size="40"/>
+                                        <p:outputLabel for="diety" value="Diety: " rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>        
+                                        <h:selectBooleanCheckbox id="diety" value="#{UrlopMg.urlop.czyDieta}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
 
-                                    <p:outputLabel for="diety" value="Diety: " rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>        
-                                    <h:selectBooleanCheckbox id="diety" value="#{UrlopMg.urlop.czyDieta}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
+                                        <p:outputLabel for="koszty_dojazdu" value="Koszty/ryczałt dojazdu: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
+                                        <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopMg.urlop.czyRyczalty}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
+                                        <p:inputNumber id="koszty_dojazdu1" value="#{UrlopMg.urlop.koszty_dojazdu}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
+                                            
+                                        </p:inputNumber>
 
-                                    <p:outputLabel for="koszty_dojazdu" value="Koszty/ryczałt dojazdu: " rendered="#{UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
-                                    <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopMg.urlop.czyRyczalty}" rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
-                                    <p:inputNumber id="koszty_dojazdu1" value="#{UrlopMg.urlop.koszty_dojazdu}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}">
-                                        <p:ajax event="change" update="czyZalPanel" process="czyZalPanel"/>
-                                    </p:inputNumber>
-
-                                    <p:outputLabel for="kwota" value="Przewidywane koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
-                                    <p:inputNumber id="kwota" value="#{UrlopMg.urlop.kwotaWs}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}" disabled="true">
-                                    </p:inputNumber>
+                                        <p:outputLabel for="kwota" value="Przewidywane koszty: " rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
+                                        <p:inputNumber id="kwota" value="#{UrlopMg.urlop.kwotaWs}" emptyValue="0,00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopMg.urlop.rodzajId.id==30}" disabled="true">
+                                        </p:inputNumber>
+                                        <p:commandButton value="Przelicz" rendered="#{UrlopMg.urlop.rodzajId.id==30}"/>
+                                    
 
                                     <h:panelGroup>
                                         <p:outputLabel for="nrrachunku" value="Nr rachunku bankowego: " rendered="#{UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50}"/>
@@ -181,7 +183,7 @@
                                         <f:selectItem itemValue="GBP" itemLabel="GBP"/>
                                     </p:selectOneMenu>
                                 </p:panelGrid>
-                            </h:panelGroup>
+                            </p:fragment>
                         </p:panelGrid>
 
                         <p:spacer rendered="#{(UrlopMg.urlop.rodzajId.id==30 or UrlopMg.urlop.rodzajId.id==6 or UrlopMg.urlop.rodzajId.id==50)}"/>
@@ -193,7 +195,7 @@
 
                 <p:message for="dodaj" styleClass="error"/>
 
-                
+
                 <p:fieldset id="fieldTab" collapsed="#{UrlopMg.wprowadzanie}" toggleable="true" legend="Zwiń/rozwiń listę urlopów" 
                             widgetVar="fieldTabV" style="font-size: 100%; background-color: whitesmoke !important;">
                     <p:dataTable id="table" value="#{UrlopMg.list}" var="urlop" paginator="true" rowsPerPageTemplate="9, 20, 50, 100" rows="9" sortBy="#{urlop.id}" 
@@ -223,7 +225,7 @@
                             <h:outputText value="#{urlop.akceptant.fullname}" rendered="#{urlop.statusId.id!=3}"/>
                             <h:outputText value="#{urlop.zaakceptowal.fullname}" rendered="#{urlop.statusId.id==3}"/>
                         </p:column>
-                        <p:column headerText="Akcje" style="width: 110px; font-size: 120%;" exportable="false">
+                        <p:column headerText="Akcje" style="width: 155px; font-size: 125%;" exportable="false">
                             <p:tooltip for="imgEd" value="Edytuj"/>
                             <p:tooltip for="imgAn" value="Anuluj"/>
                             <p:tooltip for="imgDe" value="Usun"/>
