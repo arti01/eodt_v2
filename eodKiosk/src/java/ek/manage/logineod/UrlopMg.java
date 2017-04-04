@@ -63,7 +63,10 @@ public class UrlopMg implements Serializable {
             error = urlC.dodajUrlop(urlop, dataUrlopu, godzOdT, godzDoT);
         } catch (ParseException ex) {
             Logger.getLogger(UrlopMg.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(NullPointerException np){
+            Logger.getLogger(UrlopMg.class.getName()).log(Level.SEVERE, null, np);
         }
+        
         if (error != null) {
             message.setSummary(error);
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
