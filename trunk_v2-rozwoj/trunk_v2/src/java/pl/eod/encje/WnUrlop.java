@@ -329,6 +329,18 @@ public class WnUrlop implements Serializable {
     }
 
     public BigDecimal getKwotaWs() {
+        if(getHotel()==null){
+            setHotel(new BigDecimal(0));
+        }
+        if(getKoszty_dojazdu()==null){
+            setKoszty_dojazdu(new BigDecimal(0));
+        }
+        if(getWpisowe()==null){
+            setWpisowe(new BigDecimal(0));
+        }
+        if(getInne()==null){
+            setInne(new BigDecimal(0));
+        }
         this.kwotaWs = getHotel().add(getInne()).add(getKoszty_dojazdu()).add(getWpisowe());
         return kwotaWs;
     }
@@ -347,7 +359,7 @@ public class WnUrlop implements Serializable {
 
     public BigDecimal getWpisowe() {
         if (wpisowe == null) {
-            wpisowe = new BigDecimal(0);
+           // wpisowe = new BigDecimal(0);
         }
         return wpisowe;
     }
@@ -358,7 +370,7 @@ public class WnUrlop implements Serializable {
 
     public BigDecimal getKoszty_dojazdu() {
         if (koszty_dojazdu == null) {
-            koszty_dojazdu = new BigDecimal(0);
+            //koszty_dojazdu = new BigDecimal(0);
         }
         return koszty_dojazdu;
     }
@@ -369,7 +381,7 @@ public class WnUrlop implements Serializable {
 
     public BigDecimal getHotel() {
         if (hotel == null) {
-            hotel = new BigDecimal(0);
+            //hotel = new BigDecimal(0);
         }
         return hotel;
     }
@@ -380,7 +392,7 @@ public class WnUrlop implements Serializable {
 
     public BigDecimal getInne() {
         if (inne == null) {
-            inne = new BigDecimal(0);
+            //inne = new BigDecimal(0);
         }
         return inne;
     }
