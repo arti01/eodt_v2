@@ -296,7 +296,7 @@ public class WnUrlopJpaController implements Serializable {
         calOd.clear(Calendar.ZONE_OFFSET);
         calDo.clear(Calendar.ZONE_OFFSET);
         
-        if (urlop.getRodzajId().getId()==40 ||urlop.getRodzajId().getId()==30||urlop.getRodzajId().getId()==3) {
+        if (urlop.getRodzajId().getId()==40||urlop.getRodzajId().getId()==3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
