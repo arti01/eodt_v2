@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Kredyty</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <ui:include src="./kredytyEdit.xhtml"/>
+        <h:form>
+            <rich:panel id="listPanel">
+                <a4j:commandLink  execute="@this" action="#{Kredyty.newObiekt}" 
+                                  render="dodajPane" oncomplete="#{rich:component('dodajPane')}.show()">
+                    <h4>[dodaj]</h4>
+                </a4j:commandLink>
+
+                <rich:dataTable value="#{Kredyty.lista}" var="item" iterationStatusVar="it" id="table" rows="10" style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    
+                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterExpression="#{fn:containsIgnoreCase(item.nazwa, filtrNazwa)}">
+                        <f:facet name="header">nazwa<h:inputText value="#{filtrNazwa}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText> (do filtrowania użyj TAB)
+                        </f:facet>
+                        #{item.nazwa}
+                    </rich:column>
+                    
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.bank.nazwa, filtrBankNazwa)}">
+                        <f:facet name="header">nazwa<h:inputText value="#{filtrBankNazwa}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        #{item.bank.nazwa}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">data pierwszej spłaty</f:facet>
+                        <h:outputText value="#{item.dataPierwSplaty}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">liczba rat</f:facet>
+                        <h:outputText value="#{item.liczbaRat}"/>
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">kwota</f:facet>
+                        <h:outputText value="#{item.kwota}"/>
+                    </rich:column>
+                    
+                    <rich:column style="width: 75px">
+                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                        <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                        <rich:tooltip target="imgOb" value="oblicz raty" layout="block"/>
+                        <a4j:commandButton id="imgDe" execute="@this" render="@none"
+                                           oncomplete="#{rich:component('confirmPane')}.show()" image="/images/delete.png">
+                            <f:setPropertyActionListener target="#{Kredyty.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                        <a4j:commandButton id="imgOb" execute="@this" render="@none" action="#{Kredyty.oblicz}"
+                                           image="/images/oblicz.png">
+                            <f:setPropertyActionListener target="#{Kredyty.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                        <a4j:commandButton id="imgEd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" image="/images/edit.png">
+                            <f:setPropertyActionListener target="#{Kredyty.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+
+
+            <a4j:jsFunction name="remove" action="#{Kredyty.usun}" render="table" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <rich:popupPanel id="confirmPane" autosized="true">
+                Na pewno chcesz skasować?
+                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                        return false;" />
+                <a4j:commandButton value="Tak" onclick="remove();
+                        return false;" />
+            </rich:popupPanel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+

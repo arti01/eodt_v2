@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Wynik</h3>
+        <h:form>
+            <rich:panel id="listPanel">
+                
+                <rich:dataTable value="#{Wyniki.obiekt.wynikRataList}" var="item" id="table"  style="width: 100%">
+                    
+                    <rich:column sortBy="#{item.rataNumer}" sortOrder="ascending">
+                        <f:facet name="header">numer</f:facet>
+                        #{item.rataNumer}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">data raty</f:facet>
+                        #{item.rataData}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">rataKapitalowa</f:facet>
+                        #{item.rataKapitalowa}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">Rata Odsetkowa</f:facet>
+                        #{item.rataOdsetkowa}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">Rata Razem</f:facet>
+                        #{item.rataOdsetkowa+item.rataKapitalowa}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">Do Splaty</f:facet>
+                        #{item.doSplaty}
+                    </rich:column>
+                    
+                    <rich:column>
+                        <f:facet name="header">Oprocentowanie</f:facet>
+                        <h:outputText value="#{item.oprocentowanie}"><f:convertNumber type="percent" minFractionDigits="2"/></h:outputText>
+                    </rich:column>
+                    
+                </rich:dataTable>
+            </rich:panel>
+
+
+            <a4j:jsFunction name="remove" action="#{Kredyty.usun}" render="table" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <rich:popupPanel id="confirmPane" autosized="true">
+                Na pewno chcesz skasować?
+                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                        return false;" />
+                <a4j:commandButton value="Tak" onclick="remove();
+                        return false;" />
+            </rich:popupPanel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+
