@@ -301,13 +301,9 @@ public class StrukturaJpaController implements Serializable {
                     }
                 }
             }
-            
             em.getTransaction().begin();
-            System.err.println(struktura.getDzialId().getNazwa());
             em.merge(struktura);
-            /*if (struktura.isStKier() == true && oldStruktura.isStKier() == false) {
-             em.merge(struktura.getDzialId());   
-             }*/
+            
             em.getTransaction().commit();
 
             if (struktura.getSzefId() != null) {
@@ -389,6 +385,16 @@ public class StrukturaJpaController implements Serializable {
         }
         return wynik;
     }
+    
+    public List<Struktura> findStrukturaWidoczniAll() {
+        List<Struktura> wynik = new ArrayList<>();
+        for (Struktura s : findStrukturaEntities()) {
+            if (!s.isUsuniety()) {
+                wynik.add(s);
+            }
+        }
+        return wynik;
+    }
 
     public List<Struktura> findStrukturaEntities() {
         return findStrukturaEntities(true, -1, -1);
@@ -460,6 +466,20 @@ public class StrukturaJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
+        }
+    }
+    public List<Struktura> strukturyNieUsuniete(Spolki sp){
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            Query query;
+                query = em.createNamedQuery("Struktura.nieusunieci");
+                query.setParameter("idSpolki", sp);
+            return query.getResultList();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 }

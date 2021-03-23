@@ -5,23 +5,16 @@
 package pl.eod2.encje;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -43,6 +36,9 @@ public class DcPlikImportBin implements Serializable {
     private Integer id;
     @Lob
     private byte[] plik;
+    @Size(max = 10485760)
+    @Lob
+    private String tresc;
     @OneToOne(mappedBy = "dcPlikImportBin")
     private DcPlikImport dcPlikImport;
 
@@ -70,6 +66,14 @@ public class DcPlikImportBin implements Serializable {
         this.plik = plik;
     }
 
+    public String getTresc() {
+        return tresc;
+    }
+
+    public void setTresc(String tresc) {
+        this.tresc = tresc;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -91,8 +95,6 @@ public class DcPlikImportBin implements Serializable {
         }
         return true;
     }
-
-    
 
     @Override
     public String toString() {

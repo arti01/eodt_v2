@@ -16,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
 
 /**
  *
@@ -45,7 +46,7 @@ public class WnUrlopJpaController implements Serializable {
         }
 
         if (wnUrlop.getWnHistoriaList() == null) {
-            wnUrlop.setWnHistoriaList(new ArrayList<WnHistoria>());
+            wnUrlop.setWnHistoriaList(new ArrayList<>());
         }
         EntityManager em = null;
         try {
@@ -188,6 +189,19 @@ public class WnUrlopJpaController implements Serializable {
         return findWnUrlopEntities(true, -1, -1);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<WnUrlop>findWybraneRodzaje(List<WnRodzaje> rodzaje){
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNamedQuery("WnUrlop.findWybraneRodzaje");
+            q.setParameter("rodzaje", rodzaje);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
     public List<WnUrlop> findWnUrlopEntities(int maxResults, int firstResult) {
         return findWnUrlopEntities(false, maxResults, firstResult);
     }
@@ -201,7 +215,7 @@ public class WnUrlopJpaController implements Serializable {
             Order o;
             o = queryBuilder.desc(urlop.get("id"));
             queryDefinition.select(urlop).orderBy(o);
-            CriteriaQuery cq = queryBuilder.createQuery();
+            CriteriaQuery<Object> cq = queryBuilder.createQuery();
             Query q = em.createQuery(queryDefinition);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -235,10 +249,11 @@ public class WnUrlopJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery cq = cb.createQuery();
+            CriteriaQuery<Object> cq = cb.createQuery();
             Root<WnUrlop> rt = cq.from(WnUrlop.class);
             cq.select(em.getCriteriaBuilder().count(rt));
-            cq.where(cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime()));
+            Predicate p1=cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime());
+            cq.where(p1);
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
@@ -259,10 +274,11 @@ public class WnUrlopJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery cq = cb.createQuery();
+            CriteriaQuery<Object> cq = cb.createQuery();
             Root<WnUrlop> rt = cq.from(WnUrlop.class);
             cq.select(em.getCriteriaBuilder().count(rt));
-            cq.where(cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime()));
+            Predicate p1=cb.greaterThan(rt.get(WnUrlop_.dataWprowadzenia), cal.getTime());
+            cq.where(p1);
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
@@ -273,7 +289,7 @@ public class WnUrlopJpaController implements Serializable {
     public int getWnUrlopCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
             Root<WnUrlop> rt = cq.from(WnUrlop.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);

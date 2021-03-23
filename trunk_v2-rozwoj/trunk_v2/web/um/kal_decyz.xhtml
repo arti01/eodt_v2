@@ -1,0 +1,49 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="tytul">
+        <h3 align="center">Kalendarze osób decyzyjnych</h3>
+    </ui:define>
+
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px; width: 100%;" columnClasses="">
+
+                <p:panel style="border-style: hidden;">
+                    <h:outputText id="output" value="rozmiar kalendarza = #{RezerMojKalMg.number2}"/>
+                    <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
+                    <p:slider for="txt2" display="output" style="width: 200px; height: 10px" maxValue="5" minValue="1" step="-1" displayTemplate="rozmiar kalendarza {value}">
+                        <p:ajax event="slideEnd" update=":center:schedule" process="@parent" listener="#{RezerMojKalMg.onSlideEnd}"/>
+                    </p:slider>
+                </p:panel>
+
+                    <p:dataGrid value="#{RezerMojKalMg.kalOsDesList}" var="osoba" columns="2" layout="grid" style="border-style: hidden;">
+                        <p:panelGrid columns="2" style="width:100%; border-style: hidden;" columnClasses="column1_50, column2_50">
+                            <h:outputText value="#{osoba.user.fullname} (#{osoba.user.spolkaId.symbol})"/>
+                            <p:spacer width="100" height="12" styleClass="#{osoba.cssStyl}"/>
+                        </p:panelGrid>
+                    </p:dataGrid>
+                <p:panel style="border-style: hidden; text-align: right">
+                    <p:commandButton value="dzień" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaDay"/>
+                    </p:commandButton>
+                    <p:commandButton value="tydzień" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaWeek"/>
+                    </p:commandButton>
+                    <p:commandButton value="miesiąc" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="month"/>
+                    </p:commandButton>
+                </p:panel>
+            </p:panelGrid>
+
+            <ui:include src="/um/kalInc.xhtml">
+                <ui:param name="decyz" value="#{true}"/>
+            </ui:include>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

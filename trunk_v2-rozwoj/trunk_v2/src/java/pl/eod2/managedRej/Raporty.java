@@ -4,6 +4,7 @@
  */
 package pl.eod2.managedRej;
 
+import com.lowagie.text.BadElementException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,20 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
+import java.io.BufferedOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import javax.servlet.http.HttpServletResponse;
 import pl.eod.wydruki.DcDokPocztaList;
 import pl.eod.wydruki.PDFHandler;
@@ -42,8 +57,10 @@ public class Raporty {
         dcC = new DcDokumentJpaController();
         String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));
-        templateFilePath = absolutePath + "/../../../../../resources/wydruki/";
-        fopConf = absolutePath + "/../../../fop-xconf.xml";
+        System.err.println(absolutePath);
+        templateFilePath = absolutePath + "/../../resources/wydruki/";
+        //templateFilePath = absolutePath + "/../../../../../resources/wydruki/";
+        fopConf = absolutePath + "/fop-xconf.xml";
     }
 
     public String raportPocz() {
@@ -52,11 +69,25 @@ public class Raporty {
 
     public void pokazRap() {
         lista.setWrappedData(dcC.findRaport(filtrRodzGrupa, filtrDataRejOd, filtrDataRejDo, filtrZrodlo));
-        if (lista.getRowCount() > 0) {
-            pokazDruk = true;
-        } else {
-            pokazDruk = false;
-        }
+        pokazDruk = lista.getRowCount() > 0;
+    }
+
+    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        Document doc=(Document) document;
+        doc.setPageSize(PageSize.A4.rotate());
+    }
+    
+    public void postProcessPDF(Object document) throws IOException, DocumentException{
+        System.err.println(document);
+        /*Document doc=(Document) document;
+        OutputStream out=new ObjectOutputStream(new ByteArrayOutputStream());
+       
+        PdfWriter writer = PdfWriter.getInstance(doc, out);
+         doc.open();
+        PdfContentByte pcb= writer.getDirectContent();
+         BaseFont bf = BaseFont.createFont();
+        pcb.setFontAndSize(bf, 5);
+        //doc.close();*/
     }
 
     @SuppressWarnings("unchecked")

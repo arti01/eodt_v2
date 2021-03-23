@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,12 +26,17 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "wn_statusy")
 @NamedQueries({
-    @NamedQuery(name = "WnStatusy.findAll", query = "SELECT w FROM WnStatusy w"),
-    @NamedQuery(name = "WnStatusy.findById", query = "SELECT w FROM WnStatusy w WHERE w.id = :id"),
-    @NamedQuery(name = "WnStatusy.findByOpis", query = "SELECT w FROM WnStatusy w WHERE w.opis = :opis"),
-    @NamedQuery(name = "WnStatusy.findBySkrot", query = "SELECT w FROM WnStatusy w WHERE w.skrot = :skrot"),
+    @NamedQuery(name = "WnStatusy.findAll", query = "SELECT w FROM WnStatusy w")
+    ,
+    @NamedQuery(name = "WnStatusy.findById", query = "SELECT w FROM WnStatusy w WHERE w.id = :id")
+    ,
+    @NamedQuery(name = "WnStatusy.findByOpis", query = "SELECT w FROM WnStatusy w WHERE w.opis = :opis")
+    ,
+    @NamedQuery(name = "WnStatusy.findBySkrot", query = "SELECT w FROM WnStatusy w WHERE w.skrot = :skrot")
+    ,
     @NamedQuery(name = "WnStatusy.findByKolor", query = "SELECT w FROM WnStatusy w WHERE w.kolor = :kolor")})
 public class WnStatusy implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -143,5 +149,5 @@ public class WnStatusy implements Serializable {
     public String toString() {
         return "pl.eod.encje.WnStatusy[ id=" + id + " ]";
     }
-    
+
 }

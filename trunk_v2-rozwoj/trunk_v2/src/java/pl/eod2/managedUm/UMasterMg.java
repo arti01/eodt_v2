@@ -1,5 +1,7 @@
 package pl.eod2.managedUm;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -7,8 +9,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmMasterGrupa;
@@ -24,7 +26,8 @@ public class UMasterMg {
     private Login login;
     @ManagedProperty(value = "#{UStruktMg}")
     private UStruktMg uStruktMg;
-    private DataModel<UmMasterGrupa> lista = new ListDataModel<UmMasterGrupa>();
+    //private DataModel<UmMasterGrupa> lista = new ListDataModel<UmMasterGrupa>();
+    private List<UmMasterGrupa> lista = new ArrayList<>();
     private UmMasterGrupaJpaController dcC;
     private UmMasterGrupa obiekt;
     private String error;
@@ -36,13 +39,18 @@ public class UMasterMg {
     }
 
     public void refresh() {
-        lista.setWrappedData(dcC.findUmMasterGrupaEntities());
+        //lista.setWrappedData(dcC.findUmMasterGrupaEntities());
+        lista.clear();
+        //lista.addAll(dcC.findUmMasterGrupaEntities());
+        lista.addAll(login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList());
         obiekt = new UmMasterGrupa();
         error = null;
     }
     
-    public void newObiekt() {
+    public void refreshBezLista() {
+        login.refresh();
         obiekt = new UmMasterGrupa();
+        error = null;
     }
 
     public void dodaj() {
@@ -59,22 +67,28 @@ public class UMasterMg {
     }
 
     public void edytuj() throws IllegalOrphanException, NonexistentEntityException, Exception {
-        error=dcC.edit(obiekt);
+        error = dcC.edit(obiekt);
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
-            lista.setWrappedData(dcC.findUmMasterGrupaEntities());
+            lista.clear();
+            lista.addAll(login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList());
         } else {
             uStruktMg.refresh();
-            refresh();
+            refreshBezLista();
         }
     }
 
     public void usun() throws IllegalOrphanException, NonexistentEntityException {
         dcC.destroy(obiekt.getId());
         refresh();
+    }
+
+    public void editList(RowEditEvent event) throws NonexistentEntityException, Exception {
+        obiekt=(UmMasterGrupa) event.getObject();
+        edytuj();
     }
 
     public String list() {
@@ -90,11 +104,17 @@ public class UMasterMg {
         this.login = login;
     }
 
-    public DataModel<UmMasterGrupa> getLista() {
+    public List<UmMasterGrupa> getLista() {
         return lista;
     }
 
+    /*public DataModel<UmMasterGrupa> getLista() {
+    return lista;
+    }
     public void setLista(DataModel<UmMasterGrupa> lista) {
+    this.lista = lista;
+    }*/
+    public void setLista(List<UmMasterGrupa> lista) {
         this.lista = lista;
     }
 
@@ -121,5 +141,5 @@ public class UMasterMg {
     public void setuStruktMg(UStruktMg uStruktMg) {
         this.uStruktMg = uStruktMg;
     }
-      
+
 }

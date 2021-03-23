@@ -3,8 +3,14 @@ INSERT INTO user_roles (id, role_name, opis) VALUES (6, 'eoddok_odb','dokumenty 
 INSERT INTO user_roles (id, role_name, opis) VALUES (7, 'eoddok_cfg','dokumenty - konfiguracja');
 INSERT INTO user_roles (id, role_name, opis) VALUES (8, 'eoddok_arc','dokumenty - archiwizacja');
 INSERT INTO user_roles (id, role_name, opis) VALUES (9, 'eod_ogl','dodawanie ogloszen');
-INSERT INTO user_roles (id, role_name, opis) VALUES (10, 'eod_um_cfg','urzadzenia med-grupy i mastergrupy');
-INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','urzadzenia med-sprzet');
+INSERT INTO user_roles (id, role_name, opis) VALUES (10, 'eod_um_cfg','zasoby - konfiguracja');
+INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','zasoby');
+INSERT INTO user_roles (id, role_name, opis) VALUES (12, 'eod_um_rez','rezerwacja zasobów');
+INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad kalendarza osob decyzyjnych');
+INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
+INSERT INTO user_roles (id, role_name, opis) VALUES (15, 'eod_um_doc','zasoby - dokumenty');
+INSERT INTO user_roles (id, role_name, opis) VALUES (16, 'eod_um_rez_przeg','rezerwacja zasobów - podgląd');
+INSERT INTO user_roles (id, role_name, opis) VALUES (17, 'eod_url_sel','podgląd wszystkich wn. o wybranym statusie');
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 3);
@@ -13,6 +19,10 @@ INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (8, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (12, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (13, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (14, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (15, 3);
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 2);
@@ -21,6 +31,10 @@ INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (8, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (12, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (13, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (14, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (15, 3);
 
 INSERT INTO dc_typ_flow (id, nazwa, opis ) VALUES (1, 'akceptacje', 'dokument podlegający procesowi akceptacji');
 INSERT INTO dc_typ_flow (id, nazwa, opis ) VALUES (2, 'informacje', 'dokument do zapoznania się i ewentualnie potwierdzenia');
@@ -57,4 +71,18 @@ INSERT INTO config (id, nazwa, opis, wartosc) VALUES (12, 'dirImportSkan', 'kata
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (13, 'dirImportSkanBak', 'katalog importu dokumentow', '/home/arti01/tmp/1/bak');
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (14, 'kluczLicencji', 'kluczLicencji', 'kluczLicencji');
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (15, 'dirImportCzasCzyszczenia', 'po ilu dniach usuwac rekordy z importu', '14');
+
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbServer', 'serwer poczty do odbioru zalacznikow', 'imap.googlemail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbUser', 'nazwa konta poczty do odbioru zalacznikow', 'arti4077@gmail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbPass', 'haslo konta poczty do odbioru zalacznikow', 'pasword');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbFolder', 'forder odbioru zalacznikow, np. inbox/test', 'inbox/test');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbmaxMail', 'max wiadomosci w skrzynce odbiorczej', '30');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbkrokPobierania', 'ilosc maili pobierana w jednej iteracji crona', '5');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'dir_repo', 'forder gdzie sa przechowywane dokumenty', 'd:\\tmp');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'mail_smtp_from', 'adres email FROM', 'arti4077@gmail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'rez_all_sp', 'rezerwacje dla wszystkich spolek', 'tak');
+
+INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
+INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');
+INSERT INTO dc_rodzaj_typy_pol VALUES (3, 'data');
 

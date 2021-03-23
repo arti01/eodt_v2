@@ -1,3 +1,180 @@
+2017-09-12
+INSERT INTO user_roles (id, role_name, opis) VALUES (17, 'eod_url_sel','podgląd wszystkich wn. o wybranym rodzaju');
+
+2016-09-21
+INSERT INTO wn_rodzaje VALUES (50, 'Szkolenie zagraniczne', 'SZZ');
+
+2016-09-13
+rezerwacje widoczne dla wszystkich spolek
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'rez_all_sp', 'rezerwacje dla wszystkich spolek', 'tak');
+
+2016-05-23
+INSERT INTO user_roles (id, role_name, opis) VALUES (15, 'eod_um_doc','zasoby - dokumenty');
+Nowe praw - dostęp do dokumentów zasobów
+
+2015-05-22
+zrobione ogłoszenia. Nie tylko wyświetlanie na stronie startowej ale cała strona związana z ich obsługą,
+co było trochę pracochłonne bo tam są te powalone drzewka i to wewnątrz tabeli :)
+
+2015-05-21
+Zrobione drzewka struktury osobowej i działów
+
+2015-05-19
+reszta stron wniosków urlopowych zmigrowana do PF (były jeszcze obce i wszystkie)
+dodałem nowe prawo - lista wszystkich wniosków (do tej pory miał tylko admin)
+INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
+do opcji  "wszystkie wnioski" dodałem eksport do excel
+
+2015-05-17
+Ograniczono podgląd kalendarza do osób z tej samej gałęzi ze struktury, czyli zalogowany może zobaczyć
+kalendarze wszystkich podwładnych swojego szefa plus oczywiście swojego szefa.
+
+Kalendarz dla osób decyzyjnych - uzupelnić tabelę KALEND_OSOBY_DEC (osoby decyzyjne)
+Uwaga - należy skorzystać z predefiniowanych styli w pliku resources/css/kalendstyle.css (można style dopisywać)
+
+INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad kalendarza osob decyzyjnych');
+I nadać uprawnienia.
+
+Dodano pole "prywatne" do tabeli kalendarz - trzeba tą tabele najlepiej wyczyścić, bo dodane pole jest nullable false
+Pole działa tak, że zdażenia prywatne są widoczne tylko dla twórcy oraz dla ewentualnych uczestników
+
+2015-05-16
+Suwaki zamiast wpisywania godzin
+
+Nowe typy wniosków
+INSERT INTO wn_rodzaje VALUES (30, 'Wniosek szkoleniowy', 'SZK');
+INSERT INTO wn_rodzaje VALUES (40, 'Zlecenie nadgodzin', 'ZNG');
+Zmieniłem (u siebie) id urlopow 
+(5, 'Krajowa Delegacja', 'KRJ');
+(6, 'Zagraniczna delegacja', 'ZAG')
+
+2015-05-14
+Wnioski do akceptacji na PF
+
+2015-05-14
+Wstrzykiwanie terminu po zaakceptowaniu wniosku urlopowego
+formatka Twoje wnioski (dodano filtrowanie, paginację, sortowanie)
+
+2015-05-11
+zmiana nazw uprawnień
+
+update user_roles set opis='zasoby - konfiguracja' where role_name='eod_um_cfg';
+update user_roles set opis='zasoby' where role_name='eod_um_sprz';
+
+2015-05-09
+Zrobione tak, że nie pokazuje się główne menu dla danej opcji jeśli nie ma praw
+dla podmenu. Zrobione dla: Dokumenty, Archiwum i Zasoby materiałowe
+
+2016-05-07
+strona startowa
+
+2016-05-03
+um/wyszukList
+dcarch/wyszukList
+dcrej/dokumentyDoBrakowania
+dcrej/wyszukFrom - nie działa wyszukiwanie?
+
+2016-05-01
+do PrimeFaces:
+um/dokumentDetale
+um/dokumenty
+poprawka w detalach dokumentu - dla każdego rodzaju można było dopisywać zasoby materiałowe, a powinny być dostępne
+te UmMasterGrupy ktore są przypisane do danego rodzaju
+
+
+2016-04-27
+historia odbioru po nowemu, raporty excel w rap pocztowy i dokumenty, tabela w kalendarzu
+
+2016-04-22
+Cała formatka detali dokumentu z nowym podgladem
+Uwaga! te pliki są inkludowane w wielu miejscach, dlatego w wielu plikach musiałem podmienić ich nazwy na nazwy *RF.xhtml, czyli na stare wersje plikow
+
+2016-04-20
+UWAGA - zmiana faces z 2.1 na 2.2 (nowy lib i wpis w faces.xml),
+może być róznie, bo to podstawowa biblioteka od jsf.
+Zmiana zrobiona aby działał fileupload.
+
+2016-04-19
+Dodałem pole opis do kalendarza i rezerwacji oraz tooltip do zdarzenia
+
+2016-04-15
+w repozytorium bez logowania dodałem powrót
+w konfiguracji grup zasobów materiałych dodałem przełącznik "czy obsługuje rezerwacje" przy edycji/dodawaniu i bajerancki filtr
+=========================
+dodałem kalendarz osobisty - można dodawać terminy a do każdego terminu dodawać dodatkowo użtkowników
+Na tej formatce są razem i terminy (zarowno te ktore stworzyła jak i te których jest uczestnikiem) i rezerwacje dla danej osoby (tylko te których jest uczestnikiem)
+kolory są rozne dla:
+1. jest uczestnikiem rezerwacji
+2. jest uczestnikiem rezerwacji i jednoczesnie jego tworca
+3. jest tworca terminu
+4. jest uczestnikiem czyjegoś terminu
+Edytować można na tej formatce tylko własne terminy (nie rezerwacje, bo te się edytuje w formatce do rezerwacji)
+
+dodałem kolory w formatce rezerwacji:
+1. jestes twórcą (możesz edytować)
+2. wszystkie inne ;)
+
+
+
+2016-04-09
+dedykowane repozytoria
+
+2016-04-05
+godziny we wnioskach urlopowych
+
+Koniecznie zrobić backup :D
+alter table wn_urlop alter data_od type timestamp;
+alter table wn_urlop alter data_do type timestamp;
+
+
+2016-04-04
+zmiana układu dla stron RichFaces - z górnym menu w PrimeFaces
+
+2016-03-18
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbmaxMail', 'max wiadomosci w skrzynce odbiorczej', '30');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbkrokPobierania', 'ilosc maili pobierana w jednej iteracji crona', '5');
+
+INSERT INTO user_roles (id, role_name, opis) VALUES (12, 'eod_um_rez','rezerwacja zasobów');
+I nadać tą rolę osobom które mogą wprowadzać rezerwacje
+Dodać nową rezerwację może osoba, która ma ww prawo lub która jest osobą odpowiedzialną za dany zasób (lub jej zastępca),
+modyfikować rezerwację może osoba, która ma ww lub twórca rezerwacji (lub jego zastępca).
+
+konfigurowalnosc pobierania email
+
+
+2016-02-25
+dodać nowe pole do konfig
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'dir_repo', 'forder gdzie sa przechowywane dokumenty', 'd:\\tmp');
+
+2016-01-10
+OCR - w eodt.lib.NewClass (to ten jar z licencją) jest nowy static:
+public static boolean OCR=true; - wiadomo, co robi :)
+
+2015-12-12
+- Raport stanow magazynowych
+- W lista zasobów->historia dokumentów dodałem wyświetlanie pól dodatkowych, co sprowadza się do tego, że widać jakie zmiany w stanie zasobów wywołał dany dokument
+- Przy edycji zasobu zmiana stanu lub ceny na bieżąco przelicza wartość
+
+2015-11-30
+lista emaile dodatkowe u kontrahenta, wyszukiwanie kontrahenta przy imporcie z email
+
+2015-11-28
+Import ze skrzynki email
+
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbServer', 'serwer poczty do odbioru zalacznikow', 'imap.googlemail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbUser', 'nazwa konta poczty do odbioru zalacznikow', 'arti4077@gmail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbPass', 'haslo konta poczty do odbioru zalacznikow', 'pasword');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbFolder', 'forder odbioru zalacznikow, np. inbox/test', 'inbox/test');
+
+
+2015-05-01
+
+pola dodatkowe, defionowane
+
+INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
+INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');
+INSERT INTO dc_rodzaj_typy_pol VALUES (3, 'data');
+
 2015-03-31
 przy przenoszeniu plikow z import do bak dodano timestamp w prefiksie
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (15, 'dirImportCzasCzyszczenia', 'po ilu dniach usuwac rekordy z importu', '14');

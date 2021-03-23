@@ -29,6 +29,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import pl.eod2.encje.Ogloszenia;
+import pl.eod2.encje.Repozytoria;
 
 /**
  *
@@ -43,7 +44,8 @@ import pl.eod2.encje.Ogloszenia;
     @NamedQuery(name = "Struktura.findBezSzefa", query = "SELECT s FROM Struktura s WHERE s.szefId is null and (s.usuniety<>1 or s.usuniety is null) ORDER BY s.userId.fullname"),
     @NamedQuery(name = "Struktura.findBezSzefaSpolka", query = "SELECT s FROM Struktura s WHERE s.szefId is null and (s.usuniety<>1 or s.usuniety is null) AND s.userId.spolkaId=:spolka ORDER BY s.userId.fullname"),
     @NamedQuery(name = "Struktura.kierownicy", query = "SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety<>1 or s.usuniety is null) AND s.userId.spolkaId=:spolka ORDER BY s.userId.fullname"),
-    @NamedQuery(name = "Struktura.kierownicyAll", query = "SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety<>1 or s.usuniety is null) ORDER BY s.userId.fullname")
+    @NamedQuery(name = "Struktura.kierownicyAll", query = "SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety<>1 or s.usuniety is null) ORDER BY s.userId.fullname"),
+    @NamedQuery(name = "Struktura.nieusunieci", query = "SELECT s FROM Struktura s WHERE (s.usuniety<>1 or s.usuniety is null) and s.userId.spolkaId=:idSpolki")
 })
 public class Struktura implements Serializable {
 
@@ -82,6 +84,8 @@ public class Struktura implements Serializable {
     private Integer musZast;
     @ManyToMany(mappedBy = "adresaciList", fetch = FetchType.LAZY)
     private List<Ogloszenia> ogloszeniaList;
+    @ManyToMany()
+    private List<Repozytoria> repozytoriaList;
     @Transient
     List<Struktura> bezpPodzPodwlad;
     @Transient
@@ -256,7 +260,7 @@ public class Struktura implements Serializable {
     }
 
     public List<Struktura> getBezpPodWidoczni() {
-        List<Struktura> wynik = new ArrayList<Struktura>();
+        List<Struktura> wynik = new ArrayList<>();
         for (Struktura s : getBezpPod()) {
             if (!s.isUsuniety()) {
                 wynik.add(s);
@@ -266,7 +270,7 @@ public class Struktura implements Serializable {
     }
 
     public List<Struktura> getObceWnioski() {
-        List<Struktura> wynik = new ArrayList<Struktura>();
+        List<Struktura> wynik = new ArrayList<>();
         if (isStKier()) {
             wynik.addAll(getBezpPodWidoczni());
         } else {
@@ -330,11 +334,7 @@ public class Struktura implements Serializable {
 
     public boolean isMusZast() {
         boolean wynik;
-        if (this.musZast==null||this.musZast != 0) {
-            wynik = false;
-        } else {
-            wynik = true;
-        }
+        wynik = !(this.musZast==null||this.musZast != 0);
         return wynik;
     }
 
@@ -352,6 +352,14 @@ public class Struktura implements Serializable {
 
     public void setOgloszeniaList(List<Ogloszenia> ogloszeniaList) {
         this.ogloszeniaList = ogloszeniaList;
+    }
+
+    public List<Repozytoria> getRepozytoriaList() {
+        return repozytoriaList;
+    }
+
+    public void setRepozytoriaList(List<Repozytoria> repozytoriaList) {
+        this.repozytoriaList = repozytoriaList;
     }
 
     @Override
@@ -378,4 +386,4 @@ public class Struktura implements Serializable {
     public String toString() {
         return "pl.eod.encje.Struktura[ id=" + id + " ]";
     }
-}
+    }

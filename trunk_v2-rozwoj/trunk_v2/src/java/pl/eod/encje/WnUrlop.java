@@ -1,6 +1,8 @@
 package pl.eod.encje;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,10 +28,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author arti01
- */
 @Entity
 @Table(name = "wn_urlop")
 @NamedQueries({
@@ -39,6 +38,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "WnUrlop.findByNrWniosku", query = "SELECT w FROM WnUrlop w WHERE w.nrWniosku = :nrWniosku"),
     @NamedQuery(name = "WnUrlop.findDoEskalacji", query = "SELECT w FROM WnUrlop w WHERE w.statusId.id=:statusId"),
     @NamedQuery(name = "WnUrlop.findFiltr", query = "SELECT w FROM WnUrlop w WHERE w.statusId.id=:statusId and w.uzytkownik.fullname like :fullname"),
+    @NamedQuery(name = "WnUrlop.findWybraneRodzaje", query = "SELECT w FROM WnUrlop w WHERE w.rodzajId in :rodzaje"),
     @NamedQuery(name = "WnUrlop.findByDataWprowadzenia", query = "SELECT w FROM WnUrlop w WHERE w.dataWprowadzenia = :dataWprowadzenia")})
 public class WnUrlop implements Serializable {
 
@@ -52,12 +52,12 @@ public class WnUrlop implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_od")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataOd;
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_do")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataDo;
     @Basic(optional = false)
     @NotNull
@@ -73,7 +73,35 @@ public class WnUrlop implements Serializable {
     private Integer extraemail;
     @Column(name = "info_dod", nullable = true)
     private String infoDod;
-    
+    @Lob
+    @Column(name = "temat_szkolenia", nullable = true)
+    String temat_szkolenia;
+    @Size(max = 255)
+    @Column(name = "miejsce")
+    private String miejsce;
+    @Size(max = 255)
+    @Column(name = "cel")
+    private String cel;
+    @Size(max = 255)
+    @Column(name = "srodek_lok")
+    private String srodekLok;
+    private BigDecimal wpisowe;
+    private BigDecimal diety;
+    private BigDecimal koszty_dojazdu;
+    private BigDecimal hotel;
+    private BigDecimal inne;
+    @Column(precision=7, scale=2)
+    private BigDecimal kwotaWs;
+    @Size(max = 26, min = 26, message = "numer rachunku powinien składać się z 26 znaków")
+    private String nrrachunku;
+    @Size(max = 3)
+    private String walutarachunku;
+    private boolean pracodawca;
+    private boolean zgodnZbudz;
+    private boolean czyZaliczka;
+    private boolean czyDieta;
+    private boolean czyRyczalty;
+
     @OrderBy(value = "id ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopId", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<WnHistoria> wnHistoriaList;
@@ -92,17 +120,17 @@ public class WnUrlop implements Serializable {
     @JoinColumn(name = "przyjmujacy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Uzytkownik przyjmujacy;
-    @Size(max = 255)
-    @Column(name = "miejsce")
-    private String miejsce;
-    @Size(max = 255)
-    @Column(name = "cel")
-    private String cel;
-    @Size(max = 255)
-    @Column(name = "srodek_lok")
-    private String srodekLok;
+
     @Transient
     private Date dataOstZmiany;
+    @Transient
+    String dataOdStr;
+    @Transient
+    String dataDoStr;
+    @Transient
+    boolean calyDzien;
+    @Transient
+    Uzytkownik zaakceptowal;
 
     public WnUrlop() {
     }
@@ -229,8 +257,11 @@ public class WnUrlop implements Serializable {
     }
 
     public void setExtraemail(boolean extraemail) {
-        if(extraemail) this.extraemail =1;
-        else this.extraemail =null;
+        if (extraemail) {
+            this.extraemail = 1;
+        } else {
+            this.extraemail = null;
+        }
     }
 
     public String getInfoDod() {
@@ -265,6 +296,159 @@ public class WnUrlop implements Serializable {
         this.srodekLok = srodekLok;
     }
 
+    public boolean isPracodawca() {
+        return pracodawca;
+    }
+
+    public void setPracodawca(boolean pracodawca) {
+        this.pracodawca = pracodawca;
+    }
+
+    public BigDecimal getKwotaWs() {
+        this.kwotaWs = getHotel().add(getInne()).add(getKoszty_dojazdu()).add(getWpisowe());
+        return kwotaWs;
+    }
+
+    public void setKwotaWs(BigDecimal kwotaWs) {
+        this.kwotaWs = kwotaWs;
+    }
+
+    public String getTemat_szkolenia() {
+        return temat_szkolenia;
+    }
+
+    public void setTemat_szkolenia(String temat_szkolenia) {
+        this.temat_szkolenia = temat_szkolenia;
+    }
+
+    public BigDecimal getWpisowe() {
+        if (wpisowe == null) {
+            wpisowe = new BigDecimal(0);
+        }
+        return wpisowe;
+    }
+
+    public void setWpisowe(BigDecimal wpisowe) {
+        this.wpisowe = wpisowe;
+    }
+
+    public BigDecimal getKoszty_dojazdu() {
+        if (koszty_dojazdu == null) {
+            koszty_dojazdu = new BigDecimal(0);
+        }
+        return koszty_dojazdu;
+    }
+
+    public void setKoszty_dojazdu(BigDecimal koszty_dojazdu) {
+        this.koszty_dojazdu = koszty_dojazdu;
+    }
+
+    public BigDecimal getHotel() {
+        if (hotel == null) {
+            hotel = new BigDecimal(0);
+        }
+        return hotel;
+    }
+
+    public void setHotel(BigDecimal hotel) {
+        this.hotel = hotel;
+    }
+
+    public BigDecimal getInne() {
+        if (inne == null) {
+            inne = new BigDecimal(0);
+        }
+        return inne;
+    }
+
+    public void setInne(BigDecimal inne) {
+        this.inne = inne;
+    }
+
+    public String getDataOdStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(dataOd);
+    }
+
+    public String getDataDoStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(dataDo);
+    }
+
+    public boolean isCalyDzien() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(dataOd).equals("00:00") && sdf.format(dataDo).equals("23:59");
+    }
+
+    public BigDecimal getDiety() {
+        if (diety == null) {
+            diety = new BigDecimal(0);
+        }
+        return diety;
+    }
+
+    public void setDiety(BigDecimal diety) {
+        this.diety = diety;
+    }
+
+    public String getNrrachunku() {
+        return nrrachunku;
+    }
+
+    public void setNrrachunku(String nrrachunku) {
+        this.nrrachunku = nrrachunku;
+    }
+
+    public boolean isZgodnZbudz() {
+        return zgodnZbudz;
+    }
+
+    public void setZgodnZbudz(boolean zgodnZbudz) {
+        this.zgodnZbudz = zgodnZbudz;
+    }
+
+    public boolean isCzyZaliczka() {
+        return czyZaliczka;
+    }
+
+    public void setCzyZaliczka(boolean czyZaliczka) {
+        this.czyZaliczka = czyZaliczka;
+    }
+
+    public Uzytkownik getZaakceptowal() {
+        zaakceptowal=null;
+        for(WnHistoria hist:this.wnHistoriaList){
+            if(hist.getStatusId().getId()==3){
+                return hist.getZmieniajacy();
+            }
+        }
+        return zaakceptowal;
+    }
+
+    public String getWalutarachunku() {
+        return walutarachunku;
+    }
+
+    public void setWalutarachunku(String walutarachunku) {
+        this.walutarachunku = walutarachunku;
+    }
+
+    public boolean isCzyDieta() {
+        return czyDieta;
+    }
+
+    public void setCzyDieta(boolean czyDieta) {
+        this.czyDieta = czyDieta;
+    }
+
+    public boolean isCzyRyczalty() {
+        return czyRyczalty;
+    }
+
+    public void setCzyRyczalty(boolean czyRyczalty) {
+        this.czyRyczalty = czyRyczalty;
+    }    
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -1,5 +1,7 @@
 package pl.eod2.managedUm;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,9 +11,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.primefaces.event.RowEditEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmGrupaJpaController;
+import pl.eod2.encje.UmMasterGrupa;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 
@@ -23,7 +27,7 @@ public class UGrupaMg {
     private Login login;
     @ManagedProperty(value = "#{UStruktMg}")
     private UStruktMg uStruktMg;
-    private DataModel<UmGrupa> lista = new ListDataModel<UmGrupa>();
+    private List<UmGrupa> lista = new ArrayList<>();
     private UmGrupaJpaController dcC;
     private UmGrupa obiekt;
     private String error;
@@ -36,13 +40,18 @@ public class UGrupaMg {
 
     public void refresh() {
         login.refresh();
-        lista.setWrappedData(dcC.findUmGrupaEntities());
+        lista.clear();
+        for (UmMasterGrupa mg : login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList()) {
+            lista.addAll(mg.getGrupaList());
+        }
         obiekt = new UmGrupa();
         error = null;
     }
 
-    public void newObiekt() {
+    public void refreshBezLista() {
+        login.refresh();
         obiekt = new UmGrupa();
+        error = null;
     }
 
     public void dodaj() throws Exception {
@@ -64,14 +73,18 @@ public class UGrupaMg {
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
-            lista.setWrappedData(dcC.findUmGrupaEntities());
+            lista.clear();
+            for (UmMasterGrupa mg : login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList()) {
+                lista.addAll(mg.getGrupaList());
+            }
         } else {
             uStruktMg.refresh();
-            refresh();
+            refreshBezLista();
         }
     }
 
     public void usun() throws IllegalOrphanException, NonexistentEntityException {
+        System.err.println(obiekt.getId());
         dcC.destroy(obiekt.getId());
         refresh();
     }
@@ -79,6 +92,11 @@ public class UGrupaMg {
     public String list() {
         refresh();
         return "/um/grupa";
+    }
+
+    public String raport1() {
+        refresh();
+        return "/um/raport1";
     }
 
     public Login getLogin() {
@@ -89,11 +107,11 @@ public class UGrupaMg {
         this.login = login;
     }
 
-    public DataModel<UmGrupa> getLista() {
+    public List<UmGrupa> getLista() {
         return lista;
     }
 
-    public void setLista(DataModel<UmGrupa> lista) {
+    public void setLista(List<UmGrupa> lista) {
         this.lista = lista;
     }
 
@@ -121,4 +139,8 @@ public class UGrupaMg {
         this.uStruktMg = uStruktMg;
     }
 
+    public void editList(RowEditEvent event) throws NonexistentEntityException, Exception {
+        obiekt = (UmGrupa) event.getObject();
+        edytuj();
+    }
 }

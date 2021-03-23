@@ -9,6 +9,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.swing.tree.TreeNode;
+import org.primefaces.model.DefaultTreeNode;
 import org.richfaces.event.DropEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.DcDokument;
@@ -26,16 +27,21 @@ import pl.eod2.managedRej.Rejestracja;
 public class RejDok {
 
     private DataModel<DcDokument> lista = new ListDataModel<>();
+    private List<DcDokument>listaPF=new ArrayList<>();
     private DataModel<DcRodzaj> rodzajLista = new ListDataModel<>();
+    private List<DcRodzaj>rodzajListaPF=new ArrayList<>();
     @ManagedProperty(value = "#{login}")
     private Login login;
     @ManagedProperty(value = "#{RejestracjaRej}")
     private Rejestracja rejestracja;
     @ManagedProperty(value = "#{UrzadzeniaMg}")
     private UrzadzeniaMg urzadzeniaMg;
+    @ManagedProperty(value = "#{RezerwacjeMg}")
+    private RezerwacjeMg rezMg;
     private DcRodzajJpaController dcR;
     private List<TreeNode> rootNodesDetDok = new ArrayList<>();
     private UmUrzadzenie urzad;
+    DefaultTreeNode node;
 
     @PostConstruct
     void init() {
@@ -45,12 +51,15 @@ public class RejDok {
     void refresh() {
         dcR = new DcRodzajJpaController();
         rodzajLista.setWrappedData(dcR.findDcRodzajUm());
+        rodzajListaPF=dcR.findDcRodzajUm();
         List<DcDokument> listD = new ArrayList<>();
-        for (DcRodzaj rodz : (List<DcRodzaj>) rodzajLista.getWrappedData()) {
+        for (DcRodzaj rodz : rodzajListaPF) {
             listD.addAll(rodz.getDcDokumentList());
         }
         lista.setWrappedData(listD);
+        listaPF=listD;
         rejestracja.setObiekt(null);
+        rezMg.zrobDrzewo(true, null);
     }
 
     public String list() {
@@ -88,8 +97,28 @@ public class RejDok {
         urzList.add(urzad);
         rejestracja.getObiekt().setUrzadzeniaList(urzList);
         rodzajLista.setWrappedData(urzad.getGrupa().getMasterGrp().getRodzajeDokList());
+        rodzajListaPF=urzad.getGrupa().getMasterGrp().getRodzajeDokList();
     }
 
+    public void addUrzDok(){
+        if (node.getData() instanceof pl.eod2.encje.UmUrzadzenie) {
+            //DrzUrzad drU = (DrzUrzad) node.getData();
+            UmUrzadzenie uz = (UmUrzadzenie) node.getData();
+            rejestracja.getObiekt().getUrzadzeniaList().add(uz);
+        }
+        if (node.getData() instanceof pl.eod2.encje.UmGrupa) {
+            UmGrupa uGr = (UmGrupa) node.getData();
+            rejestracja.getObiekt().getUrzadzeniaList().addAll(uGr.getUrzadzenieList());
+        }
+        if (node.getData() instanceof pl.eod2.encje.UmMasterGrupa) {
+            UmMasterGrupa drM = (UmMasterGrupa) node.getData();
+            for (UmGrupa uGr : drM.getGrupaList()) {
+                rejestracja.getObiekt().getUrzadzeniaList().addAll(uGr.getUrzadzenieList());
+            }
+        }
+        rejestracja.edytujAbst();
+    }
+    
     public void drop(DropEvent event) {
 
         //przypisanie urzadzenia do dokumenty
@@ -192,6 +221,39 @@ public class RejDok {
 
     public void setRootNodesDetDok(List<TreeNode> rootNodesDetDok) {
         this.rootNodesDetDok = rootNodesDetDok;
+    }
+
+    public RezerwacjeMg getRezMg() {
+        rezMg.zrobDrzewo(true, rejestracja.getObiekt().getRodzajId());
+        return rezMg;
+    }
+
+    public void setRezMg(RezerwacjeMg rezMg) {
+        this.rezMg = rezMg;
+    }
+
+    public DefaultTreeNode getNode() {
+        return node;
+    }
+
+    public void setNode(DefaultTreeNode node) {
+        this.node = node;
+    }
+
+    public List<DcDokument> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcDokument> listaPF) {
+        this.listaPF = listaPF;
+    }
+
+    public List<DcRodzaj> getRodzajListaPF() {
+        return rodzajListaPF;
+    }
+
+    public void setRodzajListaPF(List<DcRodzaj> rodzajListaPF) {
+        this.rodzajListaPF = rodzajListaPF;
     }
 
 }

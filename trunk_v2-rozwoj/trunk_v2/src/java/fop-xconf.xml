@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<fop version="1.0">
+<fop version="2.1">
                     
 <font-base>/home/arti01/Pobrane/fonts</font-base>
 
@@ -9,6 +9,7 @@
     <renderer mime="application/pdf">
       <fonts>
 <!--
+        <directory recursive="true">/home/arti01/Pobrane/fonts</directory>
         <directory recursive="true">file:\\\D:\\tmp\\1\\fonts</directory>
 -->
 
@@ -28,33 +29,6 @@
           <font-triplet name="Arial" style="italic" weight="bold"/>
           <font-triplet name="ArialMT" style="italic" weight="bold"/>
         </font>
-
-        <font embed-url="TimesRegular.ttf">
-          <font-triplet name="Times" style="normal" weight="normal"/>
-        </font>
-        <font embed-url="TimesBold.ttf">
-          <font-triplet name="Times" style="normal" weight="bold"/>
-        </font>
-        <font embed-url="TimesItalic.ttf">
-          <font-triplet name="Times" style="italic" weight="normal"/>
-        </font>
-        <font embed-url="TimesBoldItalic.ttf">
-          <font-triplet name="Times" style="italic" weight="bold"/>
-        </font>
-
-        <font embed-url="CourierRegular.ttf">
-          <font-triplet name="Courier" style="normal" weight="normal"/>
-        </font>
-        <font embed-url="CourierBold.ttf">
-          <font-triplet name="Courier" style="normal" weight="bold"/>
-        </font>
-        <font embed-url="CourierItalic.ttf">
-          <font-triplet name="Courier" style="italic" weight="normal"/>
-        </font>
-        <font embed-url="CourierBoldItalic.ttf">
-          <font-triplet name="Courier" style="italic" weight="bold"/>
-        </font>
-
         <font embed-url="verdana.ttf">
           <font-triplet name="Verdana" style="normal" weight="normal"/>
         </font>

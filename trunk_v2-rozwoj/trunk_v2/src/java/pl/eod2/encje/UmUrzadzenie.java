@@ -20,13 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import pl.eod.encje.Uzytkownik;
@@ -66,6 +67,12 @@ public class UmUrzadzenie implements Serializable {
     @Column(name = "data_wprow")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPrzegl;
+    @Min(0)
+    private int stanPoczatkowy;
+    private int stan;
+    @Min(0)
+    private Double cenaJednostkowa;
+    
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private UmGrupa grupa;
@@ -74,10 +81,16 @@ public class UmUrzadzenie implements Serializable {
     private Uzytkownik userOdpow;
     @ManyToMany(mappedBy = "urzadzeniaList", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<DcDokument> dokumentyList;
+    @OrderBy(value = "dataOd ASC")
+    @OneToMany(mappedBy = "urzadzenie", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private List<UmRezerwacje> rezerwacjeList;
+    
     @Transient
     private boolean dataNizDzis;
     @Transient
     private boolean alertPrzegl;
+    @Transient
+    private double wartoscRazem;
 
     public Long getId() {
         return id;
@@ -188,6 +201,44 @@ public class UmUrzadzenie implements Serializable {
         return c.getTime().before(new Date());
     }
 
+    public int getStan() {
+        return stan;
+    }
+
+    public void setStan(int stan) {
+        this.stan = stan;
+    }
+
+    public int getStanPoczatkowy() {
+        return stanPoczatkowy;
+    }
+
+    public void setStanPoczatkowy(int stanPoczatkowy) {
+        this.stanPoczatkowy = stanPoczatkowy;
+    }
+
+    public Double getCenaJednostkowa() {
+        return cenaJednostkowa;
+    }
+
+    public void setCenaJednostkowa(Double cenaJednostkowa) {
+        this.cenaJednostkowa = cenaJednostkowa;
+    }
+    
+    public double getWartoscRazem() {
+        if(cenaJednostkowa==null) return 0;
+        return cenaJednostkowa*stan;
+    }    
+
+    public List<UmRezerwacje> getRezerwacjeList() {
+        return rezerwacjeList;
+    }
+
+    public void setRezerwacjeList(List<UmRezerwacje> rezerwacjeList) {
+        this.rezerwacjeList = rezerwacjeList;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

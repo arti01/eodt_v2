@@ -1,0 +1,162 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>eSK.EOD dla: #{login.licencjaDla}</title>
+        <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/kalendstyle.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/png" href="../images/eod_logo.png"/>
+        <style>
+            .ui-state-disabled, .ui-widget-content .ui-state-disabled{
+                opacity: .7;
+                
+            }
+            .ui-widget-content {
+                font-size: 12px;
+            }
+
+            .ui-widget .ui-widget {
+                font-size: 11px;
+            }
+
+            .disable-scroll .ui-dialog-content {
+                overflow: hidden !important;
+            }
+            .ui-menu .ui-menu-parent .ui-menu-child {
+                white-space: nowrap !important;
+                width: 19em;
+            }
+
+            ul.ui-menu-child
+            {
+                white-space: nowrap;
+                width: auto;
+            }
+            .ui-menu .ui-menu-child
+            {
+                left: 30px;
+            }
+            .ui-menu .ui-menuitem-link{
+                font-size: 12px;
+            }
+            .column1 {
+                vertical-align: top;
+                width: 47%;
+                text-align: right;
+                border-style: hidden;
+                padding: 0;
+            }
+            
+            .column1a {
+                vertical-align: top;
+                width: 47%;
+                text-align: right;
+                border-style: hidden !important;
+                padding: 0;
+            }
+            .column2 {
+                vertical-align: top;
+                width: 100%;
+                text-align: left;
+                border-style: hidden;
+                padding: 0;
+            }
+            .column2a {
+                vertical-align: top;
+                width: 100%;
+                text-align: left;
+                border-style: hidden !important;
+                padding: 0;
+            }
+            .column1p {
+                vertical-align: top;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2p {
+                vertical-align: top;
+                text-align: left;
+                border-style: hidden;
+            }
+            .column1_50 {
+                vertical-align: top;
+                width: 50%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2_50 {
+                vertical-align: top;
+                width: 50%;
+                text-align: left;
+                border-style: hidden;
+            }
+            .ui-panelgrid .ui-panelgrid-cell{
+                background-color: ghostwhite;
+            }
+            .ui-column-title{
+                font-size: 10px;
+            }
+            .ui-widget-content .ui-inputfield{
+                font-size: 11px;
+            }
+            .fc-event{
+                font-size: 11px;
+            }
+        </style>
+    </h:head>
+
+    <h:body style="background-color: ghostwhite">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage value="/images/ai.gif"/>
+            proszę czekać
+        </p:dialog>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        <p:layout style="min-width:400px;min-height:200px;background-color: ghostwhite" fullPage="true">
+            <p:layoutUnit position="north" style="background-color: ghostwhite;">
+                <table width="100%" style="font-size: 21px; background-color: ghostwhite; margin: 0px" border="0"><tr>
+                        <td align="right" width="100px;"><img src="../images/eod_logo.png" alt="eSK.EOD" border="0"  style=" height: 60px;"/>
+                        </td>
+                        <td align="center"><i><b><font size="6">E</font></b><font size="5">LEKTRONICZNY</font> <b><font size="6">O</font></b><font size="5">BIEG</font> <b><font size="6">D</font></b><font size="5">OKUMENTÓW</font></i>&nbsp;<sub>v2.0</sub></td>
+                        <td align="right" width="120px"><p style="font-size: 12px;">Zalogowany jako: <b>#{login.zalogowany.userId.fullname}</b></p></td>
+                          </tr>
+                </table>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" style="background-color: ghostwhite">
+                <h:form id="infoForm"  rendered="#{!login.bladLicencj}">
+                    <p:growl id="messages" showDetail="false" life="3700"/>
+                    <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
+                    <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
+                        <p:button outcome="/logowanie/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>
+                    </p:dialog>
+                    <ui:include src="../templates/menuGPF.xhtml"/>
+                </h:form>
+                <ui:insert name="tytul"/>
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" style="background-color: ghostwhite">
+                <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color: ghostwhite;font-size: 95%;">
+                    <tr valign="middle">
+                        <td align="center">Licencja dla:<b> #{login.licencjaDla}</b></td>
+                    </tr>
+                    <tr valign="middle">
+                        <td align="center">&copy; Wszelkie prawa zastrzeżone eSoftKing 2016</td>
+                    </tr>
+                </table>
+            </p:layoutUnit>
+        </p:layout>
+        <script type="text/javascript">
+            PrimeFaces.locales['pl'] = {closeText: 'Zamknij', prevText: 'Poprzedni', nextText: 'Następny', monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'], monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'], dayNames: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'], dayNamesShort: ['Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'], dayNamesMin: ['N', 'P', 'W', 'Ś', 'Cz', 'P', 'S'], weekHeader: 'Tydzień', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix: 'r', timeOnlyTitle: 'Tylko czas', timeText: 'Czas', hourText: 'Godzina', minuteText: 'Minuta', secondText: 'Sekunda', currentText: 'Teraz', ampm: false, month: 'Miesiąc', week: 'Tydzień', day: 'Dzień', allDayText: 'Cały dzień'};
+        </script>
+    </h:body>
+</html>

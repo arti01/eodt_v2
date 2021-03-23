@@ -34,9 +34,10 @@ import pl.eod2.encje.DcAkceptKroki;
 import pl.eod2.encje.DcDokDoWiadCel;
 import pl.eod2.encje.DcDokDoWiadomosci;
 import pl.eod2.encje.DcDokument;
-import pl.eod2.encje.DcDokumentArchDod;
 import pl.eod2.encje.DcDokumentKrokUzytkownik;
+import pl.eod2.encje.Kalendarz;
 import pl.eod2.encje.Ogloszenia;
+import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmUrzadzenie;
 
 /**
@@ -115,6 +116,9 @@ public class Uzytkownik implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "userid", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "id DESC")
     private List<DcDokDoWiadCel> dcDoWiadCelList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<WnRodzaje> wnRodzaje;
+    
     @Transient
     private List<DcDokDoWiadCel> dcDoWiadCelListFiltr;
     @Transient
@@ -130,10 +134,16 @@ public class Uzytkownik implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "userOdpow", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "id DESC")
     private List<UmUrzadzenie> urzadzenieList;
-    
-    //@OneToMany(cascade = CascadeType.MERGE, mappedBy = "wydal", orphanRemoval = false, fetch = FetchType.LAZY)
-    //@OrderBy(value = "id DESC")
-    //private List<DcDokumentArchDod> dokArchDodList;
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "tworca", orphanRemoval = false, fetch = FetchType.LAZY)
+    @OrderBy(value = "dataOd DESC")
+    private List<UmRezerwacje> rezerwacjeList;
+    @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
+    private List<UmRezerwacje> rezUczestnikList;
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "tworca", orphanRemoval = false, fetch = FetchType.LAZY)
+    @OrderBy(value = "dataOd DESC")
+    private List<Kalendarz> kalendarzList;
+    @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
+    private List<Kalendarz> kalendUczestnikList;
     
     @Transient
     private List<UmUrzadzenie> urzadzenieAletrPrzeglList;
@@ -299,6 +309,9 @@ public class Uzytkownik implements Serializable {
     }
 
     public WnLimity getWnLimity() {
+        /*WnLimity wn=new WnLimity();
+        wn.setUlimit("Limit:227h 50m(30.1 dni)<br/> Wykorz.:0h 0m     (0.0 dni)<br/> Pozost.:227h 50m (30.1 dni)");
+        wnLimity=wn;*/
         return wnLimity;
     }
 
@@ -346,7 +359,7 @@ public class Uzytkownik implements Serializable {
     }
 
     public List<DcDokument> getDcDokumentListHist() {
-        List<DcDokument> wynik = new ArrayList<DcDokument>();
+        List<DcDokument> wynik = new ArrayList<>();
         for (DcDokumentKrokUzytkownik dku : getDcDokumentKrokUzytkownikList()) {
             //krok danego użytkownika musi być bez akceptu
             //krok dokumentu musi być do akceptu lub częsciowa akceptacja
@@ -395,15 +408,47 @@ public class Uzytkownik implements Serializable {
         }
         return urzadzenieAletrPrzeglList;
     }
-/*
-    public List<DcDokumentArchDod> getDokArchDodList() {
-        return dokArchDodList;
+
+    public List<UmRezerwacje> getRezerwacjeList() {
+        return rezerwacjeList;
     }
 
-    public void setDokArchDodList(List<DcDokumentArchDod> dokArchDodList) {
-        this.dokArchDodList = dokArchDodList;
+    public void setRezerwacjeList(List<UmRezerwacje> rezerwacjeList) {
+        this.rezerwacjeList = rezerwacjeList;
     }
-*/
+
+    public List<UmRezerwacje> getRezUczestnikList() {
+        return rezUczestnikList;
+    }
+
+    public void setRezUczestnikList(List<UmRezerwacje> rezUczestnikList) {
+        this.rezUczestnikList = rezUczestnikList;
+    }
+
+    public List<Kalendarz> getKalendarzList() {
+        return kalendarzList;
+    }
+
+    public void setKalendarzList(List<Kalendarz> kalendarzList) {
+        this.kalendarzList = kalendarzList;
+    }
+
+    public List<Kalendarz> getKalendUczestnikList() {
+        return kalendUczestnikList;
+    }
+
+    public void setKalendUczestnikList(List<Kalendarz> kalendUczestnikList) {
+        this.kalendUczestnikList = kalendUczestnikList;
+    }
+
+    public List<WnRodzaje> getWnRodzaje() {
+        return wnRodzaje;
+    }
+
+    public void setWnRodzaje(List<WnRodzaje> wnRodzaje) {
+        this.wnRodzaje = wnRodzaje;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -421,4 +466,4 @@ public class Uzytkownik implements Serializable {
     public String toString() {
         return "pl.eod.encje.Uzytkownik[ id=" + id + " ]";
     }
-}
+    }

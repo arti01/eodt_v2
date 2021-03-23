@@ -5,7 +5,7 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml"
+                template="/templates/templateRF2PF.xhtml"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
@@ -36,11 +36,11 @@
                         <h:outputText value="#{item.idDokumentKrok.idDok.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">żródło</f:facet>
+                        <f:facet name="header">źródło</f:facet>
                             #{item.idDokumentKrok.idDok.zrodloId.nazwa}
                     </rich:column>
                     
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.idDokumentKrok.idDok.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.idDokumentKrok.idDok.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">    
                         <f:facet name="header">teczka
                             <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="9">
                                 <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>

@@ -4,12 +4,10 @@
  */
 package pl.eod.managed;
 
-import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,33 +19,32 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import org.richfaces.component.SortOrder;
 import pl.eod.encje.Dzial;
 import pl.eod.encje.DzialJpaController;
 import pl.eod.encje.KomKolejka;
 import pl.eod.encje.KomKolejkaJpaController;
 import pl.eod.encje.Struktura;
-import pl.eod.encje.StrukturaDataModel;
 import pl.eod.encje.StrukturaJpaController;
 import pl.eod.encje.UserRoles;
 import pl.eod.encje.UserRolesJpaController;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
+import pl.eod.encje.WnRodzaje;
+import pl.eod.encje.WnRodzajeJpaController;
+import pl.eod.encje.WnStatusy;
+import pl.eod.encje.WnStatusyJpaController;
 import pl.eod.encje.exceptions.NonexistentEntityException;
 
-/**
- *
- * @author 103039
- */
 @ManagedBean(name = "UsersM")
 @SessionScoped
 public class UsersM implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    List<Uzytkownik> users = new ArrayList<Uzytkownik>();
-    List<UserRoles> roleAll = new ArrayList<UserRoles>();
-    List<Dzial> dzialyAll = new ArrayList<Dzial>();
-    List<Struktura> kierownicyAll = new ArrayList<Struktura>();
+    //List<Uzytkownik> users = new ArrayList<>();-bo richfaces
+    List<UserRoles> roleAll = new ArrayList<>();
+    List<Dzial> dzialyAll = new ArrayList<>();
+    List<Struktura> kierownicyAll = new ArrayList<>();
+    List<WnRodzaje> wnRodzajeAll = new ArrayList<>();
     //DataModel<Struktura> struktury = new ListDataModel<Struktura>();
     UzytkownikJpaController userC;
     Uzytkownik user;
@@ -57,31 +54,38 @@ public class UsersM implements Serializable {
     Dzial dzialFilter;
     StrukturaJpaController struktC;
     UserRolesJpaController urC;
+    WnRodzajeJpaController wsC;
     Struktura strukt;
+    Struktura newSzef;
     DzialJpaController dzialC;
     @ManagedProperty(value = "#{login}")
     private Login login;
     boolean sprawdzacUnikEmail;
-    private Map<String, String> filterValues = Maps.newHashMap();
-    private Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
-    private StrukturaDataModel dataModel;
+    //private Map<String, String> filterValues = Maps.newHashMap(); - bo RF
+    //private Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
+    //private StrukturaDataModel dataModel;
+    List<Struktura> dataModelPF = new ArrayList<>();
     private KomKolejkaJpaController KomKolC;
     String error;
 
     @PostConstruct
-    public void init()  {
+    public void init() {
         userC = new UzytkownikJpaController();
         struktC = new StrukturaJpaController();
         dzialC = new DzialJpaController();
         urC = new UserRolesJpaController();
+        wsC=new WnRodzajeJpaController();
         login.refresh();
-        dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
-        users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
-        sortOrders.put("userId.fullname", SortOrder.descending);
+        //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
+        //dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
+        //sortOrders.put("userId.fullname", SortOrder.descending);
         KomKolC = new KomKolejkaJpaController();
+//        System.err.println("init"+new Date());
     }
 
     private void initUser() {
+        //System.err.println("initUser"+new Date());
         strukt = new Struktura();
         strukt.setPrzyjmowanieWnioskow(false);
         user = new Uzytkownik();
@@ -91,9 +95,16 @@ public class UsersM implements Serializable {
         //struktury = new ListDataModel<Struktura>();
         //struktury.setWrappedData(struktC.findStrukturaWidoczni(login.zalogowany.getUserId().getSpolkaId()));
         roleAll = urC.findDostepneDoEdycji();
+        wnRodzajeAll=wsC.getFindWnRodzajeEntities();
         dzialyAll = dzialC.findDzialEntities(login.zalogowany.getUserId().getSpolkaId());
         kierownicyAll = struktC.getFindKierownicy(login.zalogowany.getUserId().getSpolkaId());
-        users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
+        //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
+        //System.err.println(new Date().getTime());
+        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //System.err.println(new Date().getTime());
+        //dataModelPF = struktC.strukturyNieUsuniete(login.zalogowany.getUserId().getSpolkaId());
+        //System.err.println(new Date().getTime());
+        //System.err.println("initUser"+new Date());
         //System.out.println(struktury.getRowCount()+"initUser");
     }
 
@@ -114,21 +125,21 @@ public class UsersM implements Serializable {
     }
 
     public String edycja() {
-        rolesKlon = new CopyOnWriteArrayList<UserRoles>(strukt.getUserId().getRole());
+        rolesKlon = new CopyOnWriteArrayList<>(strukt.getUserId().getRole());
         return "/all/usersEdit";
     }
 
     public String ustawZastepce() throws IOException {
         strukt = login.getZalogowany();
-        rolesKlon = new CopyOnWriteArrayList<UserRoles>(strukt.getUserId().getRole());
+        rolesKlon = new CopyOnWriteArrayList<>(strukt.getUserId().getRole());
         return "/common/ustawZastepce";
     }
 
     public String ustawZastepceZapisz() throws NonexistentEntityException, Exception {
-        boolean czyWyslac=strukt.getSecUserId() != null;
-        String adresMail="";
-        if(czyWyslac) {
-            adresMail=strukt.getSecUserId().getAdrEmail();
+        boolean czyWyslac = strukt.getSecUserId() != null;
+        String adresMail = "";
+        if (czyWyslac) {
+            adresMail = strukt.getSecUserId().getAdrEmail();
         }
         zapisz();
         if (error == null) {
@@ -159,9 +170,11 @@ public class UsersM implements Serializable {
     }
 
     public void dodaj() throws NonexistentEntityException, Exception {
-        String error = struktC.create(strukt);
-        if (error != null) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
+
+        String error1 = struktC.create(strukt);
+
+        if (error1 != null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error1, error1);
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
@@ -188,12 +201,6 @@ public class UsersM implements Serializable {
     }
 
     public String zapisz() throws NonexistentEntityException, Exception {
-        //pozostają role nieedytowalne
-       /* System.err.println(rolesKlon);
-         System.err.println(strukt.getUserId().getRole());
-         System.err.println(roleAll);*/
-
-
         //obsluga dla readonly roli w formularzu
         if (!strukt.getUserId().getRole().equals(rolesKlon) && rolesKlon != null) {
             rolesKlon.removeAll(roleAll);
@@ -203,7 +210,6 @@ public class UsersM implements Serializable {
         error = struktC.editArti(strukt);
         if (error == null) {
             initUser();
-            //error = "Zmiana wykonana";
             return "/all/usersList?faces-redirect=true";
         }
         FacesMessage message = new FacesMessage(error);
@@ -211,7 +217,7 @@ public class UsersM implements Serializable {
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         context.addMessage(zapisz.getClientId(context), message);
         edytuj = true;
-        dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
+        //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
         return "/all/usersEdit";
     }
 
@@ -225,7 +231,7 @@ public class UsersM implements Serializable {
                 strukt.getDzialId().setNazwa(strukt.getSzefId().getDzialId().getNazwa());
             }
         } catch (NullPointerException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         } catch (Exception ex1) {
             ex1.printStackTrace();
         }
@@ -268,12 +274,33 @@ public class UsersM implements Serializable {
         }
     }
 
-    public List<Uzytkownik> getUsers() {
-        return users;
+    public List<Uzytkownik> uzytkownicyAucoComp(String query) {
+        query = query.toLowerCase();
+        List<Uzytkownik> wynik = new ArrayList<>();
+        for (Uzytkownik u : userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true)) {
+            if (u.getAdrEmail().toLowerCase().contains(query) || u.getFullname().toLowerCase().contains(query)) {
+                wynik.add(u);
+            }
+        }
+        wynik.remove(strukt.getUserId());
+        return wynik;
     }
 
-    public void setUsers(List<Uzytkownik> users) {
-        this.users = users;
+    public void zmienPrzelozonegoDo() throws NonexistentEntityException, NullPointerException, Exception {
+        for (Struktura s : strukt.getBezpPod()) {
+            s.setSzefId(newSzef);
+            struktC.editArti(s);
+        }
+        //struktC.editArti(struktC.findStruktura(strukt.getId()));
+        strukt.setBezpPod(new ArrayList<>());
+        struktC.editArti(strukt);
+        System.err.println(strukt.getBezpPodWidoczni());
+        FacesMessage message = new FacesMessage("zmiana wykonana");
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent zapisz = UIComponent.getCurrentComponent(context);
+        context.addMessage(zapisz.getClientId(context), message);
+        //initUser();
+        //return "/all/usersList?faces-redirect=true";
     }
 
     public Uzytkownik getUser() {
@@ -358,24 +385,28 @@ public class UsersM implements Serializable {
         this.kierownicyAll = kierownicyAll;
     }
 
-    public Object getDataModel() {
-        //return new StrukturaDataModel();
-        return dataModel;
+    public Struktura getNewSzef() {
+        return newSzef;
     }
 
-    public Map<String, String> getFilterValues() {
-        return filterValues;
+    public void setNewSzef(Struktura newSzef) {
+        this.newSzef = newSzef;
     }
 
-    public void setFilterValues(Map<String, String> filterValues) {
-        this.filterValues = filterValues;
+    public List<Struktura> getDataModelPF() {
+        return dataModelPF;
     }
 
-    public Map<String, SortOrder> getSortOrders() {
-        return sortOrders;
+    public void setDataModelPF(List<Struktura> dataModelPF) {
+        this.dataModelPF = dataModelPF;
     }
 
-    public void setSortOrders(Map<String, SortOrder> sortOrders) {
-        this.sortOrders = sortOrders;
+    public List<WnRodzaje> getWnRodzajeAll() {
+        return wnRodzajeAll;
     }
+
+    public void setWnRodzajeAll(List<WnRodzaje> wnRodzajeAll) {
+        this.wnRodzajeAll = wnRodzajeAll;
+    }
+
 }

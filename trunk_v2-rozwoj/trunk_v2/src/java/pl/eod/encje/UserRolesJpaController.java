@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
  * @author arti01
  */
 public class UserRolesJpaController implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     public UserRolesJpaController() {
@@ -49,15 +50,22 @@ public class UserRolesJpaController implements Serializable {
 
     @SuppressWarnings("unchecked")
     public List<UserRoles> findDostepneDoEdycji() {
-        String rola1="eodstru";
-        String rola2="eodurlop";
-        String rola3="eoddok_rej";
-        String rola4="eoddok_odb";
-        String rola5="eoddok_cfg";
-        String rola6="eoddok_arc";
-        String rola7="eod_ogl";
-        String rola8="eod_um_cfg";
-        String rola9="eod_um_sprz";
+        String rola1 = "eodstru";
+        String rola2 = "eodurlop";
+        String rola3 = "eoddok_rej";
+        String rola4 = "eoddok_odb";
+        String rola5 = "eoddok_cfg";
+        String rola6 = "eoddok_arc";
+        String rola7 = "eod_ogl";
+        String rola8 = "eod_um_cfg";
+        String rola9 = "eod_um_sprz";
+        String rola10 = "eod_um_rez";
+        String rola11 = "eod_kal_dec";
+        String rola12 = "eod_url_all";
+        String rola13 = "eod_um_doc";
+        String rola14 = "eod_um_rez_przeg";
+        String rola15 = "eod_url_sel";
+        
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -67,15 +75,21 @@ public class UserRolesJpaController implements Serializable {
             //cq.where(cb.equal(cfg.get(UserRoles_.rolename), rola1));
             cq.where(
                     cb.or(
-                    cb.equal(cfg.get(UserRoles_.rolename), rola1), 
-                    cb.equal(cfg.get(UserRoles_.rolename), rola2),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola3),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola4),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola5),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola6),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola7),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola8),
-                    cb.equal(cfg.get(UserRoles_.rolename), rola9)
+                            cb.equal(cfg.get(UserRoles_.rolename), rola1),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola2),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola3),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola4),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola5),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola6),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola7),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola8),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola9),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola10),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola11),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola12),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola13),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola14),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola15)
                     ));
             @SuppressWarnings("unchecked")
             Query q = em.createQuery(cq);

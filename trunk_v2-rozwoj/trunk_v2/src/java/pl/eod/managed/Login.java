@@ -17,6 +17,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +39,11 @@ public class Login implements Serializable {
     StrukturaJpaController strukC;
     String username;
     String password;
-    String template="../templates/template.xhtml";
+    String template = "../templates/templateRF2PF.xhtml";
     String licencjaDla;
     boolean urlop;
+    boolean urlAll;
+    boolean urlSel;
     boolean struktura;
     boolean admin;
     boolean kierownik;
@@ -51,6 +54,10 @@ public class Login implements Serializable {
     boolean ogl;
     boolean umCfg;
     boolean umSprz;
+    boolean umDoc;
+    boolean umRez;
+    boolean umRezPrzeg;
+    boolean kalDec;
     String typLogowania;
     List<MenuLinki> menuLinki;
     MenuLinkiJpaController menuLinkiC;
@@ -66,6 +73,7 @@ public class Login implements Serializable {
     boolean menuOglExp = false;
     boolean menuUmCfg = false;
     boolean menuUmSprze = false;
+    boolean menuRezerExp = false;
 
     @PostConstruct
     public void init() {
@@ -73,33 +81,38 @@ public class Login implements Serializable {
         typLogowania = confC.findConfigNazwa("realm_szyfrowanie").getWartosc();
         menuLinkiC = new MenuLinkiJpaController();
         menuLinki = menuLinkiC.findMenuLinkiEntities();
-        
+
         //licencje
-        String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        /*String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));        
-        String eodtljar=absolutePath+"/../../../../lib/eodtl.jar";
-        String md5="";
-        String klucz=confC.findConfigNazwa("kluczLicencji").getWartosc();
+        String eodtljar=absolutePath+"/../../../../lib/eodtl.jar";*/
+        java.net.URL fileURL = eodt.lib.NewClass.class.getProtectionDomain().getCodeSource().getLocation();
+        String eodtljar = fileURL.getFile();
+        //System.err.println(eodtljar);
+
+        String md5 = "";
+        String klucz = confC.findConfigNazwa("kluczLicencji").getWartosc();
         try {
             FileInputStream fis = new FileInputStream(new File(eodtljar));
             md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(!md5.equalsIgnoreCase(klucz)){
+
+        if (!md5.equalsIgnoreCase(klucz)) {
             zalogowany = null;
             this.setBladLicencj(true);
-            System.err.println(klucz+"licencja");
-            template="../templates/template_login.xhtml";
+            //System.err.println(klucz + "licencja"+eodtljar+md5);
+            System.err.println(klucz + "licencja");
+            template = "../templates/template_login.xhtml";
         }
-        
+
         UzytkownikJpaController uzytC = new UzytkownikJpaController();
         if (uzytC.iluZprawami() > eodt.lib.NewClass.LICZ) {
             zalogowany = null;
             this.setBladLicencj(true);
-            System.err.println(uzytC.iluZprawami()+"licencja"+eodt.lib.NewClass.LICZ);
-            template="../templates/template_login.xhtml";
+            System.err.println(uzytC.iluZprawami() + "licencja" + eodt.lib.NewClass.LICZ);
+            template = "../templates/template_login.xhtml";
         }
     }
 
@@ -150,6 +163,23 @@ public class Login implements Serializable {
         }
     }
 
+    public void loginTest() {
+        System.err.println("ssssseeeeeeeeeeee");
+    }
+
+    public String loginNew() {
+        System.err.println("ssssssssssssssssssssssssssssssss");
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            request.login(this.username, this.password);
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage("Login failed."));
+            return "error";
+        }
+        return "/all/index";
+    }
+
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -159,41 +189,45 @@ public class Login implements Serializable {
         return "/all/index";
     }
 
-    public String stronaIndex(){
+    public String stronaIndex() {
         refresh();
         return "../logowanie/index.xhtml";
     }
-    
+
     public void setZalogowany(Struktura user) {
         zalogowany = user;
     }
 
-    public void refresh(){
+    public void refresh() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         UzytkownikJpaController uzytC = new UzytkownikJpaController();
         //System.out.println(uzytC.iluZprawami() + "prawa");
-        
-        zalogowany = uzytC.findStruktura(request.getUserPrincipal().getName());
+
+        try {
+            zalogowany = uzytC.findStruktura(request.getUserPrincipal().getName());
+        } catch (NullPointerException np) {
+            System.err.println("nie zalogowany");
+        }
 
         //obsluga zewnetrzne id
         if (zalogowany == null) {
             zalogowany = uzytC.findStrukturaExtid(request.getUserPrincipal().getName());
         }
-        
+
         try {
             if (zalogowany.isUsuniety()) {
                 this.wyloguj();
-                template="../templates/template_login.xhtml";
+                template = "../templates/template_login.xhtml";
                 //return null;
             }
         } catch (NullPointerException ex) {
             System.err.println("brak użytkownika w bazie - user zewnętrzny");
         }
-       //wyszukiwanie limitu
+        //wyszukiwanie limitu
         WnLimity limit = uzytC.findLimit(zalogowany.getUserId());
         zalogowany.getUserId().setWnLimity(limit);
-        
+
     }
 
     public void menuStrukturaExpList(ActionEvent event) {
@@ -203,10 +237,11 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcOdbExp = false;
         menuDcArcExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
 
     public void menuUrlopExpList(ActionEvent event) {
@@ -216,10 +251,11 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcOdbExp = false;
         menuDcArcExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
 
     public void menuDcCfgExpList(ActionEvent event) {
@@ -229,10 +265,11 @@ public class Login implements Serializable {
         menuDcRejExp = false;
         menuDcOdbExp = false;
         menuDcArcExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
 
     public void menuDcRejExpList(ActionEvent event) {
@@ -242,10 +279,11 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcOdbExp = false;
         menuDcArcExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
 
     public void menuDcOdbExpList(ActionEvent event) {
@@ -255,12 +293,13 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcRejExp = false;
         menuDcArcExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
-    
+
     public void menuDcArcExpList(ActionEvent event) {
         menuDcArcExp = !menuDcArcExp;
         menuStrukturaExp = false;
@@ -268,12 +307,13 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcRejExp = false;
         menuDcOdbExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
-    
+
     public void menuDcArcRapList(ActionEvent event) {
         menuDcArcRap = !menuDcArcRap;
         menuDcArcExp = false;
@@ -282,11 +322,12 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcRejExp = false;
         menuDcOdbExp = false;
-        menuOglExp=false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuOglExp = false;
+        menuUmCfg = false;
+        menuUmSprze = false;
+        menuRezerExp = false;
     }
-    
+
     public void menuOglExpList(ActionEvent event) {
         menuOglExp = !menuOglExp;
         menuDcArcExp = false;
@@ -295,13 +336,14 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcRejExp = false;
         menuDcOdbExp = false;
-        menuUmCfg=false;
-        menuUmSprze=false;
+        menuUmCfg = false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
-    
+
     public void menuUmCfgExpList(ActionEvent event) {
-        menuUmCfg=!menuUmCfg;
+        menuUmCfg = !menuUmCfg;
         menuOglExp = false;
         menuDcArcExp = false;
         menuStrukturaExp = false;
@@ -309,12 +351,13 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcRejExp = false;
         menuDcOdbExp = false;
-        menuUmSprze=false;
+        menuUmSprze = false;
         menuDcArcRap = false;
+        menuRezerExp = false;
     }
-    
+
     public void menuUmSprzExpList(ActionEvent event) {
-        menuUmSprze=!menuUmSprze;
+        menuUmSprze = !menuUmSprze;
         menuOglExp = false;
         menuDcArcExp = false;
         menuStrukturaExp = false;
@@ -322,13 +365,33 @@ public class Login implements Serializable {
         menuDcCfgExp = false;
         menuDcRejExp = false;
         menuDcOdbExp = false;
-        menuUmCfg=false;
+        menuUmCfg = false;
+        menuDcArcRap = false;
+        menuRezerExp = false;
+    }
+
+    public void menuRezerExpList(ActionEvent event) {
+        menuRezerExp = !menuRezerExp;
+        menuUmSprze = false;
+        menuOglExp = false;
+        menuDcArcExp = false;
+        menuStrukturaExp = false;
+        menuUrlopExp = false;
+        menuDcCfgExp = false;
+        menuDcRejExp = false;
+        menuDcOdbExp = false;
+        menuUmCfg = false;
         menuDcArcRap = false;
     }
 
     public Struktura getZalogowany() {
         if (zalogowany == null) {
-            refresh();
+            try {
+                refresh();
+            } catch (NullPointerException np) {
+                System.err.println("niestety niezalogowany");
+                return null;
+            }
         }
         return zalogowany;
     }
@@ -360,6 +423,7 @@ public class Login implements Serializable {
     }
 
     public void setUsername(String username) {
+        System.err.println(username);
         this.username = username;
     }
 
@@ -368,6 +432,7 @@ public class Login implements Serializable {
     }
 
     public void setPassword(String password) {
+        System.err.println(password);
         this.password = password;
     }
 
@@ -419,26 +484,69 @@ public class Login implements Serializable {
         ogl = request.isUserInRole("eod_ogl");
         return ogl;
     }
-    
+
     public boolean isAdmin() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         admin = request.isUserInRole("eodadm");
         return admin;
     }
-     
+
     public boolean isUmCfg() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         return request.isUserInRole("eod_um_cfg");
     }
-   
-     public boolean isUmSprz() {
+
+    public boolean isUmSprz() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         return request.isUserInRole("eod_um_sprz");
     }
-   
+
+    public boolean isUmDoc() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_um_doc");
+    }
+
+    public boolean isUmRez() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_um_rez");
+    }
+
+    public boolean isKalDec() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_kal_dec");
+    }
+
+    public boolean isUrlAll() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_url_all");
+    }
+
+    public boolean isUrlSel() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_url_sel");
+    }
+
+    public boolean isUmRezPrzeg() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_um_rez_przeg");
+    }
+
+    public void setUrlAll(boolean urlAll) {
+        this.urlAll = urlAll;
+    }
+
+    public void setUrlSel(boolean urlSel) {
+        this.urlSel = urlSel;
+    }
 
     public boolean isKierownik() {
         try {
@@ -517,6 +625,14 @@ public class Login implements Serializable {
         this.menuOglExp = menuOglExp;
     }
 
+    public boolean isMenuRezerExp() {
+        return menuRezerExp;
+    }
+
+    public void setMenuRezerExp(boolean menuRezerExp) {
+        this.menuRezerExp = menuRezerExp;
+    }
+
     public void setUmCfg(boolean umCfg) {
         this.umCfg = umCfg;
     }
@@ -575,9 +691,8 @@ public class Login implements Serializable {
     }
 
     public String getLicencjaDla() {
-        licencjaDla=eodt.lib.NewClass.FIRMA;
+        licencjaDla = eodt.lib.NewClass.FIRMA;
         return licencjaDla;
     }
-    
-    
+
 }

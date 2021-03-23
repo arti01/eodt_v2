@@ -9,6 +9,10 @@
         <param-value>blueSky</param-value>
     </context-param>
     <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>none</param-value>
+    </context-param>
+    <context-param>
         <param-name>org.richfaces.enableControlSkinning</param-name>
         <param-value>false</param-value>
     </context-param>
@@ -20,18 +24,15 @@
         <param-name>org.richfaces.resourceOptimization.compressionStages</param-name>
         <param-value>All</param-value>
     </context-param>
-
     <servlet>
         <servlet-name>Resource Servlet</servlet-name>
         <servlet-class>org.richfaces.webapp.ResourceServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Resource Servlet</servlet-name>
         <url-pattern>/org.richfaces.resources/*</url-pattern>
     </servlet-mapping>
-
     <listener>
         <display-name>cron4j scheduler manager</display-name>
         <listener-class>pl.eod.cron4j.SchedulerServletContextListener</listener-class>
@@ -47,7 +48,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            33
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -93,7 +94,7 @@
         <display-name>Eod</display-name>
         <web-resource-collection>
             <web-resource-name>eod</web-resource-name>
-            <url-pattern>*.xhtml</url-pattern>
+            <url-pattern>/logowanie/*</url-pattern>
             <http-method>DELETE</http-method>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
@@ -134,7 +135,9 @@
         <description>eoddok_rej</description>
         <role-name>eoddok_rej</role-name>
     </security-role>
-    
+    <error-page>
+        <location>/error/500.xhtml</location>
+    </error-page>
     <error-page>
         <error-code>500</error-code>
         <location>/error/500.xhtml</location>
@@ -142,5 +145,9 @@
     <error-page>
         <error-code>403</error-code>
         <location>/error/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/500.xhtml</location>
     </error-page>
 </web-app>

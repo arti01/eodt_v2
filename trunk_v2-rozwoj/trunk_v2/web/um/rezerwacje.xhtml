@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="tytul">
+        <h3 align="center">Rezerwacje</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:panelGrid  columns="4" style="width: 100%">
+                <p:panel header="Wybierz zasób z listy" id="drzewoPanel" toggleable="true">
+                    <p:tree value="#{RezerwacjeMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" selection="#{RezerwacjeMg.urzadzenie}" id="drzewo">
+                        <p:ajax event="select" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSched}" process="@this"/>
+                        <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                            <h:outputText value="#{node.nazwa}" />
+                        </p:treeNode>
+                        <p:treeNode type="urzadzenie" icon="ui-icon-script">
+                            <h:outputText value="#{node.nazwa}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </p:panel>
+                <p:panel header="lub wpisz jego nazwę">
+                    <p:autoComplete id="zasob" completeMethod="#{RezerwacjeMg.urzAllList}"
+                                    var="urz" forceSelection="true" itemValue="#{urz}" converter="#{UmUrzadzenieConv}">
+                        <p:ajax event="itemSelect" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSchedCompl}"/>
+                        <p:column>
+                            <h:outputText value="#{urz.nazwa}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{urz.grupa.nazwa}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{urz.grupa.masterGrp.nazwa}" />
+                        </p:column>
+                    </p:autoComplete>
+                </p:panel>
+
+                <p:panel style="border-style: hidden">
+                    <h:outputText id="output" value="rozmiar kalendarza = #{RezerMojKalMg.number2}"/>
+                    <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
+                    <p:slider for="txt2" display="output" style="width: 200px; height: 10px" maxValue="5" minValue="1" step="-1" displayTemplate="rozmiar kalendarza {value}">
+                        <p:ajax event="slideEnd" update=":center:schedule" process="@parent" listener="#{RezerMojKalMg.onSlideEnd}"/>
+                    </p:slider>
+                </p:panel>
+
+                <p:panel style="border-style: hidden;">
+                    <p:commandButton value="dzień" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaDay"/>
+                    </p:commandButton>
+                    <p:commandButton value="tydzień" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaWeek"/>
+                    </p:commandButton>
+                    <p:commandButton value="miesiąc" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="month"/>
+                    </p:commandButton>
+                </p:panel>
+            </p:panelGrid>
+
+            <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
+                <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
+                            aspectRatio="#{6-RezerMojKalMg.number2}" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm"
+                            displayEventEnd="true" rightHeaderTemplate="" view="#{RezerwacjeMg.viewKal}" initialDate="#{RezerwacjeMg.initDate}" tooltip="true">
+                    <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update=":infoForm:messages, eventDetails, :center:invalid" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
+                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                </p:schedule>
+            </p:panel>
+            <p:dialog id="contekst" header="wybierz" widgetVar="contekst" resizable="false" styleClass="disable-scroll">
+                <p:menu id="contekstmenu">
+                    <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerwacjeMg.event.editable}"/>
+                    <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();"
+                                rendered="#{RezerwacjeMg.event.editable}" process="@this">
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                    </p:menuitem>
+                </p:menu>
+            </p:dialog>
+
+            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji dla #{RezerwacjeMg.obiekt.urzadzenie.nazwa}" showEffect="clip" id="dialog" closable="#{!RezerwacjeMg.event.editable}">
+                <p:panelGrid id="eventDetails" columns="3" columnClasses="column1">
+                    <p:outputLabel for="title" value="Nazwa:"/>
+                    <p:inputText id="title" value="#{RezerwacjeMg.obiekt.nazwa}" size='100' rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.obiekt.nazwa}" rendered="#{!RezerwacjeMg.event.editable}"/>
+                    <p:message for="title"/>
+
+                    <p:outputLabel for="from" value="Od:" />
+                    <p:calendar id="from" value="#{RezerwacjeMg.obiekt.dataOd}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.obiekt.dataOd}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    <p:message for="from"/>
+
+                    <p:outputLabel for="to" value="Do:" />
+                    <p:calendar id="to" value="#{RezerwacjeMg.obiekt.dataDo}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.obiekt.dataDo}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    <p:message for="to"/>
+
+                    <p:outputLabel value="Twórca:" />
+                    <h:outputText value="#{RezerwacjeMg.obiekt.tworca.fullname} #{RezerwacjeMg.obiekt.tworca.adrEmail}"/>
+                    <p:message for="from"/>
+
+                    <p:outputLabel value="uczestnicy rezerwacji:" for="osoby"/>
+                    <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.dostepniList}"
+                                    var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
+                                    rendered="#{RezerwacjeMg.event.editable}" size="100">
+                        <p:ajax event="itemSelect" listener="#{RezerwacjeMg.onAddUsers}"/>
+                        <p:ajax event="itemUnselect" listener="#{RezerwacjeMg.onDelUsers}"/>
+                        <p:column>
+                            <h:outputText value="#{user.fullname}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{user.adrEmail}" />
+                        </p:column>
+                    </p:autoComplete>
+                    <p:dataList value="#{RezerwacjeMg.obiekt.uczestnikList}" var="user" type="ordered" rendered="#{!RezerwacjeMg.event.editable}" emptyMessage="brak" >
+                        <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
+                    </p:dataList>
+                    <p:message for="osoby"/>
+
+                    <p:outputLabel for="opis" value="opis"/>
+                    <p:inputTextarea id="opis" value="#{RezerwacjeMg.obiekt.opis}" autoResize="true" rows="5" cols="100" readonly="#{!RezerwacjeMg.event.editable}"/>
+                    <p:message for="opis"/>
+
+                    <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
+                                     update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}" process=":center:dialog"/>
+                    <p:message for="addButton"/>
+                    <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()"
+                                     styleClass="ui-state-disabled">
+                        <p:resetInput target="eventDetails"/>
+                    </p:commandButton>
+
+                </p:panelGrid>
+            </p:dialog> 
+
+            <h:panelGroup id="valid">
+                <p:remoteCommand oncomplete="PF('eventDialog').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
+            </h:panelGroup>
+            <h:panelGroup id="invalid">
+                <p:remoteCommand oncomplete="PF('eventDialog').hide();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
+                <p:dialog visible="#{facesContext.maximumSeverity!=null}" closable="false" widgetVar="infoBrak">
+                    <p:panelGrid columns="1">
+                        <h:outputText value="Nie możesz rezerwować zasobu do którego nie masz uprawnień" style="font-size: larger; font-weight: bolder"/>
+                        <p:commandButton value="OK" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" oncomplete="PF('infoBrak').hide();">
+                            <p:resetInput target="eventDetails"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:panelGroup>
+            <p:remoteCommand name="updateGrowl" update="schedulePanel"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

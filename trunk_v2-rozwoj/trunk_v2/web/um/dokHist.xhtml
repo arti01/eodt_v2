@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:rich="http://richfaces.org/rich"
-      template="/templates/template.xhtml"
+      template="/templates/templateRF2PF.xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html">
@@ -50,7 +50,12 @@
                         <h:outputText value="#{dok.dokArchDod.wydal.adrEmail}" rendered="#{fn:length(dok.dokArchDod.wydal.adrEmail)>0}"></h:outputText>
                     </h:panelGrid>
             </rich:column>
-            
+            <rich:column style="white-space: nowrap">
+                <f:facet name="header">pola dodatkowe</f:facet>
+                <a4j:repeat value="#{dok.dcDokPolaDodList}" var="poleDod">
+                    <h:outputText value="#{poleDod.nazwa}: #{poleDod.wartosc}"/>
+                </a4j:repeat>
+            </rich:column>
             
             <rich:column>
                 <rich:tooltip target="imgDt" value="detale" layout="block"/>

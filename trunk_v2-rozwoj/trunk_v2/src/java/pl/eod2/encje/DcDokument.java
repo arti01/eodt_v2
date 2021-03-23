@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -102,22 +103,28 @@ public class DcDokument extends AbstEncja implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcTeczka teczkaId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDok", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy(value = "nazwa")
     private List<DcPlik> dcPlikList;
     @JoinColumn(name = "dokstatusid_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcDokumentStatus dokStatusId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDok", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy(value = "lp")
     private List<DcDokumentKrok> dcDokKrok;
     @JoinColumn(name = "kontrahent_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcKontrahenci kontrahentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dokid", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy(value = "id DESC")
     private List<DcDokDoWiadomosci> dcDokDoWiadList;
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = true)
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<UmUrzadzenie> urzadzeniaList;
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<DcDokumentArch> dcArchList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dcDok", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<DcDokPolaDod> dcDokPolaDodList;
+    
     @Transient
     private String dataWprowStr;
     @Transient
@@ -132,6 +139,10 @@ public class DcDokument extends AbstEncja implements Serializable {
     private String symbolDok;
     @Transient
     private boolean doArchZnacznik;
+    @Transient
+    private String infoWyszuk;
+    @Transient
+    private DcPlik infoWyszukPlik;
     
     @Embedded
     //pamietać, aby w tej klasie coś dopisać (nawet pusty string w jakims polu), bo wali nulami
@@ -374,6 +385,16 @@ public class DcDokument extends AbstEncja implements Serializable {
         this.dcArchList = dcArchList;
     }
 
+    public List<DcDokPolaDod> getDcDokPolaDodList() {
+        return dcDokPolaDodList;
+    }
+
+    public void setDcDokPolaDodList(List<DcDokPolaDod> dcDokPolaDodList) {
+        this.dcDokPolaDodList = dcDokPolaDodList;
+    }
+
+    
+    
     public boolean isAlertBrakowanie() {
         alertBrakowanie = false;
         Calendar cal1 = Calendar.getInstance();
@@ -396,6 +417,23 @@ public class DcDokument extends AbstEncja implements Serializable {
         this.dokArchDod = dokArchDod;
     }
 
+    public String getInfoWyszuk() {
+        return infoWyszuk;
+    }
+
+    public void setInfoWyszuk(String infoWyszuk) {
+        this.infoWyszuk = infoWyszuk;
+    }
+
+    public DcPlik getInfoWyszukPlik() {
+        return infoWyszukPlik;
+    }
+
+    public void setInfoWyszukPlik(DcPlik infoWyszukPlik) {
+        this.infoWyszukPlik = infoWyszukPlik;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -410,10 +448,7 @@ public class DcDokument extends AbstEncja implements Serializable {
             return false;
         }
         DcDokument other = (DcDokument) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

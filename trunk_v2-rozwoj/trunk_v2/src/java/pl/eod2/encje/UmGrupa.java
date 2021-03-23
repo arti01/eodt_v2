@@ -24,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -56,12 +57,20 @@ public class UmGrupa implements Serializable {
     @Min(0)
     @Max(999)
     private int czasAlert;
+    
+    private boolean rezerwacje;
+    
     @OrderBy(value = "nazwa ASC")
     @OneToMany(mappedBy = "grupa", cascade = CascadeType.MERGE)
     private List<UmUrzadzenie> urzadzenieList;
     @ManyToOne(optional=false, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private UmMasterGrupa masterGrp;
+    
+    @Transient
+    private int stanRazem;
+    @Transient
+    private double wartoscRazem;
 
     public Long getId() {
         return id;
@@ -109,6 +118,30 @@ public class UmGrupa implements Serializable {
 
     public void setCzasAlert(int czasAlert) {
         this.czasAlert = czasAlert;
+    }
+
+    public int getStanRazem() {
+        stanRazem=0;
+        for(UmUrzadzenie u:urzadzenieList){
+            stanRazem+=u.getStan();
+        }
+        return stanRazem;
+    }
+
+    public double getWartoscRazem() {
+        wartoscRazem=0;
+        for(UmUrzadzenie u:urzadzenieList){
+            wartoscRazem+=u.getWartoscRazem();
+        }
+        return wartoscRazem;
+    }
+
+    public boolean isRezerwacje() {
+        return rezerwacje;
+    }
+
+    public void setRezerwacje(boolean rezerwacje) {
+        this.rezerwacje = rezerwacje;
     }
 
     @Override

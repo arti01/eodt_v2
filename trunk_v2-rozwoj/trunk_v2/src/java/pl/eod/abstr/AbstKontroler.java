@@ -68,7 +68,9 @@ public abstract class AbstKontroler<X extends AbstEncja> {
     public X findObiekt(X obiekt) {
         EntityManager em = getEntityManager();
         try {
-            return (X) em.find(type.getClass(), obiekt.getId());
+            X nowy= (X) em.find(type.getClass(), obiekt.getId());
+            em.refresh(nowy);
+            return nowy;
         } finally {
             em.close();
         }
@@ -78,7 +80,9 @@ public abstract class AbstKontroler<X extends AbstEncja> {
     public X findObiekt(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return (X) em.find(type.getClass(), id);
+            X nowy=(X)em.find(type.getClass(), id);
+            em.refresh(nowy);
+            return nowy;
         } finally {
             em.close();
         }
@@ -126,7 +130,6 @@ public abstract class AbstKontroler<X extends AbstEncja> {
     }
 
     public Map<String, String> edit(X obiekt) {
-        System.err.println(obiekt.getId());
         X oldObiekt=findObiekt(obiekt);
         Map<String, String> bledy = new HashMap<>();
         EntityManager em = null;

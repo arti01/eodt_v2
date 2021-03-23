@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>eSK.EOD dla: #{login.licencjaDla}</title>
+        <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
+        <style>
+            .ui-widget-content {
+                font-size: 93%;
+            }
+            .disable-scroll .ui-dialog-content {
+                overflow: hidden !important;
+            }
+            .ui-menu .ui-menu-parent .ui-menu-child {
+                white-space: nowrap !important;
+                width: 19em;
+            }
+
+            ul.ui-menu-child
+            {
+                white-space: nowrap;
+                width: auto;
+            }
+            .ui-menu .ui-menu-child
+            {
+                left: 30px;
+            }
+            .ui-menu .ui-menuitem-link{
+                font-size: 12px;
+            }
+            .column1 {
+                width: 50%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2 {
+                width: 50%;
+                text-align: left;
+                border-style: hidden;
+            }
+            .ui-panelgrid .ui-panelgrid-cell{
+                background-color: ghostwhite;
+            }
+            .ui-column-title{
+                font-size: smaller;
+            }
+            .ui-widget-content .ui-inputfield{
+                font-size: smaller;
+            }
+            .fc-event{
+                font-size: .95em;
+            }
+        </style>
+    </h:head>
+
+    <h:body style="background-color: ghostwhite">
+        <p:layout>
+            <p:layoutUnit position="center" style="background-color: ghostwhite">
+                <h:form id="infoForm">
+                    <p:growl id="messages" showDetail="false" life="3700"/>
+                    <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
+                    <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
+                        <p:button outcome="/logowanie/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>
+                    </p:dialog>
+                    <p:menubar>
+                        <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp" ajax="false"/>
+                    </p:menubar>
+                </h:form>
+                <ui:insert name="tytul"/>
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+        <script type="text/javascript">
+            PrimeFaces.locales['pl'] = {closeText: 'Zamknij', prevText: 'Poprzedni', nextText: 'Następny', monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'], monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'], dayNames: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'], dayNamesShort: ['Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'], dayNamesMin: ['N', 'P', 'W', 'Ś', 'Cz', 'P', 'S'], weekHeader: 'Tydzień', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix: 'r', timeOnlyTitle: 'Tylko czas', timeText: 'Czas', hourText: 'Godzina', minuteText: 'Minuta', secondText: 'Sekunda', currentText: 'Teraz', ampm: false, month: 'Miesiąc', week: 'Tydzień', day: 'Dzień', allDayText: 'Cały dzień'};
+        </script>
+    </h:body>
+</html>

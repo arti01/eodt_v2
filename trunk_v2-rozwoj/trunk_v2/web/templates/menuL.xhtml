@@ -27,7 +27,7 @@
                                 <h:commandLink value="Teczki" action="#{TeczkiCfg.list}"/>
                             </rich:panelMenuItem>
                             <rich:panelMenuItem >
-                                <h:commandLink value="Żródła" action="#{ZrodlaCfg.list}"/>
+                                <h:commandLink value="Źródła" action="#{ZrodlaCfg.list}"/>
                             </rich:panelMenuItem>
                             <rich:panelMenuItem >
                                 <h:commandLink value="Kat. arch. w kom. merytorycznej" action="#{SymbMer1Cfg.list}"/>
@@ -43,6 +43,11 @@
                         </rich:panelMenuGroup>
 
                         <rich:panelMenuGroup label="Dokumenty - rejestracja" rendered="#{login.dcRej}" expanded="#{login.menuDcRejExp}" actionListener="#{login.menuDcRejExpList}">
+                            <h:commandLink action="#{RejEmaile.list}">
+                                <rich:panelMenuItem >
+                                    Emaile
+                                </rich:panelMenuItem>
+                            </h:commandLink>
                             <h:commandLink action="#{RejImpPlik.list}">
                                 <rich:panelMenuItem >
                                     Poczekalnia
@@ -120,7 +125,7 @@
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
-                        
+
                         <rich:panelMenuGroup label="Archiwum - raporty" rendered="#{login.dcArc}" expanded="#{login.menuDcArcRap}" actionListener="#{login.menuDcArcRapList}">
                             <h:commandLink action="#{BrakowanieArch.list}">
                                 <rich:panelMenuItem >
@@ -143,11 +148,30 @@
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
-
+                        
+                        <h:commandLink action="#{RepozytMg.list}">
+                            <rich:panelMenuItem >
+                                Repozytorium
+                            </rich:panelMenuItem>
+                        </h:commandLink>
+                        
                         <rich:panelMenuGroup label="Ogłoszenia - zarządzanie" rendered="#{login.ogl}" expanded="#{login.menuOglExp}" actionListener="#{login.menuOglExpList}">
                             <h:commandLink action="#{OgloszeniaMg.list}">
                                 <rich:panelMenuItem >
                                     Lista
+                                </rich:panelMenuItem>
+                            </h:commandLink>
+                        </rich:panelMenuGroup>
+
+                        <rich:panelMenuGroup label="Rezerwacje" expanded="#{login.menuRezerExp}" actionListener="#{login.menuRezerExpList}">
+                            <h:commandLink action="#{RezerwacjeMg.list}">
+                                <rich:panelMenuItem >
+                                    Rezerwuj
+                                </rich:panelMenuItem>
+                            </h:commandLink>
+                            <h:commandLink action="#{RezerMojKalMg.list}">
+                                <rich:panelMenuItem >
+                                    Mój kalendarz
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
@@ -161,6 +185,11 @@
                             <h:commandLink action="#{URejDokMg.list}">
                                 <rich:panelMenuItem >
                                     Lista dokumentów
+                                </rich:panelMenuItem>
+                            </h:commandLink>
+                            <h:commandLink action="#{UGrupaMg.raport1}">
+                                <rich:panelMenuItem >
+                                    Raport stanów
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>

@@ -46,7 +46,7 @@ public class Dzial implements Serializable {
     @Column(name = "nazwa", nullable = false)
     private String nazwa;
     
-    @Size(min=0, max=5)
+    @Size(min=0, max=10)
     @Column(name = "symbol", nullable = true)
     private String symbol;
     
@@ -84,7 +84,6 @@ public class Dzial implements Serializable {
     }
 
     public void setSymbol(String symbol) {
-        System.err.println(symbol+"setter");
         this.symbol = symbol;
     }
 
