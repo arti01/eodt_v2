@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      template="/templates/template.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <rich:popupPanel  id="dokHist" style="text-align: center;" header="Historia wyliczen"  autosized="true" domElementAttachment="parent" left="77" top="13" >
+        <f:facet name="controls">
+            <h:outputLink value="#" onclick="#{rich:component('dokHist')}.hide();
+                    return false;">
+                <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+            </h:outputLink>
+        </f:facet>
+        <rich:dataTable value="#{item.wynikList}" var="dok" iterationStatusVar="it" rows="10" id="tableDok" style="width: 100%">
+            <rich:column sortBy="#{dok.dataWyliczenia}" sortOrder="descending" >
+                <f:facet name="header">data wyliczenia</f:facet>
+                <h:outputText value="#{dok.dataWyliczenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" timeZone="CET"/></h:outputText>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">nazwa banku</f:facet>
+                #{dok.nazwaBanku}
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">data pierwszej spłaty</f:facet>
+                <h:outputText value="#{dok.dataPierwSplaty}"><f:convertDateTime type="date" pattern="yyyy-MM" timeZone="CET"/></h:outputText>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">liczba rat</f:facet>
+                <h:outputText value="#{dok.liczbaRat}"/>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">kwota</f:facet>
+                <h:outputText value="#{dok.kwota}"/>
+            </rich:column>
+        </rich:dataTable>
+        <hr/>
+    </rich:popupPanel>
+</html>

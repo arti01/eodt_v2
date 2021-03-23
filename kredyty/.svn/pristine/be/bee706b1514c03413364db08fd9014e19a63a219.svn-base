@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich">
+    <h:form>
+        <table
+            style="width: 100%; font-size: 11px; font-family: arial, tahoma;" cellpadding="1" cellspacing="0">
+            <tr>
+                <td width="100%">
+                    <rich:panelMenu itemMode="ajax" groupMode="ajax" groupExpandedLeftIcon="triangleUp"
+                                    groupCollapsedLeftIcon="triangleDown" topGroupExpandedRightIcon="chevronUp"
+                                    topGroupCollapsedRightIcon="chevronDown" itemLeftIcon="disc">
+                        <rich:panelMenuItem>
+                            <h:commandLink value="Start" action="#{ba}" style="font-size: 13px; font-weight: bold"/>
+                        </rich:panelMenuItem>
+
+                        <rich:panelMenuGroup label="Konfiguracja" expanded="#{true}">
+                            <h:commandLink action="#{Banki.list}">
+                                <rich:panelMenuItem >
+                                    Banki
+                                </rich:panelMenuItem>
+                            </h:commandLink>
+                        </rich:panelMenuGroup>
+                    </rich:panelMenu>
+                </td>
+            </tr>
+        </table>
+    </h:form>
+</html>
